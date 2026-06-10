@@ -27,7 +27,7 @@ const routes = [
     component: Schools
   },
   {
-    path: '/schools/:name',
+    path: '/schools/:id',
     name: 'School',
     component: School
   }

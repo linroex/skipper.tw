@@ -14,7 +14,7 @@ This skill integrates with **search.app.lab** (SearchXNG) to perform web searche
 The search service is already available at:
 
 ```
-https://search.app.lab
+http://search.app.lab
 ```
 
 No additional setup required.

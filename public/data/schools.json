@@ -1,0 +1,28 @@
+{
+  "schools": [
+    {
+      "id": "tms",
+      "name": "TMS 台灣海洋帆船學校",
+      "shortName": "TMS",
+      "description": "專業帆船學校，提供 ASA 全系列認證課程",
+      "certs": ["ASA"],
+      "locations": ["高雄"]
+    },
+    {
+      "id": "晨光海洋",
+      "name": "晨光海洋 ASA 帆船學校",
+      "shortName": "晨光海洋",
+      "description": "宜蘭地區專業帆船教練團隊",
+      "certs": ["ASA"],
+      "locations": ["宜蘭"]
+    },
+    {
+      "id": "海洋種子",
+      "name": "海洋種子帆船學校",
+      "shortName": "海洋種子",
+      "description": "北台灣地區資深帆船教學團隊",
+      "certs": ["ASA"],
+      "locations": ["基隆"]
+    }
+  ]
+}

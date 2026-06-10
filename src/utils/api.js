@@ -17,3 +17,8 @@ export const fetchTypes = async () => {
   const response = await fetch('/data/types.json')
   return response.json()
 }
+
+export const fetchSchools = async () => {
+  const response = await fetch('/data/schools.json')
+  return response.json()
+}

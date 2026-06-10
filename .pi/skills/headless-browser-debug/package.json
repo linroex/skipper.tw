@@ -1,0 +1,24 @@
+{
+  "name": "headless-browser-debug",
+  "version": "1.0.0",
+  "description": "Headless Chrome browser debugging skill for pi agent",
+  "main": "scripts/browser-debug.js",
+  "scripts": {
+    "debug": "node scripts/browser-debug.js",
+    "screenshot": "node scripts/browser-debug.js screenshot",
+    "content": "node scripts/browser-debug.js content",
+    "errors": "node scripts/browser-debug.js errors",
+    "network": "node scripts/browser-debug.js network"
+  },
+  "keywords": [
+    "debug",
+    "browser",
+    "headless",
+    "puppeteer",
+    "testing"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "puppeteer": "^24.30.0"
+  }
+}

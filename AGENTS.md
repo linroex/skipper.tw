@@ -240,7 +240,7 @@ fetchTypes() -> Promise<{ types: Array }>
 # 安裝依賴
 npm install
 
-# 開發模式（熱更新）
+# 開發模式（熱更新）- 已開啟 0.0.0.0
 npm run dev
 
 # 建置生產版本
@@ -249,6 +249,15 @@ npm run build
 # 預覽生產版本
 npm run preview
 ```
+
+### 開發伺服器網路存取
+
+Vite 配置已開啟 `0.0.0.0`，可從網路其他裝置存取：
+
+- **本地網址**: `http://localhost:5173`
+- **網路網址**: `http://<IP 位址>:5173`
+
+**注意**：下次修改 `vite.config.js` 時，確保保留 `server.host: '0.0.0.0'` 設定，以便外部存取。
 
 ---
 
