@@ -67,6 +67,7 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { fetchActivities, fetchCourses } from '../utils/api.js'
+import { getLocationOrder, getRegionOrder } from '../utils/location.js'
 import ResponsiveTable from '../components/ResponsiveTable.vue'
 
 
@@ -116,19 +117,31 @@ onMounted(async () => {
   const today = new Date()
   today.setHours(0, 0, 0, 0)
   
-  // 過濾並排序活動（只顯示尚未結束的，按開始日期排序）
+  // 過濾並排序活動（只顯示尚未結束的，按地區→地點→日期排序）
   const validActivities = activitiesData.activities.filter(activity => {
     const endDate = parseDate(activity.endDate)
     endDate.setHours(0, 0, 0, 0)
     return endDate >= today
-  }).sort((a, b) => parseDate(a.startDate) - parseDate(b.startDate))
+  }).sort((a, b) => {
+    const regionDiff = getRegionOrder(a.region) - getRegionOrder(b.region)
+    if (regionDiff !== 0) return regionDiff
+    const locationDiff = getLocationOrder(a.location) - getLocationOrder(b.location)
+    if (locationDiff !== 0) return locationDiff
+    return parseDate(a.startDate) - parseDate(b.startDate)
+  })
   
-  // 過濾並排序課程（只顯示尚未結束的，按開始日期排序）
+  // 過濾並排序課程（只顯示尚未結束的，按地區→地點→日期排序）
   const validCourses = coursesData.courses.filter(course => {
     const endDate = parseDate(course.endDate)
     endDate.setHours(0, 0, 0, 0)
     return endDate >= today
-  }).sort((a, b) => parseDate(a.startDate) - parseDate(b.startDate))
+  }).sort((a, b) => {
+    const regionDiff = getRegionOrder(a.region) - getRegionOrder(b.region)
+    if (regionDiff !== 0) return regionDiff
+    const locationDiff = getLocationOrder(a.location) - getLocationOrder(b.location)
+    if (locationDiff !== 0) return locationDiff
+    return parseDate(a.startDate) - parseDate(b.startDate)
+  })
   
   upcomingActivities.value = validActivities.slice(0, 3)
   featuredCourses.value = validCourses.slice(0, 3)

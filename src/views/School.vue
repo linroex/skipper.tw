@@ -177,6 +177,7 @@ import { useRoute } from 'vue-router'
 import { fetchCourses } from '../utils/api.js'
 import { fetchActivities } from '../utils/api.js'
 import { fetchSchools } from '../utils/api.js'
+import { getLocationOrder, getRegionOrder } from '../utils/location.js'
 import ResponsiveTable from '../components/ResponsiveTable.vue'
 
 
@@ -204,7 +205,7 @@ const schoolData = computed(() => {
   
   const schoolName = schoolInfo.name
   
-  // 過濾並排序課程（只顯示尚未結束的，按開始日期排序）
+  // 過濾並排序課程（只顯示尚未結束的，按地區→地點→日期排序）
   const schoolCourses = courses.value
     .filter(c => c.unit === schoolName) // 只篩選該學校
     .filter(c => {
@@ -212,9 +213,15 @@ const schoolData = computed(() => {
       endDate.setHours(0, 0, 0, 0)
       return endDate >= today // 只顯示尚未結束的課程
     })
-    .sort((a, b) => parseDate(a.startDate) - parseDate(b.startDate))
+    .sort((a, b) => {
+      const regionDiff = getRegionOrder(a.region) - getRegionOrder(b.region)
+      if (regionDiff !== 0) return regionDiff
+      const locationDiff = getLocationOrder(a.location) - getLocationOrder(b.location)
+      if (locationDiff !== 0) return locationDiff
+      return parseDate(a.startDate) - parseDate(b.startDate)
+    })
   
-  // 過濾並排序活動（只顯示尚未結束的，按開始日期排序）
+  // 過濾並排序活動（只顯示尚未結束的，按地區→地點→日期排序）
   const schoolActivities = activities.value
     .filter(a => a.unit === schoolName) // 只篩選該學校
     .filter(a => {
@@ -222,7 +229,13 @@ const schoolData = computed(() => {
       endDate.setHours(0, 0, 0, 0)
       return endDate >= today // 只顯示尚未結束的活動
     })
-    .sort((a, b) => parseDate(a.startDate) - parseDate(b.startDate))
+    .sort((a, b) => {
+      const regionDiff = getRegionOrder(a.region) - getRegionOrder(b.region)
+      if (regionDiff !== 0) return regionDiff
+      const locationDiff = getLocationOrder(a.location) - getLocationOrder(b.location)
+      if (locationDiff !== 0) return locationDiff
+      return parseDate(a.startDate) - parseDate(b.startDate)
+    })
 
   const certs = schoolInfo.certs || [...new Set(schoolCourses.map(c => c.organization).filter(Boolean))]
   const locations = schoolInfo.locations || [...new Set(schoolCourses.map(c => c.location).filter(Boolean))]

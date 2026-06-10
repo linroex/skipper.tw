@@ -91,6 +91,7 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 import { fetchActivities, fetchTypes } from '../utils/api.js'
+import { getLocationOrder, getRegionOrder } from '../utils/location.js'
 import ResponsiveTable from '../components/ResponsiveTable.vue'
 
 const activities = ref([])
@@ -120,7 +121,18 @@ const filteredActivities = computed(() => {
     const matchType = selectedType.value === '' || activity.type === selectedType.value
     
     return matchSearch && matchLocation && matchType
-  }).sort((a, b) => parseDate(a.startDate) - parseDate(b.startDate))
+  }).sort((a, b) => {
+    // 先按地區排序（北台灣 → 東台灣 → 中台灣 → 南台灣）
+    const regionDiff = getRegionOrder(a.region) - getRegionOrder(b.region)
+    if (regionDiff !== 0) return regionDiff
+    
+    // 再按地點排序（由北到南）
+    const locationDiff = getLocationOrder(a.location) - getLocationOrder(b.location)
+    if (locationDiff !== 0) return locationDiff
+    
+    // 最後按日期排序
+    return parseDate(a.startDate) - parseDate(b.startDate)
+  })
 })
 
 const getType = (typeId) => {

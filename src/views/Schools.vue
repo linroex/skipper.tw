@@ -50,6 +50,7 @@ import { useRouter } from 'vue-router'
 import { fetchCourses } from '../utils/api.js'
 import { fetchActivities } from '../utils/api.js'
 import { fetchSchools } from '../utils/api.js'
+import { getLocationOrder, getRegionOrder } from '../utils/location.js'
 
 const router = useRouter()
 const courses = ref([])
@@ -108,6 +109,10 @@ const schoolsWithStats = computed(() => {
     // 從學校資料檔案中查找對應的學校資訊
     const schoolInfo = schoolDataByUnit.get(schoolData.unit || schools.value[index]?.id)
     
+    // 取得學校的主要地點（用於排序）
+    const locations = schoolInfo?.locations || [...new Set(schoolData.courses.map(c => c.location).filter(Boolean))]
+    const primaryLocation = locations.length > 0 ? locations[0] : ''
+    
     return {
       id: schoolInfo?.id || `school-${index}`,
       name: schoolInfo?.name || schoolData.unit || '未知學校',
@@ -118,10 +123,50 @@ const schoolsWithStats = computed(() => {
       totalActivities: schoolData.activities.length,
       certs: schoolInfo?.certs || [...new Set(schoolData.courses.map(c => c.organization).filter(Boolean))],
       description: schoolInfo?.description || `${schoolData.unit || '未知學校'} - 提供多樣化的帆船課程與活動`,
-      locations: schoolInfo?.locations || [...new Set(schoolData.courses.map(c => c.location).filter(Boolean))]
+      locations: locations,
+      primaryLocation: primaryLocation // 用於排序的主要地點
     }
-  }).sort((a, b) => b.totalCourses - a.totalCourses)
+  }).sort((a, b) => {
+    // 先按地區排序
+    const aRegion = getRegionFromLocation(a.primaryLocation)
+    const bRegion = getRegionFromLocation(b.primaryLocation)
+    const regionDiff = getRegionOrder(aRegion) - getRegionOrder(bRegion)
+    if (regionDiff !== 0) return regionDiff
+    
+    // 再按地點排序
+    const locationDiff = getLocationOrder(a.primaryLocation) - getLocationOrder(b.primaryLocation)
+    if (locationDiff !== 0) return locationDiff
+    
+    // 最後按課程數量排序
+    return b.totalCourses - a.totalCourses
+  })
 })
+
+// 根據地點判斷地區
+const getRegionFromLocation = (location) => {
+  if (!location) return '北台灣'
+  const locationMap = {
+    '基隆': '北台灣',
+    '台北': '北台灣',
+    '新北': '北台灣',
+    '桃園': '北台灣',
+    '新竹': '北台灣',
+    '苗栗': '北台灣',
+    '台中': '中台灣',
+    '彰化': '中台灣',
+    '南投': '中台灣',
+    '雲林': '中台灣',
+    '嘉義': '南台灣',
+    '台南': '南台灣',
+    '高雄': '南台灣',
+    '屏東': '南台灣',
+    '花蓮': '東台灣',
+    '宜蘭': '東台灣',
+    '澎湖': '南台灣',
+    '金門': '南台灣'
+  }
+  return locationMap[location] || '北台灣'
+}
 
 const goToSchool = (schoolId) => {
   router.push({
