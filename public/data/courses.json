@@ -298,6 +298,58 @@
       "price": 26000,
       "contact": "請洽詢學校",
       "url": ""
+    },
+    {
+      "id": 24,
+      "title": "ASA 101 基礎重型帆船課程",
+      "organization": "ASA",
+      "unit": "樂活海洋",
+      "region": "南台灣",
+      "startDate": "2026-06-27",
+      "endDate": "2026-06-28",
+      "location": "台南",
+      "price": null,
+      "contact": "請洽詢學校",
+      "url": ""
+    },
+    {
+      "id": 25,
+      "title": "ASA 103 基礎沿岸巡航課程",
+      "organization": "ASA",
+      "unit": "樂活海洋",
+      "region": "南台灣",
+      "startDate": "2026-06-19",
+      "endDate": "2026-06-21",
+      "location": "台南",
+      "price": null,
+      "contact": "請洽詢學校",
+      "url": ""
+    },
+    {
+      "id": 26,
+      "title": "ASA 103 基礎沿岸巡航課程",
+      "organization": "ASA",
+      "unit": "樂活海洋",
+      "region": "南台灣",
+      "startDate": "2026-06-26",
+      "endDate": "2026-06-28",
+      "location": "台南",
+      "price": null,
+      "contact": "請洽詢學校",
+      "url": ""
+    },
+    {
+      "id": 27,
+      "title": "ASA 101 基礎重型帆船課程",
+      "organization": "ASA",
+      "unit": "花蓮帆船學校 永遠天晴",
+      "region": "東台灣",
+      "startDate": "2026-06-19",
+      "endDate": "2026-06-21",
+      "location": "花蓮",
+      "price": null,
+      "contact": "請洽詢學校",
+      "url": ""
     }
   ]
 }
