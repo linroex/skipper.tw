@@ -10,7 +10,7 @@
       "locations": ["高雄"]
     },
     {
-      "id": "晨光海洋",
+      "id": "dawnlightocean",
       "name": "晨光海洋 ASA 帆船學校",
       "shortName": "晨光海洋",
       "description": "宜蘭地區專業帆船教練團隊",
@@ -19,7 +19,7 @@
       "locations": ["宜蘭"]
     },
     {
-      "id": "海洋種子",
+      "id": "seedmarine",
       "name": "海洋種子帆船學校",
       "shortName": "海洋種子",
       "description": "北台灣地區資深帆船教學團隊",
@@ -28,7 +28,7 @@
       "locations": ["基隆"]
     },
     {
-      "id": "樂活海洋",
+      "id": "lohas",
       "name": "樂活海洋",
       "shortName": "樂活海洋",
       "description": "南台灣地區專業帆船教學團隊",
@@ -37,10 +37,11 @@
       "locations": ["台南"]
     },
     {
-      "id": "永遠天晴",
+      "id": "sailwithalwayssunshine",
       "name": "花蓮帆船學校 永遠天晴",
       "shortName": "永遠天晴",
       "description": "花蓮地區帆船教學團隊",
+      "url": "https://www.facebook.com/sailwithalwayssunshine/?locale=zh_TW",
       "certs": ["ASA"],
       "locations": ["花蓮"]
     }

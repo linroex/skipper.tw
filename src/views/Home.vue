@@ -45,15 +45,15 @@
       <div class="mt-4">
         <ResponsiveTable
           :items="featuredCourses"
-          :headers="[ '日期', '課程名稱', '認證' ]"
+          :headers="[ '日期', '課程名稱', '學校' ]"
           :title-key="'title'"
           :header-extra="{
             render: (course) => formatItemDate(course),
-            tagRender: (course) => course.organization,
-            tagClass: 'bg-secondary text-white text-xs px-2 py-1 rounded'
+            tagRender: null,
+            tagClass: ''
           }"
           :columns="[
-            { key: 'organization', label: '認證', render: (course) => course.organization || '-' }
+            { key: 'unit', label: '學校', render: (course) => getSchoolName(course.unit) }
           ]"
           empty-message="暫無熱門課程"
         />
@@ -63,8 +63,8 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
-import { fetchActivities, fetchCourses } from '../utils/api.js'
+import { ref, computed, onMounted } from 'vue'
+import { fetchActivities, fetchCourses, fetchSchools } from '../utils/api.js'
 import { getLocationOrder, getRegionOrder } from '../utils/location.js'
 import { formatItemDate, parseLocalDate } from '../utils/format.js'
 import ResponsiveTable from '../components/ResponsiveTable.vue'
@@ -72,6 +72,7 @@ import ResponsiveTable from '../components/ResponsiveTable.vue'
 
 const upcomingActivities = ref([])
 const featuredCourses = ref([])
+const schools = ref([])
 
 const getType = (typeId) => {
   const typeMap = {
@@ -85,9 +86,19 @@ const getType = (typeId) => {
 
 const parseDate = parseLocalDate
 
+const schoolByUnit = computed(() => {
+  const map = new Map()
+  schools.value.forEach(school => map.set(school.name, school))
+  return map
+})
+
+const getSchoolName = (unit) => schoolByUnit.value.get(unit)?.shortName || unit || '-'
+
 onMounted(async () => {
   const activitiesData = await fetchActivities()
   const coursesData = await fetchCourses()
+  const schoolsData = await fetchSchools()
+  schools.value = schoolsData.schools
   
   const today = new Date()
   today.setHours(0, 0, 0, 0)

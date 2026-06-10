@@ -51,11 +51,15 @@
         
         <!-- 詳細資訊 -->
         <div v-if="columns.length > 0" class="space-y-1 text-sm text-gray-600">
-          <div v-for="col in columns" :key="col.key" class="flex justify-between">
+          <div v-for="col in columns" :key="col.key" class="flex justify-between gap-3">
             <span>{{ col.label }}</span>
-            <span class="font-medium">
+            <component
+              :is="col.component || 'span'"
+              v-bind="typeof col.props === 'function' ? col.props(item) : col.props"
+              class="font-medium text-right"
+            >
               {{ typeof col.render === 'function' ? col.render(item) : (item[col.key] || '-') }}
-            </span>
+            </component>
           </div>
         </div>
       </div>
