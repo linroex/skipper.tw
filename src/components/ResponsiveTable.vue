@@ -12,13 +12,22 @@
         </thead>
         <tbody class="divide-y divide-gray-200">
           <tr v-for="item in items" :key="item.id" class="hover:bg-gray-50">
-            <template v-for="(col, index) in columns" :key="col.key">
-              <td class="px-6 py-4">
-                <component :is="col.component || 'span'" v-bind="col.props">
-                  {{ typeof col.render === 'function' ? col.render(item) : item[col.key] }}
-                </component>
-              </td>
-            </template>
+            <td v-if="headerExtra?.render" class="px-6 py-4 whitespace-nowrap text-sm font-bold text-sky-500">
+              {{ headerExtra.render(item) }}
+            </td>
+            <td v-if="titleKey" class="px-6 py-4">
+              <div class="flex items-center gap-2">
+                <span class="font-medium text-gray-900">{{ item[titleKey] }}</span>
+                <span v-if="headerExtra?.tagRender" :class="headerExtra.tagClass">
+                  {{ typeof headerExtra.tagRender === 'function' ? headerExtra.tagRender(item) : headerExtra.tagRender }}
+                </span>
+              </div>
+            </td>
+            <td v-for="col in columns" :key="col.key" class="px-6 py-4">
+              <component :is="col.component || 'span'" v-bind="typeof col.props === 'function' ? col.props(item) : col.props">
+                {{ typeof col.render === 'function' ? col.render(item) : (item[col.key] || '-') }}
+              </component>
+            </td>
           </tr>
         </tbody>
       </table>

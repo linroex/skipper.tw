@@ -96,17 +96,16 @@
     <!-- 簡單列表 -->
     <ResponsiveTable
       :items="filteredCourses"
-      :headers="[ '日期', '課程名稱', '認證', '地點', '價格', '聯絡' ]"
+      :headers="[ '日期', '課程名稱', '認證', '地點', '聯絡' ]"
       :title-key="'title'"
       :header-extra="{
-        render: (course) => formatDateRange(course.startDate, course.endDate),
+        render: (course) => formatItemDate(course),
         tagRender: (course) => course.organization,
         tagClass: 'bg-secondary text-white text-xs px-2 py-1 rounded'
       }"
       :columns="[
         { key: 'organization', label: '認證', render: (course) => course.organization || '-' },
         { key: 'location', label: '地點' },
-        { key: 'price', label: '價格', render: (course) => formatPrice(course.price) },
         { key: 'contact', label: '聯絡' }
       ]"
       empty-message="沒有符合條件的課程"
@@ -118,19 +117,19 @@
 import { ref, computed, onMounted } from 'vue'
 import { fetchCourses } from '../utils/api.js'
 import { getLocationOrder, getRegionOrder } from '../utils/location.js'
+import { formatItemDate, parseLocalDate } from '../utils/format.js'
 import ResponsiveTable from '../components/ResponsiveTable.vue'
 
 
 const courses = ref([])
 const locations = ref([])
 const organizations = ref([])
-const allCourseCodes = ref({})
 const search = ref('')
 const selectedLocation = ref('')
 const selectedOrganization = ref('')
 const selectedLevel = ref('')
 
-const parseDate = (date) => new Date(`${date}T00:00:00`)
+const parseDate = parseLocalDate
 
 const filteredCourses = computed(() => {
   const today = new Date()
@@ -167,30 +166,6 @@ const filteredCourses = computed(() => {
     return parseDate(a.startDate) - parseDate(b.startDate)
   })
 })
-
-const formatDate = (date) => {
-  const d = new Date(date)
-  return `${d.getFullYear()}/${String(d.getMonth() + 1).padStart(2, '0')}/${String(d.getDate()).padStart(2, '0')}`
-}
-
-const formatDateRange = (start, end) => {
-  const startDate = new Date(start)
-  const endDate = new Date(end)
-  
-  const startStr = `${startDate.getMonth() + 1}/${startDate.getDate()}`
-  const endStr = `${endDate.getMonth() + 1}/${endDate.getDate()}`
-  
-  const weekDays = ['日', '一', '二', '三', '四', '五', '六']
-  const startDay = weekDays[startDate.getDay()]
-  const endDay = weekDays[endDate.getDay()]
-  
-  return `${startStr}-${endStr} (${startDay}-${endDay})`
-}
-
-const formatPrice = (price) => {
-  if (price === null || price === undefined || price === 0) return '需洽詢'
-  return 'NT$' + price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-}
 
 // 從課程標題提取課程編號
 const getCourseCode = (title) => {
@@ -243,23 +218,7 @@ onMounted(async () => {
     if (course.organization) organizationSet.add(course.organization)
   })
   
-  locations.value = Array.from(locationSet)
-  organizations.value = Array.from(organizationSet)
-  
-  // 為每個認證組織提取所有可能的課程編號
-  allCourseCodes.value = {}
-  organizationSet.forEach(org => {
-    const courseOrgCourses = courses.value.filter(course => course.organization === org)
-    const codeSet = new Set()
-    
-    courseOrgCourses.forEach(course => {
-      const courseCode = getCourseCode(course.title)
-      if (courseCode) {
-        codeSet.add(courseCode)
-      }
-    })
-    
-    allCourseCodes.value[org] = Array.from(codeSet).sort()
-  })
+  locations.value = Array.from(locationSet).sort((a, b) => getLocationOrder(a) - getLocationOrder(b))
+  organizations.value = Array.from(organizationSet).sort()
 })
 </script>

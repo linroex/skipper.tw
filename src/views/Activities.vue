@@ -70,17 +70,16 @@
     <!-- 簡單列表 -->
     <ResponsiveTable
       :items="filteredActivities"
-      :headers="[ '日期', '活動名稱', '地點', '主辦', '價格', '聯絡' ]"
+      :headers="[ '日期', '活動名稱', '地點', '主辦', '聯絡' ]"
       :title-key="'title'"
       :header-extra="{
-        render: (activity) => formatDateRange(activity.startDate, activity.endDate),
-        tagRender: getType(activity.type),
+        render: (activity) => formatItemDate(activity),
+        tagRender: (activity) => getType(activity.type),
         tagClass: 'bg-primary text-white text-xs px-2 py-1 rounded'
       }"
       :columns="[
         { key: 'location', label: '地點' },
         { key: 'unit', label: '主辦' },
-        { key: 'price', label: '價格', render: (activity) => formatPrice(activity.price) },
         { key: 'contact', label: '聯絡' }
       ]"
       empty-message="沒有符合條件的活動"
@@ -92,6 +91,7 @@
 import { ref, computed, onMounted } from 'vue'
 import { fetchActivities, fetchTypes } from '../utils/api.js'
 import { getLocationOrder, getRegionOrder } from '../utils/location.js'
+import { formatItemDate, parseLocalDate } from '../utils/format.js'
 import ResponsiveTable from '../components/ResponsiveTable.vue'
 
 const activities = ref([])
@@ -101,7 +101,7 @@ const search = ref('')
 const selectedLocation = ref('')
 const selectedType = ref('')
 
-const parseDate = (date) => new Date(`${date}T00:00:00`)
+const parseDate = parseLocalDate
 
 const filteredActivities = computed(() => {
   const today = new Date()
@@ -145,30 +145,6 @@ const getType = (typeId) => {
   return typeMap[typeId] || typeId
 }
 
-const formatDate = (date) => {
-  const d = new Date(date)
-  return `${d.getFullYear()}/${String(d.getMonth() + 1).padStart(2, '0')}/${String(d.getDate()).padStart(2, '0')}`
-}
-
-const formatDateRange = (start, end) => {
-  const startDate = new Date(start)
-  const endDate = new Date(end)
-  
-  const startStr = `${startDate.getMonth() + 1}/${startDate.getDate()}`
-  const endStr = `${endDate.getMonth() + 1}/${endDate.getDate()}`
-  
-  const weekDays = ['日', '一', '二', '三', '四', '五', '六']
-  const startDay = weekDays[startDate.getDay()]
-  const endDay = weekDays[endDate.getDay()]
-  
-  return `${startStr}-${endStr} (${startDay}-${endDay})`
-}
-
-const formatPrice = (price) => {
-  if (price === null || price === undefined || price === 0) return '需洽詢'
-  return 'NT$' + price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-}
-
 // 清除篩選的輔助函式
 const clearLocationFilter = () => { selectedLocation.value = '' }
 const clearTypeFilter = () => { selectedType.value = '' }
@@ -185,6 +161,6 @@ onMounted(async () => {
   activities.value.forEach(activity => {
     if (activity.location) locationSet.add(activity.location)
   })
-  locations.value = Array.from(locationSet)
+  locations.value = Array.from(locationSet).sort((a, b) => getLocationOrder(a) - getLocationOrder(b))
 })
 </script>

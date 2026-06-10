@@ -4,7 +4,7 @@
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       <div
-        v-for="school in schools"
+        v-for="school in schoolsWithStats"
         :key="school.id"
         @click="goToSchool(school.id)"
         class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow cursor-pointer overflow-hidden"
@@ -25,6 +25,16 @@
             </span>
           </div>
           <p class="text-gray-600 text-sm">{{ school.description }}</p>
+          <a
+            v-if="school.url"
+            :href="school.url"
+            target="_blank"
+            rel="noopener noreferrer"
+            @click.stop
+            class="inline-block mt-3 text-sm text-primary hover:underline"
+          >
+            官方網站 →
+          </a>
           <div class="mt-4 flex flex-wrap gap-2">
             <span
               v-for="cert in school.certs"
@@ -38,7 +48,7 @@
       </div>
     </div>
 
-    <div v-if="schools.length === 0" class="text-center py-12 text-gray-500">
+    <div v-if="schoolsWithStats.length === 0" class="text-center py-12 text-gray-500">
       暫無學校資料
     </div>
   </div>
@@ -51,6 +61,7 @@ import { fetchCourses } from '../utils/api.js'
 import { fetchActivities } from '../utils/api.js'
 import { fetchSchools } from '../utils/api.js'
 import { getLocationOrder, getRegionOrder } from '../utils/location.js'
+import { parseLocalDate } from '../utils/format.js'
 
 const router = useRouter()
 const courses = ref([])
@@ -58,7 +69,7 @@ const activities = ref([])
 const schools = ref([])
 const schoolDataByUnit = ref(new Map())
 
-const parseDate = (date) => new Date(`${date}T00:00:00`)
+const parseDate = parseLocalDate
 
 const schoolsWithStats = computed(() => {
   const today = new Date()
@@ -110,7 +121,7 @@ const schoolsWithStats = computed(() => {
     // 使用學校資料中的 unit 來匹配學校名稱
     const sampleCourse = schoolData.courses[0] || schoolData.activities[0]
     const unitName = sampleCourse?.unit || schools.value[index]?.id
-    const schoolInfo = schoolDataByUnit.get(unitName)
+    const schoolInfo = schoolDataByUnit.value.get(unitName)
     
     // 取得學校的主要地點（用於排序）
     const locations = schoolInfo?.locations || [...new Set(schoolData.courses.map(c => c.location).filter(Boolean))]
@@ -127,6 +138,7 @@ const schoolsWithStats = computed(() => {
       totalActivities: schoolData.activities.length,
       certs: schoolInfo?.certs || [...new Set(schoolData.courses.map(c => c.organization).filter(Boolean))],
       description: schoolInfo?.description || `${displayName} - 提供多樣化的帆船課程與活動`,
+      url: schoolInfo?.url || '',
       locations: locations,
       primaryLocation: primaryLocation // 用於排序的主要地點
     }
@@ -175,7 +187,7 @@ const getRegionFromLocation = (location) => {
 const goToSchool = (schoolId) => {
   router.push({
     name: 'School',
-    params: { id: encodeURIComponent(schoolId) }
+    params: { id: schoolId }
   })
 }
 

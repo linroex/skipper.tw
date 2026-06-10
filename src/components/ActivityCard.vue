@@ -3,16 +3,15 @@
     <div class="p-6">
       <div class="flex justify-between items-start mb-4">
         <span class="bg-primary text-white text-xs px-2 py-1 rounded">{{ type }}</span>
-        <span class="text-gray-500 text-sm">{{ region }}</span>
+        <span class="text-gray-500 text-sm">{{ activity.region }}</span>
       </div>
       <h3 class="text-xl font-bold text-gray-800 mb-2">{{ activity.title }}</h3>
       <p class="text-gray-600 text-sm mb-4">{{ activity.description }}</p>
       
       <div class="space-y-2 text-sm text-gray-600 mb-4">
-        <p><strong>日期：</strong>{{ formatDate(activity.date) }}</p>
+        <p><strong>日期：</strong>{{ formatItemDate(activity) }}</p>
         <p><strong>地點：</strong>{{ activity.location }}</p>
         <p><strong>主辦：</strong>{{ activity.unit }}</p>
-        <p><strong>價格：</strong>NT$ {{ formatPrice(activity.price) }}</p>
         <p><strong>聯絡：</strong>{{ activity.contact }}</p>
       </div>
       
@@ -33,6 +32,7 @@
 
 <script setup>
 import { computed } from 'vue'
+import { formatItemDate } from '../utils/format.js'
 
 const props = defineProps({
   activity: {
@@ -51,12 +51,4 @@ const type = computed(() => {
   return typeMap[props.activity.type] || props.activity.type
 })
 
-const formatDate = (date) => {
-  const d = new Date(date)
-  return `${d.getFullYear()}/${String(d.getMonth() + 1).padStart(2, '0')}/${String(d.getDate()).padStart(2, '0')}`
-}
-
-const formatPrice = (price) => {
-  return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-}
 </script>

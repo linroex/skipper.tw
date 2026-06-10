@@ -41,5 +41,6 @@ export const regionOrder = [
 
 // 獲取地區順序數值
 export function getRegionOrder(region) {
-  return regionOrder.indexOf(region)
+  const index = regionOrder.indexOf(region)
+  return index === -1 ? 999 : index
 }

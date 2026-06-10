@@ -17,21 +17,20 @@
     <!-- 即將開始的活動 -->
     <section class="mb-12">
       <h2 class="text-2xl font-bold text-gray-800 mb-4">📅 即將開始的活動</h2>
-      <a href="/activities" class="text-primary hover:underline">查看全部活動 →</a>
+      <router-link to="/activities" class="text-primary hover:underline">查看全部活動 →</router-link>
       
       <div class="mt-4">
         <ResponsiveTable
           :items="upcomingActivities"
-          :headers="[ '日期', '活動名稱', '地點', '價格' ]"
+          :headers="[ '日期', '活動名稱', '地點' ]"
           :title-key="'title'"
           :header-extra="{
-            render: (activity) => formatDateRange(activity.startDate, activity.endDate),
+            render: (activity) => formatItemDate(activity),
             tagRender: (activity) => getType(activity.type),
             tagClass: 'bg-primary text-white text-xs px-2 py-1 rounded'
           }"
           :columns="[
-            { key: 'location', label: '地點', render: (activity) => `${activity.location} (${activity.region})` },
-            { key: 'price', label: '價格', render: (activity) => formatPrice(activity.price) }
+            { key: 'location', label: '地點', render: (activity) => `${activity.location} (${activity.region})` }
           ]"
           empty-message="暫無即將開始的活動"
         />
@@ -41,21 +40,20 @@
     <!-- 熱門課程 -->
     <section>
       <h2 class="text-2xl font-bold text-gray-800 mb-4">🎓 熱門課程</h2>
-      <a href="/courses" class="text-primary hover:underline">查看全部課程 →</a>
+      <router-link to="/courses" class="text-primary hover:underline">查看全部課程 →</router-link>
       
       <div class="mt-4">
         <ResponsiveTable
           :items="featuredCourses"
-          :headers="[ '日期', '課程名稱', '價格' ]"
+          :headers="[ '日期', '課程名稱', '認證' ]"
           :title-key="'title'"
           :header-extra="{
-            render: (course) => formatDateRange(course.startDate, course.endDate),
+            render: (course) => formatItemDate(course),
             tagRender: (course) => course.organization,
             tagClass: 'bg-secondary text-white text-xs px-2 py-1 rounded'
           }"
           :columns="[
-            { key: 'organization', label: '認證', render: (course) => course.organization || '-' },
-            { key: 'price', label: '價格', render: (course) => formatPrice(course.price) }
+            { key: 'organization', label: '認證', render: (course) => course.organization || '-' }
           ]"
           empty-message="暫無熱門課程"
         />
@@ -68,6 +66,7 @@
 import { ref, onMounted } from 'vue'
 import { fetchActivities, fetchCourses } from '../utils/api.js'
 import { getLocationOrder, getRegionOrder } from '../utils/location.js'
+import { formatItemDate, parseLocalDate } from '../utils/format.js'
 import ResponsiveTable from '../components/ResponsiveTable.vue'
 
 
@@ -84,31 +83,7 @@ const getType = (typeId) => {
   return typeMap[typeId] || typeId
 }
 
-const formatDate = (date) => {
-  const d = new Date(date)
-  return `${d.getFullYear()}/${String(d.getMonth() + 1).padStart(2, '0')}/${String(d.getDate()).padStart(2, '0')}`
-}
-
-const formatDateRange = (start, end) => {
-  const startDate = new Date(start)
-  const endDate = new Date(end)
-  
-  const startStr = `${startDate.getMonth() + 1}/${startDate.getDate()}`
-  const endStr = `${endDate.getMonth() + 1}/${endDate.getDate()}`
-  
-  const weekDays = ['日', '一', '二', '三', '四', '五', '六']
-  const startDay = weekDays[startDate.getDay()]
-  const endDay = weekDays[endDate.getDay()]
-  
-  return `${startStr}-${endStr} (${startDay}-${endDay})`
-}
-
-const formatPrice = (price) => {
-  if (price === null || price === undefined || price === 0) return '需洽詢'
-  return 'NT$' + price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-}
-
-const parseDate = (date) => new Date(`${date}T00:00:00`)
+const parseDate = parseLocalDate
 
 onMounted(async () => {
   const activitiesData = await fetchActivities()

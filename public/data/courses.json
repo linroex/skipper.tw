@@ -11,7 +11,7 @@
       "location": "高雄",
       "price": null,
       "contact": "請洽詢學校",
-      "url": ""
+      "url": "https://www.facebook.com/TWKHYC/?locale=zh_TW"
     },
     {
       "id": 2,
@@ -24,7 +24,7 @@
       "location": "高雄",
       "price": null,
       "contact": "請洽詢學校",
-      "url": ""
+      "url": "https://www.facebook.com/TWKHYC/?locale=zh_TW"
     },
     {
       "id": 3,
@@ -37,7 +37,7 @@
       "location": "高雄",
       "price": null,
       "contact": "請洽詢學校",
-      "url": ""
+      "url": "https://www.facebook.com/TWKHYC/?locale=zh_TW"
     },
     {
       "id": 4,
@@ -50,7 +50,7 @@
       "location": "高雄",
       "price": null,
       "contact": "請洽詢學校",
-      "url": ""
+      "url": "https://www.facebook.com/TWKHYC/?locale=zh_TW"
     },
     {
       "id": 5,
@@ -63,7 +63,21 @@
       "location": "高雄",
       "price": null,
       "contact": "請洽詢學校",
-      "url": ""
+      "url": "https://www.facebook.com/TWKHYC/?locale=zh_TW"
+    },
+    {
+      "id": 28,
+      "title": "ASA 101 基礎重型帆船課程",
+      "organization": "ASA",
+      "unit": "晨光海洋 ASA 帆船學校",
+      "region": "東台灣",
+      "startDate": "2026-06-02",
+      "endDate": "2026-06-09",
+      "dateText": "6/2(二)、6/3(三)、6/9(二)",
+      "location": "宜蘭",
+      "price": null,
+      "contact": "Line: pattonkan / 0928-809-651",
+      "url": "https://dawnlightocean.com.tw"
     },
     {
       "id": 6,
@@ -72,11 +86,12 @@
       "unit": "晨光海洋 ASA 帆船學校",
       "region": "東台灣",
       "startDate": "2026-06-13",
-      "endDate": "2026-06-14",
+      "endDate": "2026-06-18",
       "location": "宜蘭",
       "price": null,
       "contact": "Line: pattonkan / 0928-809-651",
-      "url": ""
+      "url": "https://dawnlightocean.com.tw",
+      "dateText": "6/13(六)、6/14(日)、6/18(四)"
     },
     {
       "id": 7,
@@ -85,11 +100,12 @@
       "unit": "晨光海洋 ASA 帆船學校",
       "region": "東台灣",
       "startDate": "2026-06-23",
-      "endDate": "2026-06-24",
+      "endDate": "2026-06-30",
       "location": "宜蘭",
       "price": null,
       "contact": "Line: pattonkan / 0928-809-651",
-      "url": ""
+      "url": "https://dawnlightocean.com.tw",
+      "dateText": "6/23(二)、6/24(三)、6/30(二)"
     },
     {
       "id": 8,
@@ -98,11 +114,12 @@
       "unit": "晨光海洋 ASA 帆船學校",
       "region": "東台灣",
       "startDate": "2026-07-01",
-      "endDate": "2026-07-02",
+      "endDate": "2026-07-08",
       "location": "宜蘭",
       "price": null,
       "contact": "Line: pattonkan / 0928-809-651",
-      "url": ""
+      "url": "https://dawnlightocean.com.tw",
+      "dateText": "7/1(三)、7/2(四)、7/8(三)"
     },
     {
       "id": 9,
@@ -111,11 +128,12 @@
       "unit": "晨光海洋 ASA 帆船學校",
       "region": "東台灣",
       "startDate": "2026-07-12",
-      "endDate": "2026-07-12",
+      "endDate": "2026-07-19",
       "location": "宜蘭",
       "price": null,
       "contact": "Line: pattonkan / 0928-809-651",
-      "url": ""
+      "url": "https://dawnlightocean.com.tw",
+      "dateText": "7/12(日)、7/18(六)、7/19(日)"
     },
     {
       "id": 10,
@@ -124,11 +142,12 @@
       "unit": "晨光海洋 ASA 帆船學校",
       "region": "東台灣",
       "startDate": "2026-07-14",
-      "endDate": "2026-07-15",
+      "endDate": "2026-07-21",
       "location": "宜蘭",
       "price": null,
       "contact": "Line: pattonkan / 0928-809-651",
-      "url": ""
+      "url": "https://dawnlightocean.com.tw",
+      "dateText": "7/14(二)、7/15(三)、7/21(二)"
     },
     {
       "id": 11,
@@ -141,7 +160,8 @@
       "location": "宜蘭",
       "price": null,
       "contact": "Line: pattonkan / 0928-809-651",
-      "url": ""
+      "url": "https://dawnlightocean.com.tw",
+      "dateText": "6/27(六)、6/28(日)、7/4(六)、7/5(日)"
     },
     {
       "id": 12,
@@ -154,7 +174,8 @@
       "location": "宜蘭",
       "price": null,
       "contact": "Line: pattonkan / 0928-809-651",
-      "url": ""
+      "url": "https://dawnlightocean.com.tw",
+      "dateText": "7/22(三)、7/23(四)、7/29(三)、7/30(四)"
     },
     {
       "id": 13,
@@ -167,7 +188,8 @@
       "location": "宜蘭",
       "price": null,
       "contact": "Line: pattonkan / 0928-809-651",
-      "url": ""
+      "url": "https://dawnlightocean.com.tw",
+      "dateText": "7/25(六)、7/26(日)、8/1(六)、8/2(日)"
     },
     {
       "id": 14,
@@ -180,7 +202,7 @@
       "location": "基隆",
       "price": null,
       "contact": "請洽詢學校",
-      "url": ""
+      "url": "https://www.facebook.com/p/海洋種子遊艇帆船學校-Seedmarine-Sailing-School-100088947261596/"
     },
     {
       "id": 15,
@@ -193,7 +215,7 @@
       "location": "基隆",
       "price": null,
       "contact": "請洽詢學校",
-      "url": ""
+      "url": "https://www.facebook.com/p/海洋種子遊艇帆船學校-Seedmarine-Sailing-School-100088947261596/"
     },
     {
       "id": 16,
@@ -206,7 +228,7 @@
       "location": "基隆",
       "price": null,
       "contact": "請洽詢學校",
-      "url": ""
+      "url": "https://www.facebook.com/p/海洋種子遊艇帆船學校-Seedmarine-Sailing-School-100088947261596/"
     },
     {
       "id": 17,
@@ -219,7 +241,7 @@
       "location": "基隆",
       "price": null,
       "contact": "請洽詢學校",
-      "url": ""
+      "url": "https://www.facebook.com/p/海洋種子遊艇帆船學校-Seedmarine-Sailing-School-100088947261596/"
     },
     {
       "id": 18,
@@ -232,7 +254,7 @@
       "location": "基隆",
       "price": null,
       "contact": "請洽詢學校",
-      "url": ""
+      "url": "https://www.facebook.com/p/海洋種子遊艇帆船學校-Seedmarine-Sailing-School-100088947261596/"
     },
     {
       "id": 19,
@@ -245,7 +267,7 @@
       "location": "基隆",
       "price": null,
       "contact": "請洽詢學校",
-      "url": ""
+      "url": "https://www.facebook.com/p/海洋種子遊艇帆船學校-Seedmarine-Sailing-School-100088947261596/"
     },
     {
       "id": 20,
@@ -258,7 +280,7 @@
       "location": "基隆",
       "price": null,
       "contact": "請洽詢學校",
-      "url": ""
+      "url": "https://www.facebook.com/p/海洋種子遊艇帆船學校-Seedmarine-Sailing-School-100088947261596/"
     },
     {
       "id": 21,
@@ -271,7 +293,7 @@
       "location": "基隆",
       "price": null,
       "contact": "請洽詢學校",
-      "url": ""
+      "url": "https://www.facebook.com/p/海洋種子遊艇帆船學校-Seedmarine-Sailing-School-100088947261596/"
     },
     {
       "id": 22,
@@ -284,7 +306,7 @@
       "location": "基隆",
       "price": 26000,
       "contact": "請洽詢學校",
-      "url": ""
+      "url": "https://www.facebook.com/p/海洋種子遊艇帆船學校-Seedmarine-Sailing-School-100088947261596/"
     },
     {
       "id": 23,
@@ -297,7 +319,7 @@
       "location": "基隆",
       "price": 26000,
       "contact": "請洽詢學校",
-      "url": ""
+      "url": "https://www.facebook.com/p/海洋種子遊艇帆船學校-Seedmarine-Sailing-School-100088947261596/"
     },
     {
       "id": 24,
@@ -310,7 +332,7 @@
       "location": "台南",
       "price": null,
       "contact": "請洽詢學校",
-      "url": ""
+      "url": "https://www.lohasocean.com"
     },
     {
       "id": 25,
@@ -323,7 +345,7 @@
       "location": "台南",
       "price": null,
       "contact": "請洽詢學校",
-      "url": ""
+      "url": "https://www.lohasocean.com"
     },
     {
       "id": 26,
@@ -336,7 +358,7 @@
       "location": "台南",
       "price": null,
       "contact": "請洽詢學校",
-      "url": ""
+      "url": "https://www.lohasocean.com"
     },
     {
       "id": 27,

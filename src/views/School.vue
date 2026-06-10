@@ -22,6 +22,15 @@
           </span>
         </div>
         <p class="text-gray-600 mb-4">{{ school.description }}</p>
+        <a
+          v-if="school.url"
+          :href="school.url"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-block mb-4 text-primary hover:underline"
+        >
+          官方網站 →
+        </a>
         <div class="flex flex-wrap gap-2">
           <span
             v-for="cert in school.certs"
@@ -108,17 +117,16 @@
 
         <ResponsiveTable
           :items="filteredCourses"
-          :headers="[ '日期', '課程名稱', '認證', '地點', '價格', '聯絡' ]"
+          :headers="[ '日期', '課程名稱', '認證', '地點', '聯絡' ]"
           :title-key="'title'"
           :header-extra="{
-            render: (course) => formatDateRange(course.startDate, course.endDate),
+            render: (course) => formatItemDate(course),
             tagRender: (course) => course.organization,
             tagClass: 'bg-secondary text-white text-xs px-2 py-1 rounded'
           }"
           :columns="[
             { key: 'organization', label: '認證', render: (course) => course.organization || '-' },
             { key: 'location', label: '地點' },
-            { key: 'price', label: '價格', render: (course) => formatPrice(course.price) },
             { key: 'contact', label: '聯絡' }
           ]"
           empty-message="暫無相關課程"
@@ -130,17 +138,16 @@
         <h2 class="text-2xl font-bold text-gray-800 mb-4">相關活動</h2>
         <ResponsiveTable
           :items="school.activities"
-          :headers="[ '日期', '活動名稱', '地點', '主辦', '價格', '聯絡' ]"
+          :headers="[ '日期', '活動名稱', '地點', '主辦', '聯絡' ]"
           :title-key="'title'"
           :header-extra="{
-            render: (activity) => formatDateRange(activity.startDate, activity.endDate),
+            render: (activity) => formatItemDate(activity),
             tagRender: (activity) => getType(activity.type),
             tagClass: 'bg-primary text-white text-xs px-2 py-1 rounded'
           }"
           :columns="[
             { key: 'location', label: '地點' },
             { key: 'unit', label: '主辦' },
-            { key: 'price', label: '價格', render: (activity) => formatPrice(activity.price) },
             { key: 'contact', label: '聯絡' }
           ]"
           empty-message="暫無相關活動"
@@ -154,7 +161,7 @@
 
       <!-- 返回連結 -->
       <div class="mt-6">
-        <router-link :to="`/schools/${school?.id}`" class="text-primary hover:underline">
+        <router-link to="/schools" class="text-primary hover:underline">
           ← 返回學校列表
         </router-link>
       </div>
@@ -172,12 +179,13 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, watchEffect } from 'vue'
 import { useRoute } from 'vue-router'
 import { fetchCourses } from '../utils/api.js'
 import { fetchActivities } from '../utils/api.js'
 import { fetchSchools } from '../utils/api.js'
 import { getLocationOrder, getRegionOrder } from '../utils/location.js'
+import { formatItemDate, parseLocalDate } from '../utils/format.js'
 import ResponsiveTable from '../components/ResponsiveTable.vue'
 
 
@@ -190,9 +198,8 @@ const schools = ref([])
 const schoolDataMap = ref(new Map())
 const selectedCert = ref('')
 const selectedLevel = ref('')
-const schoolCourseCodes = ref({})
 
-const parseDate = (date) => new Date(`${date}T00:00:00`)
+const parseDate = parseLocalDate
 
 const schoolData = computed(() => {
   const schoolId = decodeURIComponent(route.params.id)
@@ -250,6 +257,7 @@ const schoolData = computed(() => {
     totalActivities: schoolActivities.length,
     certs: certs,
     locations: locations,
+    url: schoolInfo.url || '',
     description: schoolInfo.description || `${schoolName} - 提供多樣化的帆船課程與活動`
   }
 })
@@ -262,7 +270,7 @@ const schoolCerts = computed(() => {
 // 提取課程編號的函式
 const getCourseCode = (title) => {
   if (!title) return ''
-  const match = title.match(/ASA \d{3}|ASA\s*\d{3}|ASA \d{2}|ASA\s*\d{2}/i)
+  const match = title.match(/ASA \d{3}|ASA\s*\d{3}|IYT \d{3}|IYT\s*\d{3}|ASA \d{2}|ASA\s*\d{2}/i)
   return match ? match[0].toUpperCase() : ''
 }
 
@@ -321,30 +329,6 @@ const getType = (typeId) => {
   return typeMap[typeId] || typeId
 }
 
-const formatDate = (date) => {
-  const d = new Date(date)
-  return `${d.getFullYear()}/${String(d.getMonth() + 1).padStart(2, '0')}/${String(d.getDate()).padStart(2, '0')}`
-}
-
-const formatDateRange = (start, end) => {
-  const startDate = new Date(start)
-  const endDate = new Date(end)
-
-  const startStr = `${startDate.getMonth() + 1}/${startDate.getDate()}`
-  const endStr = `${endDate.getMonth() + 1}/${endDate.getDate()}`
-
-  const weekDays = ['日', '一', '二', '三', '四', '五', '六']
-  const startDay = weekDays[startDate.getDay()]
-  const endDay = weekDays[endDate.getDay()]
-
-  return `${startStr}-${endStr} (${startDay}-${endDay})`
-}
-
-const formatPrice = (price) => {
-  if (price === null || price === undefined || price === 0) return '需洽詢'
-  return 'NT$' + price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-}
-
 // 清除篩選的輔助函式
 const clearCertFilter = () => { selectedCert.value = ''; selectedLevel.value = '' }
 const clearLevelFilter = () => { selectedLevel.value = '' }
@@ -366,5 +350,11 @@ onMounted(async () => {
 
   school.value = schoolData.value
   loading.value = false
+})
+
+watchEffect(() => {
+  if (!loading.value) {
+    school.value = schoolData.value
+  }
 })
 </script>
