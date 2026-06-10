@@ -1,24 +1,26 @@
+const dataPath = (filename) => `${import.meta.env.BASE_URL}data/${filename}`
+
 export const fetchActivities = async () => {
-  const response = await fetch('/data/activities.json')
+  const response = await fetch(dataPath('activities.json'))
   return response.json()
 }
 
 export const fetchCourses = async () => {
-  const response = await fetch('/data/courses.json')
+  const response = await fetch(dataPath('courses.json'))
   return response.json()
 }
 
 export const fetchRegions = async () => {
-  const response = await fetch('/data/regions.json')
+  const response = await fetch(dataPath('regions.json'))
   return response.json()
 }
 
 export const fetchTypes = async () => {
-  const response = await fetch('/data/types.json')
+  const response = await fetch(dataPath('types.json'))
   return response.json()
 }
 
 export const fetchSchools = async () => {
-  const response = await fetch('/data/schools.json')
+  const response = await fetch(dataPath('schools.json'))
   return response.json()
 }
