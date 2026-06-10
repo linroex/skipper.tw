@@ -23,6 +23,22 @@
       "description": "北台灣地區資深帆船教學團隊",
       "certs": ["ASA"],
       "locations": ["基隆"]
+    },
+    {
+      "id": "樂活海洋",
+      "name": "樂活海洋",
+      "shortName": "樂活海洋",
+      "description": "南台灣地區專業帆船教學團隊",
+      "certs": ["ASA"],
+      "locations": ["台南"]
+    },
+    {
+      "id": "永遠天晴",
+      "name": "花蓮帆船學校 永遠天晴",
+      "shortName": "永遠天晴",
+      "description": "花蓮地區帆船教學團隊",
+      "certs": ["ASA"],
+      "locations": ["花蓮"]
     }
   ]
 }

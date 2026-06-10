@@ -107,22 +107,26 @@ const schoolsWithStats = computed(() => {
   // 轉換為陣列並添加統計，使用學校資料檔案中的資訊
   return Array.from(schoolMap.values()).map((schoolData, index) => {
     // 從學校資料檔案中查找對應的學校資訊
-    const schoolInfo = schoolDataByUnit.get(schoolData.unit || schools.value[index]?.id)
+    // 使用學校資料中的 unit 來匹配學校名稱
+    const sampleCourse = schoolData.courses[0] || schoolData.activities[0]
+    const unitName = sampleCourse?.unit || schools.value[index]?.id
+    const schoolInfo = schoolDataByUnit.get(unitName)
     
     // 取得學校的主要地點（用於排序）
     const locations = schoolInfo?.locations || [...new Set(schoolData.courses.map(c => c.location).filter(Boolean))]
     const primaryLocation = locations.length > 0 ? locations[0] : ''
     
+    const displayName = schoolInfo?.name || unitName
     return {
-      id: schoolInfo?.id || `school-${index}`,
-      name: schoolInfo?.name || schoolData.unit || '未知學校',
-      shortName: schoolInfo?.shortName || schoolInfo?.name?.substring(0, 4) || '',
+      id: schoolInfo?.id || unitName,
+      name: displayName,
+      shortName: schoolInfo?.shortName || displayName.substring(0, 4) || '',
       courses: schoolData.courses,
       activities: schoolData.activities,
       totalCourses: schoolData.courses.length,
       totalActivities: schoolData.activities.length,
       certs: schoolInfo?.certs || [...new Set(schoolData.courses.map(c => c.organization).filter(Boolean))],
-      description: schoolInfo?.description || `${schoolData.unit || '未知學校'} - 提供多樣化的帆船課程與活動`,
+      description: schoolInfo?.description || `${displayName} - 提供多樣化的帆船課程與活動`,
       locations: locations,
       primaryLocation: primaryLocation // 用於排序的主要地點
     }
