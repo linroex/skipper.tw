@@ -1,0 +1,14 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://skipper.tw/sitemap.xml
+
+# 允許所有搜尋引擎爬取
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+# 禁止爬取動態參數
+Disallow: /*?*

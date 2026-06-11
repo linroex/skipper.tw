@@ -25,6 +25,14 @@
 </template>
 
 <script setup>
+import { useHead } from '@vueuse/head'
+
+// Global SEO settings
+useHead({
+  titleTemplate: (titleChunk) => {
+    return titleChunk ? `${titleChunk} - skipper.tw` : 'skipper.tw'
+  }
+})
 </script>
 
 <style>

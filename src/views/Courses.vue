@@ -115,6 +115,15 @@
 
 <script setup>
 import { ref, computed, onMounted } from 'vue'
+import { useHead } from '@vueuse/head'
+
+// SEO meta tags
+useHead({
+  title: '帆船課程列表 - skipper.tw',
+  meta: [
+    { name: 'description', content: '查找台灣各地帆船課程，包括 ASA、IYT、TSA 等認證課程。提供初級、中級、高級帆船課程資訊。' }
+  ]
+})
 import { fetchCourses, fetchSchools } from '../utils/api.js'
 import { getLocationOrder } from '../utils/location.js'
 import { formatItemDate, parseLocalDate } from '../utils/format.js'

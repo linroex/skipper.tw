@@ -18,6 +18,7 @@
 - **樣式框架**: Tailwind CSS
 - **路由**: Vue Router
 - **部署**: GitHub Pages
+- **SEO 優化**: ✅ 已實施（Meta Tags、Sitemap、Robots.txt）
 
 ## 開發說明
 

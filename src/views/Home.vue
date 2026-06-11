@@ -64,11 +64,25 @@
 
 <script setup>
 import { ref, computed, onMounted } from 'vue'
+import { useHead } from '@vueuse/head'
 import { fetchActivities, fetchCourses, fetchSchools } from '../utils/api.js'
 import { getLocationOrder, getRegionOrder } from '../utils/location.js'
 import { formatItemDate, parseLocalDate } from '../utils/format.js'
 import ResponsiveTable from '../components/ResponsiveTable.vue'
 
+
+// SEO meta tags
+useHead({
+  title: 'skipper.tw - 台灣帆船活動與課程資訊公告平台',
+  meta: [
+    { name: 'description', content: '台灣帆船活動、課程、體驗、競賽資訊平台，提供北中南東台灣帆船課程、營隊、體驗活動、講座等完整資訊。' },
+    { name: 'keywords', content: '帆船課程，帆船體驗，帆船營隊，帆船競賽，帆船講座，台灣帆船，ASA 帆船，IYT 帆船，TSA 帆船' },
+    { property: 'og:title', content: 'skipper.tw - 台灣帆船活動與課程資訊公告平台' },
+    { property: 'og:description', content: '台灣帆船活動、課程、體驗、競賽資訊平台' },
+    { property: 'og:type', content: 'website' },
+    { name: 'twitter:card', content: 'summary_large_image' }
+  ]
+})
 
 const upcomingActivities = ref([])
 const featuredCourses = ref([])

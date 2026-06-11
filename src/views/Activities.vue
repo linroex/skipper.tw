@@ -89,6 +89,15 @@
 
 <script setup>
 import { ref, computed, onMounted } from 'vue'
+import { useHead } from '@vueuse/head'
+
+// SEO meta tags
+useHead({
+  title: '帆船活動列表 - skipper.tw',
+  meta: [
+    { name: 'description', content: '查找台灣各地帆船體驗課程、競賽、營隊、講座等活動資訊。可依照地區、類型篩選。' }
+  ]
+})
 import { fetchActivities, fetchTypes } from '../utils/api.js'
 import { getLocationOrder, getRegionOrder } from '../utils/location.js'
 import { formatItemDate, parseLocalDate } from '../utils/format.js'

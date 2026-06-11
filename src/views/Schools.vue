@@ -12,8 +12,8 @@
         <div class="p-6">
           <div class="flex items-center justify-between mb-2">
             <h2 class="text-xl font-bold text-gray-900">{{ school.name }}</h2>
-            <span v-if="school.shortName" class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded">
-              {{ school.shortName }}
+            <span v-if="school.primaryLocation" class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded">
+              {{ school.primaryLocation }}
             </span>
           </div>
           <div class="flex items-center text-sm text-gray-600 mb-2">
