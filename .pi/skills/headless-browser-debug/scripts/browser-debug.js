@@ -104,7 +104,11 @@ async function captureNetwork(page) {
         }
     });
     page.on('requestfailed', request => {
-        requests.find(r => r.url === request.url())?.failed = true;
+        const req = requests.find(r => r.url === request.url());
+        if (req) {
+            req.failed = true;
+            req.failureText = request.failure()?.errorText || 'Request failed';
+        }
     });
     return requests;
 }
@@ -137,19 +141,19 @@ async function extractContent(page) {
 
 async function inspectElement(page, selector) {
     const elements = await page.$$(selector);
-    return elements.map((el, index) => ({
+    return await Promise.all(elements.map(async (el, index) => ({
         index,
         selector,
-        attributes: el.evaluate(el => {
+        attributes: await el.evaluate(node => {
             const attrs = {};
-            Array.from(el.attributes).forEach(attr => {
+            Array.from(node.attributes).forEach(attr => {
                 attrs[attr.name] = attr.value;
             });
             return attrs;
         }),
-        textContent: el.evaluate(el => el.textContent?.substring(0, 200)),
-        className: el.evaluate(el => el.className)
-    }));
+        textContent: await el.evaluate(node => node.textContent?.substring(0, 200)),
+        className: await el.evaluate(node => node.className)
+    })));
 }
 
 async function evaluateJS(page, expression) {
@@ -225,7 +229,7 @@ async function runDebug(url, timeout, headful, viewport, selector, waitFor) {
 
     // Console Logs
     console.log(`\n📝 Console Logs (${consoleLogs.length} total):`);
-    const errorsOnly = consoleLogs.filter(log => log.type() === 'error' || log.type() === 'warning');
+    const errorsOnly = consoleLogs.filter(log => log.type === 'error' || log.type === 'warning');
     if (errorsOnly.length > 0) {
         console.log('   ⚠️  Errors & Warnings:');
         errorsOnly.forEach(log => {
@@ -371,10 +375,13 @@ async function runAction(action, url, timeout, headful, viewport, selector, wait
             });
             const page4 = await browser4.newPage();
             const errors = await captureErrors(page4);
+            const consoleLogs4 = await captureConsoleLogs(page4);
             await page4.goto(url, { waitUntil: 'networkidle0', timeout });
-            if (errors.length > 0) {
-                console.log(`❌ Found ${errors.length} error(s):`);
-                errors.forEach((err, i) => console.log(`   ${i + 1}. ${err}`));
+            const consoleIssues = consoleLogs4.filter(log => log.type === 'error' || log.type === 'warning');
+            if (errors.length > 0 || consoleIssues.length > 0) {
+                console.log(`❌ Found ${errors.length + consoleIssues.length} error/warning item(s):`);
+                errors.forEach((err, i) => console.log(`   Page error ${i + 1}: ${err}`));
+                consoleIssues.forEach((log, i) => console.log(`   Console ${i + 1} [${log.type.toUpperCase()}]: ${log.text}`));
             } else {
                 console.log('✓ No errors found');
             }

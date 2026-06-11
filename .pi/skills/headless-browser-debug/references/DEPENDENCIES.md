@@ -14,8 +14,31 @@
 
 ```bash
 # Install system dependencies
-apt-get update && apt-get install -y \
-    libatk-1.0-0 \
+# Ubuntu 24.04+ uses *t64 package names; older Debian/Ubuntu uses the fallback names.
+apt-get update && (apt-get install -y \
+    libatk1.0-0t64 \
+    libatk-bridge2.0-0t64 \
+    libcups2t64 \
+    libdbus-1-3 \
+    libdrm2 \
+    libgbm1 \
+    libxkbcommon0 \
+    libxcomposite1 \
+    libxdamage1 \
+    libxext6 \
+    libxfixes3 \
+    libxrandr2 \
+    libpango-1.0-0 \
+    libcairo2 \
+    libasound2t64 \
+    libatspi2.0-0t64 \
+    libnss3 \
+    libx11-xcb1 \
+    libxcb-dri3-0 \
+    libxss1 \
+    libgtk-3-0t64 \
+  || apt-get install -y \
+    libatk1.0-0 \
     libatk-bridge2.0-0 \
     libcups2 \
     libdbus-1-3 \
@@ -30,7 +53,12 @@ apt-get update && apt-get install -y \
     libpango-1.0-0 \
     libcairo2 \
     libasound2 \
-    libatspi2.0-0
+    libatspi2.0-0 \
+    libnss3 \
+    libx11-xcb1 \
+    libxcb-dri3-0 \
+    libxss1 \
+    libgtk-3-0)
 
 # Install Node.js dependencies
 npm install puppeteer
@@ -190,10 +218,11 @@ For GitHub Actions or other CI:
   run: |
     apt-get update
     apt-get install -y \
-      libatk-1.0-0 libatk-bridge2.0-0 libcups2 \
+      libatk1.0-0t64 libatk-bridge2.0-0t64 libcups2t64 \
       libx11-6 libxcomposite1 libxcursor1 libxdamage1 \
       libxext6 libxi6 libxtst6 libnss3 libc6 \
-      libasound2 libpango-1.0-0 libcairo2
+      libasound2t64 libpango-1.0-0 libcairo2 \
+      libx11-xcb1 libxcb-dri3-0 libxss1 libgtk-3-0t64
 
     npm install
 

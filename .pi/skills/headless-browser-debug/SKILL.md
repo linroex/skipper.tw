@@ -30,11 +30,19 @@ npm install puppeteer
 npx puppeteer browsers install chrome
 
 # Install system dependencies (Debian/Ubuntu)
-apt-get update && apt-get install -y \
-    libatk-1.0-0 libatk-bridge2.0-0 libcups2 \
+# Ubuntu 24.04+ uses *t64 package names; older releases use the fallback names.
+apt-get update && (apt-get install -y \
+    libatk1.0-0t64 libatk-bridge2.0-0t64 libcups2t64 \
     libdrm2 libgbm1 libxkbcommon0 libxcomposite1 \
     libxdamage1 libxext6 libxfixes3 libxrandr2 \
-    libpango-1.0-0 libcairo2 libasound2 libatspi2.0-0
+    libpango-1.0-0 libcairo2 libasound2t64 libatspi2.0-0t64 \
+    libnss3 libx11-xcb1 libxcb-dri3-0 libxss1 libgtk-3-0t64 \
+  || apt-get install -y \
+    libatk1.0-0 libatk-bridge2.0-0 libcups2 \
+    libdrm2 libgbm1 libxkbcommon0 libxcomposite1 \
+    libxdamage1 libxext6 libxfixes3 libxrandr2 \
+    libpango-1.0-0 libcairo2 libasound2 libatspi2.0-0 \
+    libnss3 libx11-xcb1 libxcb-dri3-0 libxss1 libgtk-3-0)
 
 # Verify setup
 node scripts/test-debug.js
