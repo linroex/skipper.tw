@@ -185,12 +185,26 @@ const firstDayOfMonth = computed(() => new Date(currentYear.value, currentMonth.
 const coursesByDay = computed(() => {
   const map = new Map()
   props.items.forEach(course => {
-    const date = parseLocalDate(course.startDate)
-    if (!date) return
-    if (date.getFullYear() === currentYear.value && date.getMonth() === currentMonth.value) {
-      const day = date.getDate()
-      if (!map.has(day)) map.set(day, [])
-      map.get(day).push(course)
+    const startDate = parseLocalDate(course.startDate)
+    const endDate = parseLocalDate(course.endDate || course.startDate)
+    if (!startDate || !endDate) return
+    
+    // 處理跨越多個月的課程
+    let currentDate = new Date(startDate)
+    while (currentDate <= endDate) {
+      // 如果日期在當前顯示的月份內
+      if (currentDate.getFullYear() === currentYear.value && 
+          currentDate.getMonth() === currentMonth.value) {
+        const day = currentDate.getDate()
+        if (!map.has(day)) map.set(day, [])
+        // 避免重複添加同一課程
+        const exists = map.get(day).some(c => c.id === course.id)
+        if (!exists) {
+          map.get(day).push(course)
+        }
+      }
+      // 移到下一天
+      currentDate.setDate(currentDate.getDate() + 1)
     }
   })
   return map
