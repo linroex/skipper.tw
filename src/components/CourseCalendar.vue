@@ -58,10 +58,10 @@
             v-for="course in cell.courses"
             :key="course.id"
             @click="openCourse(course)"
-            :class="['text-xs rounded px-1 py-0.5 mb-0.5 cursor-pointer leading-tight truncate', orgColor(course.organization)]"
-            :title="course.title"
+            :class="['text-xs rounded px-1 py-0.5 mb-0.5 cursor-pointer leading-tight truncate', getCourseColor(course)]"
+            :title="`${shortTitle(course)} ${course.title}`"
           >
-            <span class="hidden md:block truncate">{{ course.title }}</span>
+            <span class="hidden md:block truncate">{{ shortTitle(course) }}</span>
             <span class="md:hidden">{{ shortTitle(course) }}</span>
           </div>
         </div>
@@ -82,8 +82,8 @@
       >
         <div class="bg-white rounded-xl shadow-xl max-w-sm w-full p-5">
           <div class="flex items-start justify-between mb-3">
-            <span :class="['px-2 py-0.5 text-xs rounded font-medium', orgColor(selectedCourse.organization)]">
-              {{ selectedCourse.organization }}
+            <span :class="['px-2 py-0.5 text-xs rounded font-medium', getCourseColor(selectedCourse)]">
+              {{ selectedCourse.title }}
             </span>
             <button
               @click="selectedCourse = null"
@@ -164,19 +164,53 @@ const isToday = (day) =>
 
 const openCourse = (course) => { selectedCourse.value = course }
 
-const shortTitle = (course) => {
-  const match = course.title?.match(/ASA\s*\d{2,3}|IYT\s*\d{2,3}/i)
-  if (match) return match[0].replace(/\s+/, ' ').toUpperCase()
-  return course.title?.substring(0, 5) || ''
+// 17 種色盲友善的配色方案
+const courseColors = [
+  'bg-red-100 text-red-700 hover:bg-red-200',
+  'bg-orange-100 text-orange-700 hover:bg-orange-200',
+  'bg-amber-100 text-amber-700 hover:bg-amber-200',
+  'bg-yellow-100 text-yellow-700 hover:bg-yellow-200',
+  'bg-lime-100 text-lime-700 hover:bg-lime-200',
+  'bg-green-100 text-green-700 hover:bg-green-200',
+  'bg-emerald-100 text-emerald-700 hover:bg-emerald-200',
+  'bg-teal-100 text-teal-700 hover:bg-teal-200',
+  'bg-cyan-100 text-cyan-700 hover:bg-cyan-200',
+  'bg-sky-100 text-sky-700 hover:bg-sky-200',
+  'bg-blue-100 text-blue-700 hover:bg-blue-200',
+  'bg-indigo-100 text-indigo-700 hover:bg-indigo-200',
+  'bg-violet-100 text-violet-700 hover:bg-violet-200',
+  'bg-purple-100 text-purple-700 hover:bg-purple-200',
+  'bg-fuchsia-100 text-fuchsia-700 hover:bg-fuchsia-200',
+  'bg-pink-100 text-pink-700 hover:bg-pink-200',
+  'bg-rose-100 text-rose-700 hover:bg-rose-200',
+]
+
+// 基於 course.id 生成穩定的顏色索引
+const getCourseColorIndex = (courseId) => {
+  // 使用簡單的 hash 函數
+  let hash = 0
+  const str = String(courseId)
+  for (let i = 0; i < str.length; i++) {
+    hash = ((hash << 5) - hash) + str.charCodeAt(i)
+    hash = hash & hash // 轉換為 32 位整數
+  }
+  return Math.abs(hash) % courseColors.length
 }
 
-const orgColor = (org) => {
-  switch (org?.toUpperCase()) {
-    case 'ASA': return 'bg-sky-100 text-sky-700 hover:bg-sky-200'
-    case 'IYT': return 'bg-green-100 text-green-700 hover:bg-green-200'
-    case 'TSA': return 'bg-amber-100 text-amber-700 hover:bg-amber-200'
-    default:    return 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+// 獲取課程的顏色
+const getCourseColor = (course) => {
+  const index = getCourseColorIndex(course.id)
+  return courseColors[index]
+}
+
+// 縮短課程名稱
+const shortTitle = (course) => {
+  const match = course.title?.match(/ASA\s*\d{2,3}|IYT\s*\d{2,3}/i)
+  if (match) {
+    return match[0].replace(/\s+/, ' ').toUpperCase()
   }
+  // 如果沒有課程代碼，顯示前 5 個字
+  return course.title?.substring(0, 5) || ''
 }
 
 const daysInMonth = computed(() => new Date(currentYear.value, currentMonth.value + 1, 0).getDate())
