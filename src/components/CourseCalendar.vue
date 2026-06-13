@@ -34,15 +34,20 @@
     </div>
 
     <!-- Calendar grid -->
-    <div class="grid grid-cols-7 border-l border-t">
+    <div class="border-l border-t">
       <div
-        v-for="(cell, index) in calendarCells"
-        :key="index"
-        class="border-r border-b min-h-[80px] md:min-h-[100px] p-1"
-        :class="cell.day ? '' : 'bg-gray-50'"
+        v-for="(week, weekIndex) in calendarWeeks"
+        :key="weekIndex"
+        class="relative grid grid-cols-7"
+        :style="getWeekStyle(week)"
       >
-        <div v-if="cell.day">
-          <div class="flex justify-center mb-1">
+        <div
+          v-for="cell in week.cells"
+          :key="`${weekIndex}-${cell.day ?? cell.placeholderIndex}`"
+          class="border-r border-b p-1"
+          :class="cell.day ? '' : 'bg-gray-50'"
+        >
+          <div v-if="cell.day" class="flex justify-center">
             <span
               :class="[
                 'w-6 h-6 flex items-center justify-center text-xs font-medium rounded-full',
@@ -54,17 +59,22 @@
               {{ cell.day }}
             </span>
           </div>
-          <div
-            v-for="course in cell.courses"
-            :key="course.id"
-            @click="openCourse(course)"
-            :class="['text-xs rounded px-1 py-0.5 mb-0.5 cursor-pointer leading-tight truncate', getCourseColor(course)]"
-            :title="`${shortTitle(course)} ${course.title}`"
-          >
-            <span class="hidden md:block truncate">{{ shortTitle(course) }}</span>
-            <span class="md:hidden">{{ shortTitle(course) }}</span>
-          </div>
         </div>
+
+        <button
+          v-for="segment in week.segments"
+          :key="segment.key"
+          type="button"
+          @click="openCourse(segment.course)"
+          :class="[
+            'absolute h-5 md:h-6 rounded px-1 text-[10px] md:text-xs leading-5 md:leading-6 cursor-pointer truncate text-left shadow-sm hover:brightness-95 transition',
+            getCourseColor(segment.course)
+          ]"
+          :style="getSegmentStyle(segment)"
+          :title="`${shortTitle(segment.course)} ${segment.course.title}`"
+        >
+          {{ shortTitle(segment.course) }}
+        </button>
       </div>
     </div>
 
@@ -258,71 +268,195 @@ const shortTitle = (course) => {
 const daysInMonth = computed(() => new Date(currentYear.value, currentMonth.value + 1, 0).getDate())
 const firstDayOfMonth = computed(() => new Date(currentYear.value, currentMonth.value, 1).getDay())
 
+const toDateKey = (date) => {
+  const month = String(date.getMonth() + 1).padStart(2, '0')
+  const day = String(date.getDate()).padStart(2, '0')
+  return `${date.getFullYear()}-${month}-${day}`
+}
+
+const getCourseDates = (course) => {
+  const startDate = parseLocalDate(course.startDate)
+  const endDate = parseLocalDate(course.endDate || course.startDate)
+  if (!startDate || !endDate) return []
+
+  if (course.dateText) {
+    const dateMatches = course.dateText.match(/\d+\/\d+/g)
+    if (dateMatches) {
+      return dateMatches.map(d => {
+        const [month, day] = d.split('/').map(Number)
+        return new Date(currentYear.value, month - 1, day)
+      })
+    }
+  }
+
+  const dates = []
+  const cursor = new Date(startDate)
+  while (cursor <= endDate) {
+    dates.push(new Date(cursor))
+    cursor.setDate(cursor.getDate() + 1)
+  }
+  return dates
+}
+
+const mergeConsecutiveDates = (dates) => {
+  const sorted = [...dates]
+    .sort((a, b) => a - b)
+    .filter((date, index, array) => index === 0 || toDateKey(date) !== toDateKey(array[index - 1]))
+
+  if (sorted.length === 0) return []
+
+  const ranges = []
+  let start = sorted[0]
+  let end = sorted[0]
+
+  for (let i = 1; i < sorted.length; i++) {
+    const date = sorted[i]
+    const nextExpected = new Date(end)
+    nextExpected.setDate(nextExpected.getDate() + 1)
+
+    if (toDateKey(date) === toDateKey(nextExpected)) {
+      end = date
+    } else {
+      ranges.push({ start, end })
+      start = date
+      end = date
+    }
+  }
+
+  ranges.push({ start, end })
+  return ranges
+}
+
+const courseDateRanges = computed(() => {
+  const monthStart = new Date(currentYear.value, currentMonth.value, 1)
+  const monthEnd = new Date(currentYear.value, currentMonth.value + 1, 0)
+
+  return props.items.flatMap(course => {
+    const datesInMonth = getCourseDates(course).filter(date => date >= monthStart && date <= monthEnd)
+    return mergeConsecutiveDates(datesInMonth).map((range, rangeIndex) => ({
+      course,
+      range,
+      key: `${course.unit}|${course.title}|${course.startDate}|${course.endDate}|${rangeIndex}`
+    }))
+  })
+})
+
 const coursesByDay = computed(() => {
   const map = new Map()
-  props.items.forEach(course => {
-    const startDate = parseLocalDate(course.startDate)
-    const endDate = parseLocalDate(course.endDate || course.startDate)
-    if (!startDate || !endDate) return
-    
-    // 檢查是否有 dateText，如果有，解析其中的日期
-    const dateText = course.dateText
-    let datesToDisplay = []
-    
-    if (dateText) {
-      // 解析 dateText，格式如 "6/13(六)、6/14(日)、6/18(四)"
-      const dateMatches = dateText.match(/(\d+)\/\d+/g)
-      if (dateMatches) {
-        datesToDisplay = dateMatches.map(d => {
-          const [month, day] = d.split('/').map(Number)
-          return { month, day }
-        })
+
+  courseDateRanges.value.forEach(({ course, range }) => {
+    const cursor = new Date(range.start)
+    while (cursor <= range.end) {
+      const day = cursor.getDate()
+      if (!map.has(day)) map.set(day, [])
+      if (!map.get(day).some(existingCourse => existingCourse.id === course.id)) {
+        map.get(day).push(course)
       }
-    } else {
-      // 沒有 dateText，使用整個日期範圍
-      let currentDate = new Date(startDate)
-      while (currentDate <= endDate) {
-        datesToDisplay.push({
-          month: currentDate.getMonth() + 1,
-          day: currentDate.getDate()
-        })
-        currentDate.setDate(currentDate.getDate() + 1)
-      }
+      cursor.setDate(cursor.getDate() + 1)
     }
-    
-    // 添加課程到對應的日期
-    datesToDisplay.forEach(dateInfo => {
-      // 檢查是否在當前顯示的月份內（假設都是當前年份）
-      if (dateInfo.month === currentMonth.value + 1) {
-        const day = dateInfo.day
-        if (!map.has(day)) map.set(day, [])
-        // 避免重複添加同一課程
-        const exists = map.get(day).some(c => c.id === course.id)
-        if (!exists) {
-          map.get(day).push(course)
-        }
-      }
-    })
   })
+
   return map
 })
 
 const calendarCells = computed(() => {
   const cells = []
   for (let i = 0; i < firstDayOfMonth.value; i++) {
-    cells.push({ day: null, courses: [] })
+    cells.push({ day: null, placeholderIndex: `start-${i}` })
   }
   for (let d = 1; d <= daysInMonth.value; d++) {
-    cells.push({ day: d, courses: coursesByDay.value.get(d) || [] })
+    cells.push({ day: d })
   }
   const remainder = cells.length % 7
   if (remainder > 0) {
     for (let i = 0; i < 7 - remainder; i++) {
-      cells.push({ day: null, courses: [] })
+      cells.push({ day: null, placeholderIndex: `end-${i}` })
     }
   }
   return cells
 })
+
+const splitRangeByWeek = ({ course, range, key }) => {
+  const segments = []
+  let cursor = new Date(range.start)
+
+  while (cursor <= range.end) {
+    const weekIndex = Math.floor((firstDayOfMonth.value + cursor.getDate() - 1) / 7)
+    const startCol = cursor.getDay()
+    const daysLeftInWeek = 7 - startCol
+    const segmentEnd = new Date(cursor)
+    segmentEnd.setDate(cursor.getDate() + daysLeftInWeek - 1)
+    if (segmentEnd > range.end) segmentEnd.setTime(range.end.getTime())
+
+    const span = segmentEnd.getDate() - cursor.getDate() + 1
+    segments.push({
+      key: `${key}|${toDateKey(cursor)}`,
+      course,
+      weekIndex,
+      startCol,
+      span,
+      lane: 0
+    })
+
+    cursor = new Date(segmentEnd)
+    cursor.setDate(cursor.getDate() + 1)
+  }
+
+  return segments
+}
+
+const weeklySegments = computed(() => {
+  const weeks = Array.from({ length: Math.ceil(calendarCells.value.length / 7) }, () => [])
+
+  courseDateRanges.value
+    .flatMap(splitRangeByWeek)
+    .sort((a, b) => a.weekIndex - b.weekIndex || a.startCol - b.startCol || b.span - a.span)
+    .forEach(segment => {
+      const weekSegments = weeks[segment.weekIndex]
+      const lanes = []
+
+      weekSegments.forEach(existingSegment => {
+        lanes[existingSegment.lane] ||= []
+        lanes[existingSegment.lane].push(existingSegment)
+      })
+
+      let lane = 0
+      while (lanes[lane]?.some(existingSegment =>
+        segment.startCol < existingSegment.startCol + existingSegment.span &&
+        segment.startCol + segment.span > existingSegment.startCol
+      )) {
+        lane++
+      }
+
+      weekSegments.push({ ...segment, lane })
+    })
+
+  return weeks
+})
+
+const calendarWeeks = computed(() => {
+  const weeks = []
+  for (let i = 0; i < calendarCells.value.length; i += 7) {
+    const weekIndex = i / 7
+    weeks.push({
+      cells: calendarCells.value.slice(i, i + 7),
+      segments: weeklySegments.value[weekIndex] || []
+    })
+  }
+  return weeks
+})
+
+const getSegmentStyle = (segment) => ({
+  left: `calc(${segment.startCol} * 100% / 7 + 2px)`,
+  width: `calc(${segment.span} * 100% / 7 - 4px)`,
+  top: `${34 + segment.lane * 24}px`
+})
+
+const getWeekStyle = (week) => {
+  const maxLane = week.segments.reduce((max, segment) => Math.max(max, segment.lane), -1)
+  const minHeight = Math.max(112, 40 + (maxLane + 1) * 24)
+  return { minHeight: `${minHeight}px` }
+}
 
 const hasNoCoursesThisMonth = computed(() => coursesByDay.value.size === 0)
 </script>
