@@ -185,22 +185,46 @@ const courseColors = [
   'bg-rose-100 text-rose-700 hover:bg-rose-200',
 ]
 
-// 基於 course.id 生成穩定的顏色索引
-const getCourseColorIndex = (courseId) => {
-  // 使用簡單的 hash 函數
-  let hash = 0
-  const str = String(courseId)
-  for (let i = 0; i < str.length; i++) {
-    hash = ((hash << 5) - hash) + str.charCodeAt(i)
-    hash = hash & hash // 轉換為 32 位整數
-  }
-  return Math.abs(hash) % courseColors.length
-}
+// 使用 Map 來追蹤課程顏色分配，確保每個獨特課程都有獨立顏色
+const courseColorCache = new Map()
 
 // 獲取課程的顏色
+// 使用 學校 + 標題 + 日期 組合，確保不同學校的相同課程使用不同顏色
 const getCourseColor = (course) => {
-  const index = getCourseColorIndex(course.id)
-  return courseColors[index]
+  const courseKey = `${course.unit}|${course.title}|${course.startDate}|${course.endDate}`
+  
+  if (courseColorCache.has(courseKey)) {
+    return courseColorCache.get(courseKey)
+  }
+  
+  // 計算課程的穩定索引
+  let hash = 0
+  for (let i = 0; i < courseKey.length; i++) {
+    hash = ((hash << 5) - hash) + courseKey.charCodeAt(i)
+    hash = hash & hash
+  }
+  const baseIndex = Math.abs(hash) % courseColors.length
+  
+  // 找到第一個可用的顏色（避免衝突）
+  let color = courseColors[baseIndex]
+  let attempts = 0
+  const maxAttempts = courseColors.length
+  
+  while (Array.from(courseColorCache.values()).includes(color) && attempts < maxAttempts) {
+    attempts++
+    const nextIndex = (baseIndex + attempts) % courseColors.length
+    color = courseColors[nextIndex]
+  }
+  
+  // 確保顏色沒有被使用過，如果有，循環到下一個
+  const usedColors = Array.from(courseColorCache.values())
+  if (usedColors.includes(color)) {
+    console.warn(`警告：課程衝突，使用預設顏色 ${courseColors[0]}`)
+    color = courseColors[0]
+  }
+  
+  courseColorCache.set(courseKey, color)
+  return color
 }
 
 // 縮短課程名稱
