@@ -164,25 +164,43 @@ const isToday = (day) =>
 
 const openCourse = (course) => { selectedCourse.value = course }
 
-// 17 種色盲友善的配色方案
+// 17 種高對比度、容易區分的配色方案
+// 使用鮮豔背景 + 深色文字，確保每個顏色都很容易分辨
 const courseColors = [
-  'bg-red-100 text-red-700 hover:bg-red-200',
-  'bg-orange-100 text-orange-700 hover:bg-orange-200',
-  'bg-amber-100 text-amber-700 hover:bg-amber-200',
-  'bg-yellow-100 text-yellow-700 hover:bg-yellow-200',
-  'bg-lime-100 text-lime-700 hover:bg-lime-200',
-  'bg-green-100 text-green-700 hover:bg-green-200',
-  'bg-emerald-100 text-emerald-700 hover:bg-emerald-200',
-  'bg-teal-100 text-teal-700 hover:bg-teal-200',
-  'bg-cyan-100 text-cyan-700 hover:bg-cyan-200',
-  'bg-sky-100 text-sky-700 hover:bg-sky-200',
-  'bg-blue-100 text-blue-700 hover:bg-blue-200',
-  'bg-indigo-100 text-indigo-700 hover:bg-indigo-200',
-  'bg-violet-100 text-violet-700 hover:bg-violet-200',
-  'bg-purple-100 text-purple-700 hover:bg-purple-200',
-  'bg-fuchsia-100 text-fuchsia-700 hover:bg-fuchsia-200',
-  'bg-pink-100 text-pink-700 hover:bg-pink-200',
-  'bg-rose-100 text-rose-700 hover:bg-rose-200',
+  // 紅色系 - 溫暖鮮明
+  'bg-red-500 text-white hover:bg-red-600',         // 鮮紅
+  'bg-rose-500 text-white hover:bg-rose-600',       // 玫紅
+  
+  // 橙色系 - 明亮溫暖
+  'bg-orange-500 text-white hover:bg-orange-600',   // 亮橙
+  'bg-amber-500 text-white hover:bg-amber-600',     // 琥珀
+  
+  // 黃色系 - 最明亮
+  'bg-yellow-400 text-yellow-900 hover:bg-yellow-500', // 金黃
+  
+  // 綠色系 - 清新自然
+  'bg-green-500 text-white hover:bg-green-600',     // 翠綠
+  'bg-lime-500 text-white hover:bg-lime-600',       // 酸橙綠
+  
+  // 藍綠色系 - 沉穩
+  'bg-teal-500 text-white hover:bg-teal-600',       // 青色
+  
+  // 藍色系 - 冷靜專業
+  'bg-cyan-500 text-white hover:bg-cyan-600',       // 天藍
+  'bg-sky-500 text-white hover:bg-sky-600',         // 天空藍
+  'bg-blue-500 text-white hover:bg-blue-600',       // 寶藍
+  
+  // 紫色系 - 優雅神秘
+  'bg-indigo-500 text-white hover:bg-indigo-600',   // 靛藍
+  'bg-violet-500 text-white hover:bg-violet-600',   // 紫羅蘭
+  'bg-purple-500 text-white hover:bg-purple-600',   // 紫色
+  
+  // 粉紅色系 - 溫柔活潑
+  'bg-fuchsia-500 text-white hover:bg-fuchsia-600', // 洋紅
+  'bg-pink-500 text-white hover:bg-pink-600',       // 粉紅
+  
+  // 灰色系 - 中性百搭
+  'bg-gray-500 text-white hover:bg-gray-600',       // 灰色
 ]
 
 // 使用 Map 來追蹤課程顏色分配，確保每個獨特課程都有獨立顏色
