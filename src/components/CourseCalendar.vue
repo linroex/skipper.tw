@@ -189,13 +189,36 @@ const coursesByDay = computed(() => {
     const endDate = parseLocalDate(course.endDate || course.startDate)
     if (!startDate || !endDate) return
     
-    // 處理跨越多個月的課程
-    let currentDate = new Date(startDate)
-    while (currentDate <= endDate) {
-      // 如果日期在當前顯示的月份內
-      if (currentDate.getFullYear() === currentYear.value && 
-          currentDate.getMonth() === currentMonth.value) {
-        const day = currentDate.getDate()
+    // 檢查是否有 dateText，如果有，解析其中的日期
+    const dateText = course.dateText
+    let datesToDisplay = []
+    
+    if (dateText) {
+      // 解析 dateText，格式如 "6/13(六)、6/14(日)、6/18(四)"
+      const dateMatches = dateText.match(/(\d+)\/\d+/g)
+      if (dateMatches) {
+        datesToDisplay = dateMatches.map(d => {
+          const [month, day] = d.split('/').map(Number)
+          return { month, day }
+        })
+      }
+    } else {
+      // 沒有 dateText，使用整個日期範圍
+      let currentDate = new Date(startDate)
+      while (currentDate <= endDate) {
+        datesToDisplay.push({
+          month: currentDate.getMonth() + 1,
+          day: currentDate.getDate()
+        })
+        currentDate.setDate(currentDate.getDate() + 1)
+      }
+    }
+    
+    // 添加課程到對應的日期
+    datesToDisplay.forEach(dateInfo => {
+      // 檢查是否在當前顯示的月份內（假設都是當前年份）
+      if (dateInfo.month === currentMonth.value + 1) {
+        const day = dateInfo.day
         if (!map.has(day)) map.set(day, [])
         // 避免重複添加同一課程
         const exists = map.get(day).some(c => c.id === course.id)
@@ -203,9 +226,7 @@ const coursesByDay = computed(() => {
           map.get(day).push(course)
         }
       }
-      // 移到下一天
-      currentDate.setDate(currentDate.getDate() + 1)
-    }
+    })
   })
   return map
 })
