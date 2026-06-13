@@ -59,8 +59,8 @@
         </div>
       </div>
 
-      <!-- 第二列：月份篩選 -->
-      <div class="overflow-x-auto whitespace-nowrap -mx-4 px-4 pb-2">
+      <!-- 第二列：月份篩選 (不在行事曆模式顯示) -->
+      <div v-if="viewMode !== 'calendar'" class="overflow-x-auto whitespace-nowrap -mx-4 px-4 pb-2">
         <div class="flex gap-2 inline-flex">
           <button
             @click="clearMonthFilter"
