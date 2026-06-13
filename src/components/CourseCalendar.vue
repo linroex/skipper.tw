@@ -22,11 +22,11 @@
     <!-- Day of week headers -->
     <div class="grid grid-cols-7 bg-gray-50 border-b">
       <div
-        v-for="(day, i) in ['日', '一', '二', '三', '四', '五', '六']"
+        v-for="(day, i) in ['一', '二', '三', '四', '五', '六', '日']"
         :key="day"
         :class="[
           'py-2 text-center text-xs font-medium',
-          i === 0 ? 'text-red-400' : i === 6 ? 'text-blue-400' : 'text-gray-500'
+          i === 6 ? 'text-red-400' : i === 5 ? 'text-blue-400' : 'text-gray-500'
         ]"
       >
         {{ day }}
@@ -266,7 +266,8 @@ const shortTitle = (course) => {
 }
 
 const daysInMonth = computed(() => new Date(currentYear.value, currentMonth.value + 1, 0).getDate())
-const firstDayOfMonth = computed(() => new Date(currentYear.value, currentMonth.value, 1).getDay())
+const getMondayBasedDayIndex = (date) => (date.getDay() + 6) % 7
+const firstDayOfMonth = computed(() => getMondayBasedDayIndex(new Date(currentYear.value, currentMonth.value, 1)))
 
 const toDateKey = (date) => {
   const month = String(date.getMonth() + 1).padStart(2, '0')
@@ -382,7 +383,7 @@ const splitRangeByWeek = ({ course, range, key }) => {
 
   while (cursor <= range.end) {
     const weekIndex = Math.floor((firstDayOfMonth.value + cursor.getDate() - 1) / 7)
-    const startCol = cursor.getDay()
+    const startCol = getMondayBasedDayIndex(cursor)
     const daysLeftInWeek = 7 - startCol
     const segmentEnd = new Date(cursor)
     segmentEnd.setDate(cursor.getDate() + daysLeftInWeek - 1)
