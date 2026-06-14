@@ -55,9 +55,37 @@
       </div>
 
       <!-- 課程列表 -->
-      <div v-if="school.courses.length > 0">
+      <div v-if="school.courses.length > 0 || allSchoolCourses.length > 0">
         <div class="mb-4">
-          <h2 class="text-2xl font-bold text-gray-800 mb-4">相關課程</h2>
+          <div class="flex items-center justify-between mb-4">
+            <h2 class="text-2xl font-bold text-gray-800">相關課程</h2>
+            <div class="flex items-center gap-1 bg-gray-100 rounded-lg p-1">
+              <button
+                @click="setViewMode('list')"
+                :class="[
+                  'px-3 py-1.5 rounded-md text-sm font-medium transition-colors',
+                  viewMode === 'list' ? 'bg-white text-gray-800 shadow-sm' : 'text-gray-500 hover:text-gray-700'
+                ]"
+                title="列表模式"
+              >
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16" />
+                </svg>
+              </button>
+              <button
+                @click="setViewMode('calendar')"
+                :class="[
+                  'px-3 py-1.5 rounded-md text-sm font-medium transition-colors',
+                  viewMode === 'calendar' ? 'bg-white text-gray-800 shadow-sm' : 'text-gray-500 hover:text-gray-700'
+                ]"
+                title="行事曆模式"
+              >
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+              </button>
+            </div>
+          </div>
           
           <!-- 課程篩選器 -->
           <div class="space-y-3">
@@ -116,6 +144,7 @@
         </div>
 
         <ResponsiveTable
+          v-if="viewMode === 'list'"
           :items="filteredCourses"
           :headers="[ '日期', '課程名稱', '認證', '地點', '聯絡' ]"
           :title-key="'title'"
@@ -130,6 +159,12 @@
             { key: 'contact', label: '聯絡' }
           ]"
           empty-message="暫無相關課程"
+        />
+        <CourseCalendar
+          v-else
+          :items="filteredCalendarCourses"
+          :get-school-name="getSchoolName"
+          :get-school-route="getSchoolRoute"
         />
       </div>
 
@@ -155,7 +190,7 @@
       </div>
 
       <!-- 沒有資料 -->
-      <div v-if="school.courses.length === 0 && school.activities.length === 0" class="text-center py-12 text-gray-500">
+      <div v-if="school.courses.length === 0 && allSchoolCourses.length === 0 && school.activities.length === 0" class="text-center py-12 text-gray-500">
         暫無相關課程或活動
       </div>
 
@@ -187,6 +222,7 @@ import { fetchSchools } from '../utils/api.js'
 import { getLocationOrder, getRegionOrder } from '../utils/location.js'
 import { formatItemDate, parseLocalDate } from '../utils/format.js'
 import ResponsiveTable from '../components/ResponsiveTable.vue'
+import CourseCalendar from '../components/CourseCalendar.vue'
 
 
 const route = useRoute()
@@ -198,8 +234,23 @@ const schools = ref([])
 const schoolDataMap = ref(new Map())
 const selectedCert = ref('')
 const selectedLevel = ref('')
+const savedViewMode = typeof window !== 'undefined' ? window.localStorage.getItem('schoolCoursesViewMode') : null
+const viewMode = ref(savedViewMode === 'calendar' ? 'calendar' : 'list')
 
 const parseDate = parseLocalDate
+
+const schoolByUnit = computed(() => {
+  const map = new Map()
+  schools.value.forEach(school => map.set(school.name, school))
+  return map
+})
+
+const getSchool = (unit) => schoolByUnit.value.get(unit)
+const getSchoolName = (unit) => getSchool(unit)?.shortName || unit || '-'
+const getSchoolRoute = (unit) => {
+  const matchedSchool = getSchool(unit)
+  return matchedSchool ? { name: 'School', params: { id: matchedSchool.id } } : { name: 'Schools' }
+}
 
 const schoolData = computed(() => {
   const schoolId = decodeURIComponent(route.params.id)
@@ -274,11 +325,40 @@ const getCourseCode = (title) => {
   return match ? match[0].toUpperCase() : ''
 }
 
+const selectedSchoolName = computed(() => school.value?.name || '')
+
+const sortCoursesByDateAndLocation = (items) => {
+  return [...items].sort((a, b) => {
+    const dateDiff = parseDate(a.startDate) - parseDate(b.startDate)
+    if (dateDiff !== 0) return dateDiff
+    return getLocationOrder(a.location) - getLocationOrder(b.location)
+  })
+}
+
+const allSchoolCourses = computed(() => {
+  if (!selectedSchoolName.value) return []
+  return sortCoursesByDateAndLocation(courses.value.filter(course => course.unit === selectedSchoolName.value))
+})
+
+const applyCourseFilters = (items) => {
+  let filtered = [...items]
+
+  if (selectedCert.value) {
+    filtered = filtered.filter(course => course.organization === selectedCert.value)
+  }
+
+  if (selectedLevel.value) {
+    filtered = filtered.filter(course => getCourseCode(course.title) === selectedLevel.value)
+  }
+
+  return filtered
+}
+
 // 為每個認證組織提取課程編號
 const getCourseCodesForCert = (cert) => {
   if (!school.value) return []
   
-  const certCourses = school.value.courses.filter(course => {
+  const certCourses = allSchoolCourses.value.filter(course => {
     return course.organization === cert
   })
   
@@ -300,23 +380,15 @@ const currentCourseCodes = computed(() => {
   return getCourseCodesForCert(selectedCert.value)
 })
 
-// 篩選後的課程
+// 篩選後的課程：列表維持只顯示未結束課程；行事曆顯示此學校所有課程（含過去）
 const filteredCourses = computed(() => {
   if (!school.value) return []
-  
-  let filtered = [...school.value.courses]
-  
-  // 根據認證篩選
-  if (selectedCert.value) {
-    filtered = filtered.filter(course => course.organization === selectedCert.value)
-  }
-  
-  // 根據課程編號篩選
-  if (selectedLevel.value) {
-    filtered = filtered.filter(course => getCourseCode(course.title) === selectedLevel.value)
-  }
-  
-  return filtered
+  return applyCourseFilters(school.value.courses)
+})
+
+const filteredCalendarCourses = computed(() => {
+  if (!school.value) return []
+  return applyCourseFilters(allSchoolCourses.value)
 })
 
 const getType = (typeId) => {
@@ -332,6 +404,13 @@ const getType = (typeId) => {
 // 清除篩選的輔助函式
 const clearCertFilter = () => { selectedCert.value = ''; selectedLevel.value = '' }
 const clearLevelFilter = () => { selectedLevel.value = '' }
+
+const setViewMode = (mode) => {
+  viewMode.value = mode
+  if (typeof window !== 'undefined') {
+    window.localStorage.setItem('schoolCoursesViewMode', mode)
+  }
+}
 
 onMounted(async () => {
   const coursesData = await fetchCourses()

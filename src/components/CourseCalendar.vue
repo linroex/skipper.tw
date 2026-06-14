@@ -75,7 +75,7 @@
           type="button"
           @click="openCourse(segment.course)"
           :class="[
-            'absolute z-20 h-7 md:h-8 rounded px-1 text-[9px] md:text-[10px] leading-[10px] md:leading-[11px] cursor-pointer text-left shadow-sm hover:brightness-95 transition',
+            'absolute z-20 h-8 md:h-9 rounded px-1.5 text-[11px] md:text-xs leading-3 md:leading-4 cursor-pointer text-left shadow-sm hover:brightness-95 transition',
             segment.colorClass || getCourseColor(segment.course),
             isPastCourse(segment.course) ? 'opacity-60' : ''
           ]"
@@ -543,12 +543,12 @@ const calendarWeeksWithCourses = computed(() => assignCoursesToWeeks())
 const getSegmentStyle = (segment) => ({
   left: `calc(${segment.startCol} * 100% / 7 + 2px)`,
   width: `calc(${segment.span} * 100% / 7 - 4px)`,
-  top: `${34 + segment.lane * 32}px`
+  top: `${34 + segment.lane * 38}px`
 })
 
 const getWeekStyle = (week) => {
   const maxLane = week.segments.reduce((max, segment) => Math.max(max, segment.lane), -1)
-  const minHeight = Math.max(112, 40 + (maxLane + 1) * 32)
+  const minHeight = Math.max(112, 40 + (maxLane + 1) * 38)
   return { minHeight: `${minHeight}px` }
 }
 
