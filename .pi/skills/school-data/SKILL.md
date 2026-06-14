@@ -1,3 +1,7 @@
+---
+description: 協助在新增課程或活動時，自動同步更新學校資料（schools.json）
+---
+
 # School Data Skill
 
 這個技能協助在新增課程或活動時，自動同步更新學校資料（`schools.json`）。
