@@ -14,11 +14,11 @@
 ## 技術棧
 
 - **前端框架**: Vue.js 3
-- **構建工具**: Vite
+- **構建工具**: Vite + vite-ssg
 - **樣式框架**: Tailwind CSS
 - **路由**: Vue Router
 - **部署**: GitHub Pages
-- **SEO 優化**: ✅ 已實施（Meta Tags、Sitemap、Robots.txt）
+- **SEO 優化**: ✅ 已實施（SSG、Meta Tags、Canonical、Sitemap、Robots.txt）
 
 ## 開發說明
 
@@ -106,6 +106,8 @@ npm run preview
 - **首頁** (/)：展示即將開始的活動和熱門課程
 - **活動頁** (/activities)：所有帆船活動列表，可搜尋和篩選
 - **課程頁** (/courses)：所有帆船課程列表，可搜尋和篩選
+- **學校頁** (/schools)：帆船學校列表
+- **學校詳細頁** (/schools/:id)：單一學校課程與活動資訊
 
 ## 貢獻
 

@@ -1,14 +1,15 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createMemoryHistory, createWebHistory } from 'vue-router'
+import Home from '../views/Home.vue'
 import Activities from '../views/Activities.vue'
 import Courses from '../views/Courses.vue'
 import Schools from '../views/Schools.vue'
 import School from '../views/School.vue'
 
-const routes = [
+export const routes = [
   {
     path: '/',
     name: 'Home',
-    component: Courses
+    component: Home
   },
   {
     path: '/activities',
@@ -33,7 +34,9 @@ const routes = [
 ]
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
+  history: typeof window === 'undefined'
+    ? createMemoryHistory(import.meta.env.BASE_URL)
+    : createWebHistory(import.meta.env.BASE_URL),
   routes
 })
 

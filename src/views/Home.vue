@@ -63,13 +63,12 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue'
-import { useHead } from '@vueuse/head'
-import { fetchActivities, fetchCourses, fetchSchools } from '../utils/api.js'
+import { computed } from 'vue'
+import { useHead } from '@unhead/vue'
+import { getActivities, getCourses, getSchools } from '../utils/data.js'
 import { getLocationOrder, getRegionOrder } from '../utils/location.js'
 import { formatItemDate, parseLocalDate } from '../utils/format.js'
 import ResponsiveTable from '../components/ResponsiveTable.vue'
-
 
 // SEO meta tags
 useHead({
@@ -84,9 +83,9 @@ useHead({
   ]
 })
 
-const upcomingActivities = ref([])
-const featuredCourses = ref([])
-const schools = ref([])
+const activities = getActivities()
+const courses = getCourses()
+const schools = getSchools()
 
 const getType = (typeId) => {
   const typeMap = {
@@ -102,48 +101,44 @@ const parseDate = parseLocalDate
 
 const schoolByUnit = computed(() => {
   const map = new Map()
-  schools.value.forEach(school => map.set(school.name, school))
+  schools.forEach(school => map.set(school.name, school))
   return map
 })
 
 const getSchoolName = (unit) => schoolByUnit.value.get(unit)?.shortName || unit || '-'
 
-onMounted(async () => {
-  const activitiesData = await fetchActivities()
-  const coursesData = await fetchCourses()
-  const schoolsData = await fetchSchools()
-  schools.value = schoolsData.schools
-  
+const getToday = () => {
   const today = new Date()
   today.setHours(0, 0, 0, 0)
-  
-  // 過濾並排序活動（只顯示尚未結束的，按地區→地點→日期排序）
-  const validActivities = activitiesData.activities.filter(activity => {
-    const endDate = parseDate(activity.endDate)
-    endDate.setHours(0, 0, 0, 0)
-    return endDate >= today
-  }).sort((a, b) => {
-    const regionDiff = getRegionOrder(a.region) - getRegionOrder(b.region)
-    if (regionDiff !== 0) return regionDiff
-    const locationDiff = getLocationOrder(a.location) - getLocationOrder(b.location)
-    if (locationDiff !== 0) return locationDiff
-    return parseDate(a.startDate) - parseDate(b.startDate)
-  })
-  
-  // 過濾並排序課程（只顯示尚未結束的，按地區→地點→日期排序）
-  const validCourses = coursesData.courses.filter(course => {
-    const endDate = parseDate(course.endDate)
-    endDate.setHours(0, 0, 0, 0)
-    return endDate >= today
-  }).sort((a, b) => {
-    const regionDiff = getRegionOrder(a.region) - getRegionOrder(b.region)
-    if (regionDiff !== 0) return regionDiff
-    const locationDiff = getLocationOrder(a.location) - getLocationOrder(b.location)
-    if (locationDiff !== 0) return locationDiff
-    return parseDate(a.startDate) - parseDate(b.startDate)
-  })
-  
-  upcomingActivities.value = validActivities.slice(0, 3)
-  featuredCourses.value = validCourses.slice(0, 3)
+  return today
+}
+
+const isUpcoming = (item) => {
+  const endDate = parseDate(item.endDate || item.date || item.startDate)
+  if (!endDate) return false
+  endDate.setHours(0, 0, 0, 0)
+  return endDate >= getToday()
+}
+
+const sortByRegionLocationDate = (a, b) => {
+  const regionDiff = getRegionOrder(a.region) - getRegionOrder(b.region)
+  if (regionDiff !== 0) return regionDiff
+  const locationDiff = getLocationOrder(a.location) - getLocationOrder(b.location)
+  if (locationDiff !== 0) return locationDiff
+  return parseDate(a.startDate) - parseDate(b.startDate)
+}
+
+const upcomingActivities = computed(() => {
+  return activities
+    .filter(isUpcoming)
+    .sort(sortByRegionLocationDate)
+    .slice(0, 3)
+})
+
+const featuredCourses = computed(() => {
+  return courses
+    .filter(isUpcoming)
+    .sort(sortByRegionLocationDate)
+    .slice(0, 3)
 })
 </script>

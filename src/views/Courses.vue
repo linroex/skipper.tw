@@ -161,7 +161,7 @@
 
 <script setup>
 import { ref, computed, onMounted } from 'vue'
-import { useHead } from '@vueuse/head'
+import { useHead } from '@unhead/vue'
 import CourseCalendar from '../components/CourseCalendar.vue'
 
 // SEO meta tags
@@ -171,24 +171,19 @@ useHead({
     { name: 'description', content: '查找台灣各地帆船課程，包括 ASA、IYT、TSA 等認證課程。提供初級、中級、高級帆船課程資訊。' }
   ]
 })
-import { fetchCourses, fetchSchools } from '../utils/api.js'
+import { getCourses, getSchools } from '../utils/data.js'
 import { getLocationOrder } from '../utils/location.js'
 import { formatItemDate, parseLocalDate } from '../utils/format.js'
 import ResponsiveTable from '../components/ResponsiveTable.vue'
 
 
-const courses = ref([])
-const locations = ref([])
-const schools = ref([])
+const courses = ref(getCourses())
+const schools = ref(getSchools())
 const selectedLocation = ref('')
 const selectedMonth = ref('')
 const selectedLevel = ref('')
 const showPastCourses = ref(false)
-const savedViewMode = typeof window !== 'undefined' ? window.localStorage.getItem('coursesViewMode') : null
-const viewMode = ref(savedViewMode === 'calendar' ? 'calendar' : 'list')
-if (viewMode.value === 'calendar') {
-  showPastCourses.value = true
-}
+const viewMode = ref('list')
 
 const parseDate = parseLocalDate
 
@@ -277,6 +272,14 @@ const matchesBasicFilters = (course) => {
   return matchesLocationFilter(course) && matchesMonthFilter(course)
 }
 
+const locations = computed(() => {
+  const locationSet = new Set()
+  courses.value.forEach(course => {
+    if (course.location) locationSet.add(course.location)
+  })
+  return Array.from(locationSet).sort((a, b) => getLocationOrder(a) - getLocationOrder(b))
+})
+
 const courseMonths = computed(() => {
   const monthSet = new Set()
   courses.value
@@ -335,20 +338,12 @@ const clearLocationFilter = () => { selectedLocation.value = '' }
 const clearMonthFilter = () => { selectedMonth.value = '' }
 const clearLevelFilter = () => { selectedLevel.value = '' }
 
-onMounted(async () => {
-  const coursesData = await fetchCourses()
-  const schoolsData = await fetchSchools()
-  
-  courses.value = coursesData.courses
-  schools.value = schoolsData.schools
-  
-  // 動態提取所有獨特縣市
-  const locationSet = new Set()
-  
-  courses.value.forEach(course => {
-    if (course.location) locationSet.add(course.location)
-  })
-  
-  locations.value = Array.from(locationSet).sort((a, b) => getLocationOrder(a) - getLocationOrder(b))
+onMounted(() => {
+  const savedViewMode = window.localStorage.getItem('coursesViewMode')
+  if (savedViewMode === 'calendar') {
+    viewMode.value = 'calendar'
+    showPastCourses.value = true
+  }
 })
+
 </script>

@@ -1,10 +1,18 @@
-import { createApp } from 'vue'
+import { ViteSSG } from 'vite-ssg'
 import App from './App.vue'
-import router from './router'
+import { routes } from './router'
+import { getSchools } from './utils/data.js'
 
-const app = createApp(App)
-app.use(router)
+export const createApp = ViteSSG(
+  App,
+  {
+    routes,
+    base: import.meta.env.BASE_URL
+  }
+)
 
-router.isReady().then(() => {
-  app.mount('#app')
-})
+export const includedRoutes = (paths) => {
+  const staticPaths = paths.filter(path => !path.includes(':'))
+  const schoolPaths = getSchools().map(school => `/schools/${school.id}`)
+  return [...new Set([...staticPaths, ...schoolPaths])]
+}

@@ -1,10 +1,6 @@
 <template>
   <div>
-    <div v-if="loading" class="text-center py-12 text-gray-500">
-      載入中...
-    </div>
-
-    <div v-else-if="school" class="space-y-6">
+    <div v-if="school" class="space-y-6">
       <!-- 學校資訊 -->
       <div class="bg-white rounded-lg shadow-md p-6">
         <div class="flex items-center gap-3 mb-4">
@@ -214,11 +210,10 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, watchEffect } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
-import { fetchCourses } from '../utils/api.js'
-import { fetchActivities } from '../utils/api.js'
-import { fetchSchools } from '../utils/api.js'
+import { useHead } from '@unhead/vue'
+import { getActivities, getCourses, getSchools } from '../utils/data.js'
 import { getLocationOrder, getRegionOrder } from '../utils/location.js'
 import { formatItemDate, parseLocalDate } from '../utils/format.js'
 import ResponsiveTable from '../components/ResponsiveTable.vue'
@@ -226,16 +221,13 @@ import CourseCalendar from '../components/CourseCalendar.vue'
 
 
 const route = useRoute()
-const loading = ref(true)
-const school = ref(null)
-const courses = ref([])
-const activities = ref([])
-const schools = ref([])
-const schoolDataMap = ref(new Map())
+const courses = ref(getCourses())
+const activities = ref(getActivities())
+const schools = ref(getSchools())
+const schoolDataMap = new Map(schools.value.map(schoolInfo => [schoolInfo.id, schoolInfo]))
 const selectedCert = ref('')
 const selectedLevel = ref('')
-const savedViewMode = typeof window !== 'undefined' ? window.localStorage.getItem('schoolCoursesViewMode') : null
-const viewMode = ref(savedViewMode === 'calendar' ? 'calendar' : 'list')
+const viewMode = ref('list')
 
 const parseDate = parseLocalDate
 
@@ -258,7 +250,7 @@ const schoolData = computed(() => {
   today.setHours(0, 0, 0, 0)
   
   // 根據學校 ID 找到學校資料
-  const schoolInfo = schoolDataMap.value.get(schoolId)
+  const schoolInfo = schoolDataMap.get(schoolId)
   if (!schoolInfo) return null
   
   const schoolName = schoolInfo.name
@@ -312,6 +304,25 @@ const schoolData = computed(() => {
     description: schoolInfo.description || `${schoolName} - 提供多樣化的帆船課程與活動`
   }
 })
+
+const school = computed(() => schoolData.value)
+
+useHead(computed(() => {
+  const currentSchool = schoolData.value
+  const title = currentSchool
+    ? `${currentSchool.name} 帆船課程與活動 - skipper.tw`
+    : '帆船學校資料 - skipper.tw'
+  const description = currentSchool
+    ? `${currentSchool.name} 提供 ${currentSchool.certs.join('、')} 等帆船課程與活動，服務地區包含 ${currentSchool.locations.join('、')}。`
+    : '查看台灣帆船學校的課程、活動、認證與服務地區資訊。'
+
+  return {
+    title,
+    meta: [
+      { name: 'description', content: description }
+    ]
+  }
+}))
 
 // 學校的認證列表
 const schoolCerts = computed(() => {
@@ -412,28 +423,10 @@ const setViewMode = (mode) => {
   }
 }
 
-onMounted(async () => {
-  const coursesData = await fetchCourses()
-  const activitiesData = await fetchActivities()
-  const schoolsData = await fetchSchools()
-
-  courses.value = coursesData.courses
-  activities.value = activitiesData.activities
-  schools.value = schoolsData.schools
-
-  // 建立學校 ID 到學校資料的映射
-  schoolDataMap.value = new Map()
-  schools.value.forEach(school => {
-    schoolDataMap.value.set(school.id, school)
-  })
-
-  school.value = schoolData.value
-  loading.value = false
-})
-
-watchEffect(() => {
-  if (!loading.value) {
-    school.value = schoolData.value
+onMounted(() => {
+  const savedViewMode = window.localStorage.getItem('schoolCoursesViewMode')
+  if (savedViewMode === 'calendar') {
+    viewMode.value = 'calendar'
   }
 })
 </script>

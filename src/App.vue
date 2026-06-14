@@ -5,7 +5,7 @@
         <div class="flex justify-between items-center h-16">
           <router-link to="/" class="text-2xl font-bold text-primary">skipper.tw</router-link>
           <div class="flex space-x-4">
-            <router-link to="/" class="text-gray-700 hover:text-primary">課程</router-link>
+            <router-link to="/courses" class="text-gray-700 hover:text-primary">課程</router-link>
             <router-link to="/schools" class="text-gray-700 hover:text-primary">學校</router-link>
           </div>
         </div>
@@ -25,14 +25,31 @@
 </template>
 
 <script setup>
-import { useHead } from '@vueuse/head'
+import { computed } from 'vue'
+import { useRoute } from 'vue-router'
+import { useHead } from '@unhead/vue'
+
+const siteUrl = 'https://skipper.tw'
+const route = useRoute()
 
 // Global SEO settings
-useHead({
-  titleTemplate: (titleChunk) => {
-    return titleChunk ? `${titleChunk} - skipper.tw` : 'skipper.tw'
+useHead(computed(() => {
+  const canonicalPath = route.path === '/' ? '/' : `${route.path.replace(/\/$/, '')}/`
+  const canonicalUrl = `${siteUrl}${canonicalPath}`
+  return {
+    titleTemplate: (titleChunk) => {
+      if (!titleChunk) return 'skipper.tw'
+      return titleChunk.includes('skipper.tw') ? titleChunk : `${titleChunk} - skipper.tw`
+    },
+    link: [
+      { rel: 'canonical', href: canonicalUrl }
+    ],
+    meta: [
+      { property: 'og:url', content: canonicalUrl },
+      { property: 'og:site_name', content: 'skipper.tw' }
+    ]
   }
-})
+}))
 </script>
 
 <style>
