@@ -98,8 +98,8 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue'
-import { useHead } from '@vueuse/head'
+import { ref, computed } from 'vue'
+import { useHead } from '@unhead/vue'
 
 // SEO meta tags
 useHead({
@@ -108,14 +108,13 @@ useHead({
     { name: 'description', content: '查找台灣各地帆船體驗課程、競賽、營隊、講座等活動資訊。可依照地區、類型篩選。' }
   ]
 })
-import { fetchActivities, fetchTypes } from '../utils/api.js'
+import { getActivities, getTypes } from '../utils/data.js'
 import { getLocationOrder, getRegionOrder } from '../utils/location.js'
 import { formatItemDate, parseLocalDate } from '../utils/format.js'
 import ResponsiveTable from '../components/ResponsiveTable.vue'
 
-const activities = ref([])
-const locations = ref([])
-const types = ref([])
+const activities = ref(getActivities())
+const types = ref(getTypes())
 const search = ref('')
 const selectedLocation = ref('')
 const selectedType = ref('')
@@ -149,6 +148,14 @@ const isPastActivity = (activity) => {
 }
 
 const getActivityRowClass = (activity) => isPastActivity(activity) ? 'opacity-60' : ''
+
+const locations = computed(() => {
+  const locationSet = new Set()
+  activities.value.forEach(activity => {
+    if (activity.location) locationSet.add(activity.location)
+  })
+  return Array.from(locationSet).sort((a, b) => getLocationOrder(a) - getLocationOrder(b))
+})
 
 const filteredActivities = computed(() => {
   return activities.value.filter(activity => {
@@ -190,18 +197,4 @@ const getType = (typeId) => {
 const clearLocationFilter = () => { selectedLocation.value = '' }
 const clearTypeFilter = () => { selectedType.value = '' }
 
-onMounted(async () => {
-  const activitiesData = await fetchActivities()
-  const typesData = await fetchTypes()
-  
-  activities.value = activitiesData.activities
-  types.value = typesData.types
-  
-  // 動態提取所有獨特縣市
-  const locationSet = new Set()
-  activities.value.forEach(activity => {
-    if (activity.location) locationSet.add(activity.location)
-  })
-  locations.value = Array.from(locationSet).sort((a, b) => getLocationOrder(a) - getLocationOrder(b))
-})
 </script>

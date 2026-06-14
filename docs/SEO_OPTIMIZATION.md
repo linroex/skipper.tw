@@ -1,123 +1,89 @@
-# SEO 優化說明
+# SEO / SSG 優化說明
 
 ## 概述
 
-skipper.tw 是一個 Vue.js SPA（單頁應用），部署在 GitHub Pages 上。為了確保搜尋引擎能正確抓取網站內容，已實施以下 SEO 優化策略：
+skipper.tw 已從 Vue SPA 改為 **Vue 3 + Vite SSG**。網站仍部署在 GitHub Pages，但建置時會預先產生各主要路由的 HTML，讓搜尋引擎與社群分享工具可以直接讀到頁面內容、標題與描述。
 
 ## 技術架構
 
-- **架構類型**: Vue.js 3 SPA (Client-Side Rendering)
-- **部署平台**: GitHub Pages（純靜態托管）
-- **SEO 策略**: 
-  - 基礎 HTML meta tags（靜態）
-  - 搜尋引擎 JavaScript 渲染（Google、Bing 等現代爬蟲）
-  - Sitemap.xml
-  - Robots.txt
+- **架構類型**: Static Site Generation（SSG）+ client-side hydration
+- **SSG 工具**: vite-ssg
+- **Head 管理**: @unhead/vue
+- **部署平台**: GitHub Pages
+- **資料來源**: `public/data/*.json`，建置時由 `src/utils/data.js` 匯入
 
 ## 已實施的優化
 
-### 1. 基礎 Meta Tags
-在 `index.html` 中設置了靜態的 SEO meta tags：
-- 頁面標題（title）
-- 描述（description）
-- 關鍵字（keywords）
-- Open Graph 標籤（og:title, og:description, og:type）
-- Twitter Card 標籤
-- Robots 指令（index, follow）
-- Sitemap 連結
+### 1. 靜態 HTML 輸出
+
+`npm run build` 會產出巢狀靜態頁面，例如：
+
+- `/`
+- `/courses/`
+- `/activities/`
+- `/schools/`
+- `/schools/tms/`
+- `/schools/dawnlightocean/`
+- `/schools/seedmarine/`
+- `/schools/lohas/`
+- `/schools/sailwithalwayssunshine/`
 
 ### 2. 頁面級 SEO
-每個路由頁面使用 `@vueuse/head` 動態設置 SEO：
 
-#### 首頁 (/)
-- 標題：`skipper.tw - 台灣帆船活動與課程資訊公告平台`
-- 描述：台灣帆船活動、課程、體驗、競賽資訊平台
+每個主要頁面使用 `@unhead/vue` 在 SSG 階段輸出 head：
 
-#### 活動頁 (/activities)
-- 標題：`帆船活動列表 - skipper.tw`
-- 描述：查找台灣各地帆船體驗課程、競賽、營隊、講座等活動資訊
+- title
+- description
+- keywords（首頁）
+- canonical URL
+- Open Graph URL / site name
 
-#### 課程頁 (/courses)
-- 標題：`帆船課程列表 - skipper.tw`
-- 描述：查找台灣各地帆船課程，包括 ASA、IYT、TSA 等認證課程
+### 3. Sitemap 自動產生
 
-### 3. Sitemap
-已建立 `sitemap.xml`，包含所有主要頁面：
-- `/` - 首頁
-- `/activities` - 活動列表
-- `/courses` - 課程列表
-- `/schools` - 學校列表
+`npm run build` 會執行 `scripts/generate-sitemap.mjs`，自動輸出 `dist/sitemap.xml`，包含所有靜態頁與學校詳細頁。
 
-### 4. Robots.txt
-已建立 `robots.txt`，允許所有搜尋引擎爬取網站：
+### 4. GitHub Pages 自動重建
+
+`.github/workflows/deploy.yml` 支援：
+
+- push 到 `master` 時部署
+- manual workflow dispatch
+- 每日排程重建
+
+每日重建很重要，因為課程與活動列表會根據「今天」過濾已結束項目；SSG 的 HTML 是建置當下的內容快照。
+
+## 注意事項
+
+### 日期敏感內容
+
+課程與活動會依建置日期產生靜態 HTML。若資料或日期變化但沒有重新 build，搜尋引擎看到的內容可能不是最新狀態。因此需保留每日 GitHub Actions rebuild。
+
+### client-side hydration
+
+SSG 產出的 HTML 仍會在瀏覽器端 hydrate，以支援篩選、行事曆切換、localStorage 記憶檢視模式等互動功能。
+
+### Sitemap 來源
+
+`public/sitemap.xml` 不再使用；sitemap 由 build script 產生到 `dist/sitemap.xml`。
+
+## 測試方式
+
+```bash
+npm run build
+npm run preview
 ```
-User-agent: *
-Allow: /
 
-Sitemap: https://skipper.tw/sitemap.xml
-```
+建議檢查：
 
-## 搜尋引擎兼容性
+- `dist/index.html` 內有首頁內容與正確 title
+- `dist/courses/index.html` 內有課程名稱
+- `dist/schools/{id}/index.html` 內有學校名稱與課程內容
+- `dist/sitemap.xml` 包含所有學校頁
+- preview 中 `/courses/`、`/schools/`、`/schools/tms/` 可正常開啟
 
-### Google
-✅ **完全支援**
-- Google 能夠執行 JavaScript
-- Google 能夠渲染 Vue.js SPA
-- 建議使用 [Google Search Console](https://search.google.com/search-console) 提交網站
+## 後續可優化
 
-### Bing
-✅ **完全支援**
-- Bing 能夠執行 JavaScript
-- Bing 能夠渲染 Vue.js SPA
-
-### 其他搜尋引擎
-⚠️ **部分支援**
-- 部分小型搜尋引擎可能無法執行 JavaScript
-- 建議使用 [Prerender.io](https://prerender.io/) 服務進行 SEO 優化（可選）
-
-## 建議的後續優化
-
-### 1. 提交網站給搜尋引擎
-- [Google Search Console](https://search.google.com/search-console)
-- [Bing Webmaster Tools](https://www.bing.com/webmasters)
-
-### 2. 監控 SEO 表現
-- 使用 Google Search Console 查看索引狀態
-- 使用 Google Analytics 追蹤網站流量
-- 監控關鍵字排名
-
-### 3. 內容優化
-- 定期更新活動和課程資訊
-- 優化頁面內容，增加關鍵字密度
-- 增加內部連結結構
-
-### 4. 性能優化
-- 使用 [PageSpeed Insights](https://pagespeed.web.dev/) 檢查網站性能
-- 優化圖片大小
-- 使用 CDN 加速資源載入
-
-### 5. 考慮 SSR/SSG（可選）
-如果 SEO 需求較高，可考慮：
-- 使用 **Nuxt.js**（Vue 3 的 SSR/SSG 框架）
-- 使用 **VitePress**（靜態網站生成器）
-- 使用 **Prerender.io** 服務
-
-## 測試工具
-
-### 1. SEO 檢查
-- [Google Rich Results Test](https://search.google.com/test/rich-results)
-- [Schema.org Validator](https://validator.schema.org/)
-- [SEO Site Check](https://www.seositecheckup.com/)
-
-### 2. 結構化資料
-- [Google Structured Data Testing Tool](https://search.google.com/test structured-data)
-
-## 版本資訊
-
-- **優化日期**: 2026-06-11
-- **優化版本**: 1.0.0
-- **技術棧**: Vue.js 3 + Vite + Tailwind CSS
-
----
-
-*此文件供維護者參考，確保網站 SEO 持續優化。*
+- 加入 JSON-LD 結構化資料
+- 增加每門課程的獨立頁面
+- 增加 Open Graph 圖片
+- 在 Google Search Console 送出 sitemap

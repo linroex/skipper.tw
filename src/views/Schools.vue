@@ -55,21 +55,34 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
-import { fetchCourses } from '../utils/api.js'
-import { fetchActivities } from '../utils/api.js'
-import { fetchSchools } from '../utils/api.js'
+import { useHead } from '@unhead/vue'
+import { getActivities, getCourses, getSchools } from '../utils/data.js'
 import { getLocationOrder, getRegionOrder } from '../utils/location.js'
 import { parseLocalDate } from '../utils/format.js'
 
+useHead({
+  title: '台灣帆船學校列表 - skipper.tw',
+  meta: [
+    { name: 'description', content: '整理台灣帆船學校與訓練中心，提供 ASA、IYT、TSA 等認證課程、服務地區與官方網站資訊。' }
+  ]
+})
+
 const router = useRouter()
-const courses = ref([])
-const activities = ref([])
-const schools = ref([])
-const schoolDataByUnit = ref(new Map())
+const courses = ref(getCourses())
+const activities = ref(getActivities())
+const schools = ref(getSchools())
 
 const parseDate = parseLocalDate
+
+const schoolDataByUnit = computed(() => {
+  const map = new Map()
+  schools.value.forEach(school => {
+    map.set(school.name, school)
+  })
+  return map
+})
 
 const schoolsWithStats = computed(() => {
   const today = new Date()
@@ -191,20 +204,4 @@ const goToSchool = (schoolId) => {
   })
 }
 
-onMounted(async () => {
-  const coursesData = await fetchCourses()
-  const activitiesData = await fetchActivities()
-  const schoolsData = await fetchSchools()
-
-  courses.value = coursesData.courses
-  activities.value = activitiesData.activities
-  schools.value = schoolsData.schools
-
-  // 建立單位名稱到學校 ID 的映射
-  const map = new Map()
-  schools.value.forEach(school => {
-    map.set(school.name, school)
-  })
-  schoolDataByUnit.value = map
-})
 </script>
