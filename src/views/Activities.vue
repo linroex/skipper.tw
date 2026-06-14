@@ -36,9 +36,22 @@
         </div>
       </div>
 
-      <!-- 參加對象 + 過去活動 -->
+      <!-- 排程類型 + 參加對象 + 過去活動 -->
       <div class="overflow-x-auto whitespace-nowrap -mx-4 px-4 pb-1">
         <div class="flex gap-2 inline-flex">
+          <button
+            @click="selectedSchedule = ''"
+            :class="pillClass(!selectedSchedule, 'accent')"
+          >全部排程</button>
+          <button
+            @click="selectedSchedule = 'scheduled'"
+            :class="pillClass(selectedSchedule === 'scheduled', 'accent')"
+          >固定日期</button>
+          <button
+            @click="selectedSchedule = 'flexible'"
+            :class="pillClass(selectedSchedule === 'flexible', 'accent')"
+          >隨時揪團</button>
+          <span class="w-px bg-gray-300 self-stretch mx-1"></span>
           <button
             @click="selectedAudience = ''"
             :class="pillClass(!selectedAudience, 'accent')"
@@ -51,6 +64,7 @@
             @click="selectedAudience = 'members'"
             :class="pillClass(selectedAudience === 'members', 'accent')"
           >學員專屬</button>
+          <span class="w-px bg-gray-300 self-stretch mx-1"></span>
           <button
             @click="showPast = !showPast"
             :class="pillClass(showPast, 'gray')"
@@ -139,6 +153,7 @@ const selectedRegion = ref('')
 const selectedType = ref('')
 const selectedAudience = ref('')
 const selectedUnit = ref('')
+const selectedSchedule = ref('')
 const showPast = ref(false)
 
 const schoolByUnit = computed(() => {
@@ -198,18 +213,20 @@ const sortByRegionLocationDate = (a, b) => {
 const filtered = computed(() => activities.value.filter(matchesFilters))
 
 // 固定日期 / 多梯次活動：預設只顯示尚未結束
-const scheduledActivities = computed(() =>
-  filtered.value
+const scheduledActivities = computed(() => {
+  if (selectedSchedule.value === 'flexible') return []
+  return filtered.value
     .filter(a => !isFlexible(a))
     .filter(a => showPast.value || isUpcomingActivity(a))
     .sort(sortByRegionLocationDate)
-)
+})
 
 // 揪團成行活動：只要在開放區間內就顯示
-const flexibleActivities = computed(() =>
-  filtered.value
+const flexibleActivities = computed(() => {
+  if (selectedSchedule.value === 'scheduled') return []
+  return filtered.value
     .filter(a => isFlexible(a))
     .filter(a => showPast.value || isUpcomingActivity(a))
     .sort(sortByRegionLocationDate)
-)
+})
 </script>
