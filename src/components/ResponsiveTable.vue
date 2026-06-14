@@ -11,7 +11,11 @@
           </tr>
         </thead>
         <tbody class="divide-y divide-gray-200">
-          <tr v-for="item in items" :key="item.id" class="hover:bg-gray-50">
+          <tr
+            v-for="item in items"
+            :key="item.id"
+            :class="['hover:bg-gray-50', getRowClass(item)]"
+          >
             <td v-if="headerExtra?.render" class="px-6 py-4 whitespace-nowrap text-sm font-bold text-sky-500">
               {{ headerExtra.render(item) }}
             </td>
@@ -35,7 +39,11 @@
     
     <!-- 手機版卡片列表 (隱藏在桌面) -->
     <div class="md:hidden space-y-4 p-4">
-      <div v-for="item in items" :key="item.id" class="bg-gray-50 rounded-lg p-4 border border-gray-200">
+      <div
+        v-for="item in items"
+        :key="item.id"
+        :class="['bg-gray-50 rounded-lg p-4 border border-gray-200', getRowClass(item)]"
+      >
         <!-- 頂部資訊（日期和標籤） -->
         <div v-if="headerExtra" class="flex justify-between items-start mb-2">
           <span class="text-sm font-bold text-sky-500">{{ headerExtra.render(item) }}</span>
@@ -97,6 +105,14 @@ const props = defineProps({
   emptyMessage: {
     type: String,
     default: ''
+  },
+  rowClass: {
+    type: [String, Function],
+    default: ''
   }
 })
+
+const getRowClass = (item) => {
+  return typeof props.rowClass === 'function' ? props.rowClass(item) : props.rowClass
+}
 </script>

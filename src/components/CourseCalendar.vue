@@ -1,19 +1,21 @@
 <template>
   <div class="bg-white rounded-lg shadow overflow-hidden">
-    <!-- Header with month navigation -->
+    <!-- Header with week navigation -->
     <div class="flex items-center justify-between px-4 py-3 border-b bg-gray-50">
       <button
-        @click="prevMonth"
+        @click="prevWeek"
         class="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-gray-200 transition text-gray-600 text-xl font-light"
+        title="上一個月"
       >
         ‹
       </button>
       <h2 class="text-base font-bold text-gray-800">
-        {{ currentYear }} 年 {{ currentMonth + 1 }} 月
+        {{ dateRangeText }}
       </h2>
       <button
-        @click="nextMonth"
+        @click="nextWeek"
         class="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-gray-200 transition text-gray-600 text-xl font-light"
+        title="下一個月"
       >
         ›
       </button>
@@ -36,27 +38,33 @@
     <!-- Calendar grid -->
     <div class="border-l border-t">
       <div
-        v-for="(week, weekIndex) in calendarWeeks"
+        v-for="(week, weekIndex) in calendarWeeksWithCourses"
         :key="weekIndex"
         class="relative grid grid-cols-7"
         :style="getWeekStyle(week)"
+        :class="week.isOutsideMainView ? 'bg-gray-50/50' : ''"
       >
         <div
           v-for="cell in week.cells"
-          :key="`${weekIndex}-${cell.day ?? cell.placeholderIndex}`"
-          class="border-r border-b p-1"
-          :class="cell.day ? '' : 'bg-gray-50'"
+          :key="`${weekIndex}-${cell.dateKey}`"
+          :class="[
+            'border-r border-b p-1 relative z-10',
+            cell.isCurrentMonth ? '' : 'bg-gray-50/70',
+            cell.isMonthBoundary ? 'border-l-4 border-l-gray-400' : ''
+          ]"
         >
-          <div v-if="cell.day" class="flex justify-center">
+          <div v-if="cell.date" class="flex justify-center">
             <span
               :class="[
-                'w-6 h-6 flex items-center justify-center text-xs font-medium rounded-full',
-                isToday(cell.day)
+                'min-w-6 h-6 px-1 flex items-center justify-center text-xs font-medium rounded-full',
+                isToday(cell.date)
                   ? 'bg-primary text-white'
-                  : 'text-gray-600'
+                  : cell.isCurrentMonth
+                  ? 'text-gray-600'
+                  : 'text-gray-400'
               ]"
             >
-              {{ cell.day }}
+              {{ getCellDateLabel(cell) }}
             </span>
           </div>
         </div>
@@ -67,20 +75,24 @@
           type="button"
           @click="openCourse(segment.course)"
           :class="[
-            'absolute h-5 md:h-6 rounded px-1 text-[10px] md:text-xs leading-5 md:leading-6 cursor-pointer truncate text-left shadow-sm hover:brightness-95 transition',
-            getCourseColor(segment.course)
+            'absolute z-20 h-7 md:h-8 rounded px-1 text-[9px] md:text-[10px] leading-[10px] md:leading-[11px] cursor-pointer text-left shadow-sm hover:brightness-95 transition',
+            segment.colorClass || getCourseColor(segment.course),
+            isPastCourse(segment.course) ? 'opacity-60' : ''
           ]"
           :style="getSegmentStyle(segment)"
-          :title="`${shortTitle(segment.course)} ${segment.course.title}`"
+          :title="fullCourseInfo(segment.course)"
         >
-          {{ shortTitle(segment.course) }}
+          <div class="flex flex-col gap-0.5">
+            <span class="font-bold truncate">{{ shortTitle(segment.course) }}</span>
+            <span class="truncate">{{ getSchoolShortName(segment.course.unit) }} · {{ segment.course.location }}</span>
+          </div>
         </button>
       </div>
     </div>
 
-    <!-- Empty state for this month -->
-    <div v-if="hasNoCoursesThisMonth" class="py-8 text-center text-sm text-gray-400">
-      本月沒有符合條件的課程
+    <!-- Empty state -->
+    <div v-if="hasNoCoursesInView" class="py-8 text-center text-sm text-gray-400">
+      此範圍內沒有符合條件的課程
     </div>
 
     <!-- Course detail modal -->
@@ -145,129 +157,201 @@ const props = defineProps({
 })
 
 const today = new Date()
-const currentYear = ref(today.getFullYear())
-const currentMonth = ref(today.getMonth())
+today.setHours(0, 0, 0, 0)
+const dayMs = 24 * 60 * 60 * 1000
+
+// 獲取某日期的週一
+const getMondayOfWeek = (date) => {
+  const d = new Date(date)
+  const day = d.getDay()
+  d.setDate(d.getDate() - ((day + 6) % 7))
+  d.setHours(0, 0, 0, 0)
+  return d
+}
+
+// 目前焦點日期；左右切換仍以週為單位
+const focusedDate = ref(new Date(today))
 const selectedCourse = ref(null)
 
-const prevMonth = () => {
-  if (currentMonth.value === 0) {
-    currentMonth.value = 11
-    currentYear.value--
-  } else {
-    currentMonth.value--
-  }
+const focusedMonthStart = computed(() => new Date(focusedDate.value.getFullYear(), focusedDate.value.getMonth(), 1))
+const focusedMonthEnd = computed(() => new Date(focusedDate.value.getFullYear(), focusedDate.value.getMonth() + 1, 0))
+
+const isPastRange = (start, end) => end < today
+
+const monthCalendarStart = computed(() => getMondayOfWeek(focusedMonthStart.value))
+const monthCalendarEnd = computed(() => {
+  const end = getMondayOfWeek(focusedMonthEnd.value)
+  end.setDate(end.getDate() + 6)
+  return end
+})
+
+const shouldShowLeadingWeek = computed(() => {
+  const leadingStart = new Date(monthCalendarStart.value)
+  leadingStart.setDate(leadingStart.getDate() - 7)
+  const leadingEnd = new Date(monthCalendarStart.value)
+  leadingEnd.setDate(leadingEnd.getDate() - 1)
+  return !isPastRange(leadingStart, leadingEnd)
+})
+
+const shouldShowTrailingWeek = computed(() => {
+  const trailingStart = new Date(monthCalendarEnd.value)
+  trailingStart.setDate(trailingStart.getDate() + 1)
+  const trailingEnd = new Date(monthCalendarEnd.value)
+  trailingEnd.setDate(trailingEnd.getDate() + 7)
+  return !isPastRange(trailingStart, trailingEnd)
+})
+
+// 顯示範圍：當月完整月曆週 + 尚未完全過去的前後輔助週
+const currentWeekStart = computed(() => {
+  const start = new Date(monthCalendarStart.value)
+  if (shouldShowLeadingWeek.value) start.setDate(start.getDate() - 7)
+  return start
+})
+
+const displayEndDate = computed(() => {
+  const end = new Date(monthCalendarEnd.value)
+  if (shouldShowTrailingWeek.value) end.setDate(end.getDate() + 7)
+  return end
+})
+
+const visibleWeeksCount = computed(() => Math.floor((displayEndDate.value - currentWeekStart.value) / (7 * dayMs)) + 1)
+
+// 導航：上一個月
+const prevWeek = () => {
+  focusedDate.value = new Date(
+    focusedDate.value.getFullYear(),
+    focusedDate.value.getMonth() - 1,
+    1
+  )
 }
 
-const nextMonth = () => {
-  if (currentMonth.value === 11) {
-    currentMonth.value = 0
-    currentYear.value++
-  } else {
-    currentMonth.value++
-  }
+// 導航：下一個月
+const nextWeek = () => {
+  focusedDate.value = new Date(
+    focusedDate.value.getFullYear(),
+    focusedDate.value.getMonth() + 1,
+    1
+  )
 }
 
-const isToday = (day) =>
-  day === today.getDate() &&
-  currentMonth.value === today.getMonth() &&
-  currentYear.value === today.getFullYear()
+// 跳到今天
+const jumpToToday = () => {
+  focusedDate.value = new Date()
+}
+
+// 日期範圍文字（標題）
+const dateRangeText = computed(() => {
+  return `${focusedDate.value.getFullYear()}年 ${focusedDate.value.getMonth() + 1} 月`
+})
+
+// 判斷是否是今天
+const isToday = (date) =>
+  date.getDate() === today.getDate() &&
+  date.getMonth() === today.getMonth() &&
+  date.getFullYear() === today.getFullYear()
+
+// 判斷是否為焦點月份（用於淡色處理）
+const isCurrentMonth = (date) => {
+  return date.getMonth() === focusedDate.value.getMonth() &&
+    date.getFullYear() === focusedDate.value.getFullYear()
+}
+
+// 獲取主要視圖的起始日期（焦點月份第一天）
+const getMainViewStart = () => new Date(focusedMonthStart.value)
+
+// 獲取主要視圖的結束日期（焦點月份最後一天）
+const getMainViewEnd = () => new Date(focusedMonthEnd.value)
 
 const openCourse = (course) => { selectedCourse.value = course }
 
-// 17 種高對比度、容易區分的配色方案
-// 使用鮮豔背景 + 深色文字，確保每個顏色都很容易分辨
+const isPastCourse = (course) => {
+  const endDate = parseLocalDate(course.endDate || course.startDate)
+  if (!endDate) return false
+  endDate.setHours(0, 0, 0, 0)
+  return endDate < today
+}
+
+// 高對比度配色，順序刻意錯開色相，避免相鄰課程看起來太像
 const courseColors = [
-  // 紅色系 - 溫暖鮮明
-  'bg-red-500 text-white hover:bg-red-600',         // 鮮紅
-  'bg-rose-500 text-white hover:bg-rose-600',       // 玫紅
-  
-  // 橙色系 - 明亮溫暖
-  'bg-orange-500 text-white hover:bg-orange-600',   // 亮橙
-  'bg-amber-500 text-white hover:bg-amber-600',     // 琥珀
-  
-  // 黃色系 - 最明亮
-  'bg-yellow-400 text-yellow-900 hover:bg-yellow-500', // 金黃
-  
-  // 綠色系 - 清新自然
-  'bg-green-500 text-white hover:bg-green-600',     // 翠綠
-  'bg-lime-500 text-white hover:bg-lime-600',       // 酸橙綠
-  
-  // 藍綠色系 - 沉穩
-  'bg-teal-500 text-white hover:bg-teal-600',       // 青色
-  
-  // 藍色系 - 冷靜專業
-  'bg-cyan-500 text-white hover:bg-cyan-600',       // 天藍
-  'bg-sky-500 text-white hover:bg-sky-600',         // 天空藍
-  'bg-blue-500 text-white hover:bg-blue-600',       // 寶藍
-  
-  // 紫色系 - 優雅神秘
-  'bg-indigo-500 text-white hover:bg-indigo-600',   // 靛藍
-  'bg-violet-500 text-white hover:bg-violet-600',   // 紫羅蘭
-  'bg-purple-500 text-white hover:bg-purple-600',   // 紫色
-  
-  // 粉紅色系 - 溫柔活潑
-  'bg-fuchsia-500 text-white hover:bg-fuchsia-600', // 洋紅
-  'bg-pink-500 text-white hover:bg-pink-600',       // 粉紅
-  
-  // 灰色系 - 中性百搭
-  'bg-gray-500 text-white hover:bg-gray-600',       // 灰色
+  'bg-red-500 text-white hover:bg-red-600',
+  'bg-blue-500 text-white hover:bg-blue-600',
+  'bg-green-500 text-white hover:bg-green-600',
+  'bg-purple-500 text-white hover:bg-purple-600',
+  'bg-orange-500 text-white hover:bg-orange-600',
+  'bg-teal-500 text-white hover:bg-teal-600',
+  'bg-pink-500 text-white hover:bg-pink-600',
+  'bg-indigo-500 text-white hover:bg-indigo-600',
+  'bg-yellow-400 text-yellow-900 hover:bg-yellow-500',
+  'bg-cyan-500 text-white hover:bg-cyan-600',
+  'bg-rose-500 text-white hover:bg-rose-600',
+  'bg-lime-500 text-white hover:bg-lime-600',
+  'bg-violet-500 text-white hover:bg-violet-600',
+  'bg-amber-500 text-white hover:bg-amber-600',
+  'bg-sky-500 text-white hover:bg-sky-600',
+  'bg-fuchsia-500 text-white hover:bg-fuchsia-600',
+  'bg-gray-500 text-white hover:bg-gray-600',
 ]
 
-// 使用 Map 來追蹤課程顏色分配，確保每個獨特課程都有獨立顏色
-const courseColorCache = new Map()
+const courseColorIndexCache = new Map()
 
-// 獲取課程的顏色
-// 使用 學校 + 標題 + 日期 組合，確保不同學校的相同課程使用不同顏色
-const getCourseColor = (course) => {
-  const courseKey = `${course.unit}|${course.title}|${course.startDate}|${course.endDate}`
-  
-  if (courseColorCache.has(courseKey)) {
-    return courseColorCache.get(courseKey)
-  }
-  
-  // 計算課程的穩定索引
+const getCourseColorKey = (course) => `${course.unit}|${course.title}|${course.startDate}|${course.endDate}`
+
+const getCourseColorIndex = (course) => {
+  const courseKey = getCourseColorKey(course)
+  if (courseColorIndexCache.has(courseKey)) return courseColorIndexCache.get(courseKey)
+
   let hash = 0
   for (let i = 0; i < courseKey.length; i++) {
     hash = ((hash << 5) - hash) + courseKey.charCodeAt(i)
     hash = hash & hash
   }
-  const baseIndex = Math.abs(hash) % courseColors.length
-  
-  // 找到第一個可用的顏色（避免衝突）
-  let color = courseColors[baseIndex]
-  let attempts = 0
-  const maxAttempts = courseColors.length
-  
-  while (Array.from(courseColorCache.values()).includes(color) && attempts < maxAttempts) {
-    attempts++
-    const nextIndex = (baseIndex + attempts) % courseColors.length
-    color = courseColors[nextIndex]
-  }
-  
-  // 確保顏色沒有被使用過，如果有，循環到下一個
-  const usedColors = Array.from(courseColorCache.values())
-  if (usedColors.includes(color)) {
-    console.warn(`警告：課程衝突，使用預設顏色 ${courseColors[0]}`)
-    color = courseColors[0]
-  }
-  
-  courseColorCache.set(courseKey, color)
-  return color
+
+  const colorIndex = Math.abs(hash) % courseColors.length
+  courseColorIndexCache.set(courseKey, colorIndex)
+  return colorIndex
 }
 
-// 縮短課程名稱
+const getCourseColor = (course) => courseColors[getCourseColorIndex(course)]
+
+const rangesOverlap = (aStart, aSpan, bStart, bSpan) => {
+  return aStart < bStart + bSpan && aStart + aSpan > bStart
+}
+
+const chooseSegmentColorIndex = (course, overlappingSegments) => {
+  const baseIndex = getCourseColorIndex(course)
+  const usedIndexes = new Set(overlappingSegments.map(segment => segment.colorIndex).filter(index => index !== undefined))
+
+  if (!usedIndexes.has(baseIndex)) return baseIndex
+
+  for (let offset = 1; offset < courseColors.length; offset++) {
+    const candidateIndex = (baseIndex + offset) % courseColors.length
+    if (!usedIndexes.has(candidateIndex)) return candidateIndex
+  }
+
+  return baseIndex
+}
+
 const shortTitle = (course) => {
   const match = course.title?.match(/ASA\s*\d{2,3}|IYT\s*\d{2,3}/i)
   if (match) {
     return match[0].replace(/\s+/, ' ').toUpperCase()
   }
-  // 如果沒有課程代碼，顯示前 5 個字
   return course.title?.substring(0, 5) || ''
 }
 
-const daysInMonth = computed(() => new Date(currentYear.value, currentMonth.value + 1, 0).getDate())
+const getSchoolShortName = (unit) => {
+  if (!unit) return ''
+  const match = unit.match(/^[A-Z]+/)
+  return match ? match[0] : unit.substring(0, 4)
+}
+
+const fullCourseInfo = (course) => {
+  const schoolShort = getSchoolShortName(course.unit)
+  return `${course.title}\n學校：${schoolShort}\n地點：${course.location}\n日期：${formatItemDate(course)}`
+}
+
 const getMondayBasedDayIndex = (date) => (date.getDay() + 6) % 7
-const firstDayOfMonth = computed(() => getMondayBasedDayIndex(new Date(currentYear.value, currentMonth.value, 1)))
+const daysBetweenInclusive = (start, end) => Math.floor((end - start) / dayMs) + 1
 
 const toDateKey = (date) => {
   const month = String(date.getMonth() + 1).padStart(2, '0')
@@ -275,7 +359,14 @@ const toDateKey = (date) => {
   return `${date.getFullYear()}-${month}-${day}`
 }
 
-const getCourseDates = (course) => {
+const getCellDateLabel = (cell) => {
+  if (cell.showMonthDay || cell.isMonthBoundary) {
+    return `${cell.date.getMonth() + 1}/${cell.date.getDate()}`
+  }
+  return cell.date.getDate()
+}
+
+const getCourseDates = (course, currentYear) => {
   const startDate = parseLocalDate(course.startDate)
   const endDate = parseLocalDate(course.endDate || course.startDate)
   if (!startDate || !endDate) return []
@@ -283,9 +374,10 @@ const getCourseDates = (course) => {
   if (course.dateText) {
     const dateMatches = course.dateText.match(/\d+\/\d+/g)
     if (dateMatches) {
+      const year = currentYear || new Date().getFullYear()
       return dateMatches.map(d => {
         const [month, day] = d.split('/').map(Number)
-        return new Date(currentYear.value, month - 1, day)
+        return new Date(year, month - 1, day)
       })
     }
   }
@@ -328,13 +420,16 @@ const mergeConsecutiveDates = (dates) => {
   return ranges
 }
 
-const courseDateRanges = computed(() => {
-  const monthStart = new Date(currentYear.value, currentMonth.value, 1)
-  const monthEnd = new Date(currentYear.value, currentMonth.value + 1, 0)
+// 獲取可見範圍的起始和結束日期
+const viewStartDate = computed(() => new Date(currentWeekStart.value))
+const viewEndDate = computed(() => new Date(displayEndDate.value))
 
+const courseDateRanges = computed(() => {
+  const currentYear = focusedDate.value.getFullYear()
   return props.items.flatMap(course => {
-    const datesInMonth = getCourseDates(course).filter(date => date >= monthStart && date <= monthEnd)
-    return mergeConsecutiveDates(datesInMonth).map((range, rangeIndex) => ({
+    const dates = getCourseDates(course, currentYear)
+    const datesInView = dates.filter(date => date >= viewStartDate.value && date <= viewEndDate.value)
+    return mergeConsecutiveDates(datesInView).map((range, rangeIndex) => ({
       course,
       range,
       key: `${course.unit}|${course.title}|${course.startDate}|${course.endDate}|${rangeIndex}`
@@ -342,122 +437,122 @@ const courseDateRanges = computed(() => {
   })
 })
 
-const coursesByDay = computed(() => {
-  const map = new Map()
 
-  courseDateRanges.value.forEach(({ course, range }) => {
+
+// 將課程分配到各週
+const assignCoursesToWeeks = () => {
+  // 先建立週的基礎結構
+  const weeks = []
+  const weekStart = new Date(currentWeekStart.value)
+  
+  for (let w = 0; w < visibleWeeksCount.value; w++) {
+    const weekStartsOn = new Date(weekStart)
+    weekStartsOn.setDate(weekStartsOn.getDate() + w * 7)
+    
+    const cells = []
+    for (let d = 0; d < 7; d++) {
+      const date = new Date(weekStartsOn)
+      date.setDate(date.getDate() + d)
+      const previousDate = new Date(date)
+      previousDate.setDate(previousDate.getDate() - 1)
+      cells.push({
+        date,
+        dateKey: toDateKey(date),
+        isCurrentMonth: isCurrentMonth(date),
+        isMonthBoundary: d > 0 && date.getMonth() !== previousDate.getMonth(),
+        isFirstDayOfWeek: d === 0
+      })
+    }
+
+    if (w === 0 && cells[0]) {
+      cells[0].showMonthDay = true
+    }
+    
+    // 判斷這週是否在焦點月份外（前導週或後導週）
+    const weekEnd = new Date(weekStartsOn)
+    weekEnd.setDate(weekEnd.getDate() + 6)
+    
+    const isOutsideMainView = weekEnd < focusedMonthStart.value || weekStartsOn > focusedMonthEnd.value
+    
+    weeks.push({
+      cells,
+      segments: [],
+      isOutsideMainView,
+      weekStart: new Date(weekStartsOn)
+    })
+  }
+  
+  courseDateRanges.value.forEach(({ course, range, key }) => {
     const cursor = new Date(range.start)
-    while (cursor <= range.end) {
-      const day = cursor.getDate()
-      if (!map.has(day)) map.set(day, [])
-      if (!map.get(day).some(existingCourse => existingCourse.id === course.id)) {
-        map.get(day).push(course)
+    cursor.setHours(0, 0, 0, 0)
+    const rangeEnd = new Date(range.end)
+    rangeEnd.setHours(0, 0, 0, 0)
+    
+    while (cursor <= rangeEnd) {
+      // 使用本地時間計算 weekIndex
+      const diffDays = Math.floor((cursor - currentWeekStart.value) / dayMs)
+      const weekIndex = Math.floor(diffDays / 7)
+      
+      if (weekIndex >= 0 && weekIndex < weeks.length) {
+        const week = weeks[weekIndex]
+        const startCol = getMondayBasedDayIndex(cursor)
+        
+        // 計算在這週的跨度
+        const weekEnd = new Date(week.weekStart)
+        weekEnd.setDate(weekEnd.getDate() + 6)
+        const segmentEnd = weekEnd < rangeEnd ? weekEnd : rangeEnd
+        const span = daysBetweenInclusive(cursor, segmentEnd)
+        
+        // 計算 lane（避免重疊）
+        let lane = 0
+        const existingSegments = week.segments.filter(s => s.course.id !== course.id)
+        const overlappingSegments = existingSegments.filter(s => rangesOverlap(startCol, span, s.startCol, s.span))
+        
+        while (existingSegments.some(s =>
+          s.lane === lane &&
+          rangesOverlap(startCol, span, s.startCol, s.span)
+        )) {
+          lane++
+        }
+
+        const colorIndex = chooseSegmentColorIndex(course, overlappingSegments)
+        
+        week.segments.push({
+          key: `${key}|${toDateKey(cursor)}`,
+          course,
+          startCol,
+          span,
+          lane,
+          colorIndex,
+          colorClass: courseColors[colorIndex]
+        })
+
+        cursor.setTime(segmentEnd.getTime())
+        cursor.setDate(cursor.getDate() + 1)
+      } else {
+        cursor.setDate(cursor.getDate() + 1)
       }
-      cursor.setDate(cursor.getDate() + 1)
     }
   })
-
-  return map
-})
-
-const calendarCells = computed(() => {
-  const cells = []
-  for (let i = 0; i < firstDayOfMonth.value; i++) {
-    cells.push({ day: null, placeholderIndex: `start-${i}` })
-  }
-  for (let d = 1; d <= daysInMonth.value; d++) {
-    cells.push({ day: d })
-  }
-  const remainder = cells.length % 7
-  if (remainder > 0) {
-    for (let i = 0; i < 7 - remainder; i++) {
-      cells.push({ day: null, placeholderIndex: `end-${i}` })
-    }
-  }
-  return cells
-})
-
-const splitRangeByWeek = ({ course, range, key }) => {
-  const segments = []
-  let cursor = new Date(range.start)
-
-  while (cursor <= range.end) {
-    const weekIndex = Math.floor((firstDayOfMonth.value + cursor.getDate() - 1) / 7)
-    const startCol = getMondayBasedDayIndex(cursor)
-    const daysLeftInWeek = 7 - startCol
-    const segmentEnd = new Date(cursor)
-    segmentEnd.setDate(cursor.getDate() + daysLeftInWeek - 1)
-    if (segmentEnd > range.end) segmentEnd.setTime(range.end.getTime())
-
-    const span = segmentEnd.getDate() - cursor.getDate() + 1
-    segments.push({
-      key: `${key}|${toDateKey(cursor)}`,
-      course,
-      weekIndex,
-      startCol,
-      span,
-      lane: 0
-    })
-
-    cursor = new Date(segmentEnd)
-    cursor.setDate(cursor.getDate() + 1)
-  }
-
-  return segments
+  
+  return weeks
 }
 
-const weeklySegments = computed(() => {
-  const weeks = Array.from({ length: Math.ceil(calendarCells.value.length / 7) }, () => [])
-
-  courseDateRanges.value
-    .flatMap(splitRangeByWeek)
-    .sort((a, b) => a.weekIndex - b.weekIndex || a.startCol - b.startCol || b.span - a.span)
-    .forEach(segment => {
-      const weekSegments = weeks[segment.weekIndex]
-      const lanes = []
-
-      weekSegments.forEach(existingSegment => {
-        lanes[existingSegment.lane] ||= []
-        lanes[existingSegment.lane].push(existingSegment)
-      })
-
-      let lane = 0
-      while (lanes[lane]?.some(existingSegment =>
-        segment.startCol < existingSegment.startCol + existingSegment.span &&
-        segment.startCol + segment.span > existingSegment.startCol
-      )) {
-        lane++
-      }
-
-      weekSegments.push({ ...segment, lane })
-    })
-
-  return weeks
-})
-
-const calendarWeeks = computed(() => {
-  const weeks = []
-  for (let i = 0; i < calendarCells.value.length; i += 7) {
-    const weekIndex = i / 7
-    weeks.push({
-      cells: calendarCells.value.slice(i, i + 7),
-      segments: weeklySegments.value[weekIndex] || []
-    })
-  }
-  return weeks
-})
+const calendarWeeksWithCourses = computed(() => assignCoursesToWeeks())
 
 const getSegmentStyle = (segment) => ({
   left: `calc(${segment.startCol} * 100% / 7 + 2px)`,
   width: `calc(${segment.span} * 100% / 7 - 4px)`,
-  top: `${34 + segment.lane * 24}px`
+  top: `${34 + segment.lane * 32}px`
 })
 
 const getWeekStyle = (week) => {
   const maxLane = week.segments.reduce((max, segment) => Math.max(max, segment.lane), -1)
-  const minHeight = Math.max(112, 40 + (maxLane + 1) * 24)
+  const minHeight = Math.max(112, 40 + (maxLane + 1) * 32)
   return { minHeight: `${minHeight}px` }
 }
 
-const hasNoCoursesThisMonth = computed(() => coursesByDay.value.size === 0)
+const hasNoCoursesInView = computed(() => {
+  return calendarWeeksWithCourses.value.every(week => week.segments.length === 0)
+})
 </script>

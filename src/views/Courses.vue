@@ -5,7 +5,7 @@
       <!-- 視圖模式切換 -->
       <div class="flex items-center gap-1 bg-gray-100 rounded-lg p-1">
         <button
-          @click="viewMode = 'list'"
+          @click="setViewMode('list')"
           :class="[
             'px-3 py-1.5 rounded-md text-sm font-medium transition-colors',
             viewMode === 'list' ? 'bg-white text-gray-800 shadow-sm' : 'text-gray-500 hover:text-gray-700'
@@ -17,7 +17,7 @@
           </svg>
         </button>
         <button
-          @click="viewMode = 'calendar'"
+          @click="setViewMode('calendar')"
           :class="[
             'px-3 py-1.5 rounded-md text-sm font-medium transition-colors',
             viewMode === 'calendar' ? 'bg-white text-gray-800 shadow-sm' : 'text-gray-500 hover:text-gray-700'
@@ -32,14 +32,14 @@
     </div>
 
     <!-- 篩選區 - 多列按鈕 -->
-    <div class="mb-4 space-y-3">
+    <div class="mb-4 space-y-2">
       <!-- 第一列：縣市篩選 -->
-      <div class="overflow-x-auto whitespace-nowrap -mx-4 px-4 pb-2">
+      <div class="overflow-x-auto whitespace-nowrap -mx-4 px-4 pb-1">
         <div class="flex gap-2 inline-flex">
           <button
             @click="clearLocationFilter"
             :class="[
-              'px-4 py-2 rounded-lg text-sm font-medium transition-colors',
+              'px-3 py-1.5 rounded-lg text-sm font-medium transition-colors',
               !selectedLocation ? 'bg-secondary text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
             ]"
           >
@@ -50,7 +50,7 @@
             :key="location"
             @click="selectedLocation = location"
             :class="[
-              'px-4 py-2 rounded-lg text-sm font-medium transition-colors',
+              'px-3 py-1.5 rounded-lg text-sm font-medium transition-colors',
               selectedLocation === location ? 'bg-secondary text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
             ]"
           >
@@ -59,13 +59,13 @@
         </div>
       </div>
 
-      <!-- 第二列：月份篩選 (不在行事曆模式顯示) -->
-      <div v-if="viewMode !== 'calendar'" class="overflow-x-auto whitespace-nowrap -mx-4 px-4 pb-2">
+      <!-- 第二列：月份篩選 / 顯示過去 -->
+      <div v-if="viewMode !== 'calendar'" class="overflow-x-auto whitespace-nowrap -mx-4 px-4 pb-1">
         <div class="flex gap-2 inline-flex">
           <button
             @click="clearMonthFilter"
             :class="[
-              'px-4 py-2 rounded-lg text-sm font-medium transition-colors',
+              'px-3 py-1.5 rounded-lg text-sm font-medium transition-colors',
               !selectedMonth ? 'bg-primary text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
             ]"
           >
@@ -76,22 +76,31 @@
             :key="month"
             @click="selectedMonth = month"
             :class="[
-              'px-4 py-2 rounded-lg text-sm font-medium transition-colors',
+              'px-3 py-1.5 rounded-lg text-sm font-medium transition-colors',
               selectedMonth === month ? 'bg-primary text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
             ]"
           >
             {{ formatMonthLabel(month) }}
           </button>
+          <button
+            @click="toggleShowPastCourses"
+            :class="[
+              'px-3 py-1.5 rounded-lg text-sm font-medium transition-colors',
+              showPastCourses ? 'bg-gray-700 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+            ]"
+          >
+            {{ showPastCourses ? '含過去一年' : '顯示過去一年' }}
+          </button>
         </div>
       </div>
 
       <!-- 第三列：ASA 等級篩選 -->
-      <div class="overflow-x-auto whitespace-nowrap -mx-4 px-4 pb-2">
+      <div class="overflow-x-auto whitespace-nowrap -mx-4 px-4 pb-1">
         <div class="flex gap-2 inline-flex">
           <button
             @click="clearLevelFilter"
             :class="[
-              'px-4 py-2 rounded-lg text-sm font-medium transition-colors',
+              'px-3 py-1.5 rounded-lg text-sm font-medium transition-colors',
               !selectedLevel ? 'bg-accent text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
             ]"
           >
@@ -102,7 +111,7 @@
             :key="courseCode"
             @click="selectedLevel = courseCode"
             :class="[
-              'px-4 py-2 rounded-lg text-sm font-medium transition-colors',
+              'px-3 py-1.5 rounded-lg text-sm font-medium transition-colors',
               selectedLevel === courseCode ? 'bg-accent text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
             ]"
           >
@@ -139,6 +148,7 @@
         }
       ]"
       empty-message="沒有符合條件的課程"
+      :row-class="getCourseRowClass"
     />
     <CourseCalendar
       v-else
@@ -173,7 +183,12 @@ const schools = ref([])
 const selectedLocation = ref('')
 const selectedMonth = ref('')
 const selectedLevel = ref('')
-const viewMode = ref('list')
+const showPastCourses = ref(false)
+const savedViewMode = typeof window !== 'undefined' ? window.localStorage.getItem('coursesViewMode') : null
+const viewMode = ref(savedViewMode === 'calendar' ? 'calendar' : 'list')
+if (viewMode.value === 'calendar') {
+  showPastCourses.value = true
+}
 
 const parseDate = parseLocalDate
 
@@ -207,13 +222,47 @@ const formatMonthLabel = (monthKey) => {
   return `${Number(month)}月`
 }
 
-const isUpcomingCourse = (course) => {
+const getToday = () => {
   const today = new Date()
   today.setHours(0, 0, 0, 0)
-  const endDate = parseDate(course.endDate)
-  if (!endDate) return false
+  return today
+}
+
+const getPastYearStart = () => {
+  const date = getToday()
+  date.setFullYear(date.getFullYear() - 1)
+  return date
+}
+
+const getCourseEndDate = (course) => {
+  const endDate = parseDate(course.endDate || course.startDate)
+  if (!endDate) return null
   endDate.setHours(0, 0, 0, 0)
-  return endDate >= today
+  return endDate
+}
+
+const isUpcomingCourse = (course) => {
+  const endDate = getCourseEndDate(course)
+  if (!endDate) return false
+  return endDate >= getToday()
+}
+
+const isPastCourse = (course) => {
+  const endDate = getCourseEndDate(course)
+  if (!endDate) return false
+  return endDate < getToday()
+}
+
+const getCourseRowClass = (course) => isPastCourse(course) ? 'opacity-60' : ''
+
+const isWithinPastYearOrUpcoming = (course) => {
+  const endDate = getCourseEndDate(course)
+  if (!endDate) return false
+  return endDate >= getPastYearStart()
+}
+
+const matchesDateVisibility = (course) => {
+  return showPastCourses.value ? isWithinPastYearOrUpcoming(course) : isUpcomingCourse(course)
 }
 
 const matchesLocationFilter = (course) => {
@@ -242,7 +291,7 @@ const courseMonths = computed(() => {
 const courseCodes = computed(() => {
   const codeSet = new Set()
   courses.value
-    .filter(course => isUpcomingCourse(course) && matchesBasicFilters(course))
+    .filter(course => matchesDateVisibility(course) && matchesBasicFilters(course))
     .forEach(course => {
       const code = getCourseCode(course.title)
       if (code) codeSet.add(code)
@@ -252,8 +301,8 @@ const courseCodes = computed(() => {
 
 const filteredCourses = computed(() => {
   return courses.value.filter(course => {
-    // 只顯示尚未結束的課程（結束日期 >= 今天）
-    if (!isUpcomingCourse(course)) return false
+    // 預設只顯示尚未結束的課程；開啟後包含過去一年內的課程
+    if (!matchesDateVisibility(course)) return false
 
     const matchLevel = selectedLevel.value === '' || getCourseCode(course.title) === selectedLevel.value
     return matchesBasicFilters(course) && matchLevel
@@ -266,6 +315,20 @@ const filteredCourses = computed(() => {
     return getLocationOrder(a.location) - getLocationOrder(b.location)
   })
 })
+
+const setViewMode = (mode) => {
+  viewMode.value = mode
+  selectedMonth.value = ''
+  showPastCourses.value = mode === 'calendar'
+  if (typeof window !== 'undefined') {
+    window.localStorage.setItem('coursesViewMode', mode)
+  }
+}
+
+const toggleShowPastCourses = () => {
+  showPastCourses.value = !showPastCourses.value
+  selectedMonth.value = ''
+}
 
 // 清除篩選的輔助函式
 const clearLocationFilter = () => { selectedLocation.value = '' }

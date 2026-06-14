@@ -3,14 +3,14 @@
     <h1 class="text-3xl font-bold text-gray-800 mb-6">帆船活動列表</h1>
 
     <!-- 篩選區 - 多列按鈕 -->
-    <div class="mb-4 space-y-3">
+    <div class="mb-4 space-y-2">
       <!-- 第一列：縣市篩選 -->
-      <div class="overflow-x-auto whitespace-nowrap -mx-4 px-4 pb-2">
+      <div class="overflow-x-auto whitespace-nowrap -mx-4 px-4 pb-1">
         <div class="flex gap-2 inline-flex">
           <button
             @click="clearLocationFilter"
             :class="[
-              'px-4 py-2 rounded-lg text-sm font-medium transition-colors',
+              'px-3 py-1.5 rounded-lg text-sm font-medium transition-colors',
               !selectedLocation ? 'bg-secondary text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
             ]"
           >
@@ -21,22 +21,31 @@
             :key="location"
             @click="selectedLocation = location"
             :class="[
-              'px-4 py-2 rounded-lg text-sm font-medium transition-colors',
+              'px-3 py-1.5 rounded-lg text-sm font-medium transition-colors',
               selectedLocation === location ? 'bg-secondary text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
             ]"
           >
             {{ location }}
           </button>
+          <button
+            @click="showPastActivities = !showPastActivities"
+            :class="[
+              'px-3 py-1.5 rounded-lg text-sm font-medium transition-colors',
+              showPastActivities ? 'bg-gray-700 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+            ]"
+          >
+            {{ showPastActivities ? '含過去活動' : '顯示過去' }}
+          </button>
         </div>
       </div>
 
       <!-- 第二列：活動類型篩選 -->
-      <div class="overflow-x-auto whitespace-nowrap -mx-4 px-4 pb-2">
+      <div class="overflow-x-auto whitespace-nowrap -mx-4 px-4 pb-1">
         <div class="flex gap-2 inline-flex">
           <button
             @click="clearTypeFilter"
             :class="[
-              'px-4 py-2 rounded-lg text-sm font-medium transition-colors',
+              'px-3 py-1.5 rounded-lg text-sm font-medium transition-colors',
               !selectedType ? 'bg-primary text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
             ]"
           >
@@ -47,7 +56,7 @@
             :key="type.id"
             @click="selectedType = type.id"
             :class="[
-              'px-4 py-2 rounded-lg text-sm font-medium transition-colors',
+              'px-3 py-1.5 rounded-lg text-sm font-medium transition-colors',
               selectedType === type.id ? 'bg-primary text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
             ]"
           >
@@ -83,6 +92,7 @@
         { key: 'contact', label: '聯絡' }
       ]"
       empty-message="沒有符合條件的活動"
+      :row-class="getActivityRowClass"
     />
   </div>
 </template>
@@ -109,19 +119,41 @@ const types = ref([])
 const search = ref('')
 const selectedLocation = ref('')
 const selectedType = ref('')
+const showPastActivities = ref(false)
 
 const parseDate = parseLocalDate
 
-const filteredActivities = computed(() => {
+const getToday = () => {
   const today = new Date()
   today.setHours(0, 0, 0, 0)
-  
+  return today
+}
+
+const getActivityEndDate = (activity) => {
+  const endDate = parseDate(activity.endDate || activity.date)
+  if (!endDate) return null
+  endDate.setHours(0, 0, 0, 0)
+  return endDate
+}
+
+const isUpcomingActivity = (activity) => {
+  const endDate = getActivityEndDate(activity)
+  if (!endDate) return false
+  return endDate >= getToday()
+}
+
+const isPastActivity = (activity) => {
+  const endDate = getActivityEndDate(activity)
+  if (!endDate) return false
+  return endDate < getToday()
+}
+
+const getActivityRowClass = (activity) => isPastActivity(activity) ? 'opacity-60' : ''
+
+const filteredActivities = computed(() => {
   return activities.value.filter(activity => {
-    const endDate = parseDate(activity.endDate)
-    endDate.setHours(0, 0, 0, 0)
-    
-    // 只顯示尚未結束的活動（結束日期 >= 今天）
-    if (endDate < today) return false
+    // 預設只顯示尚未結束的活動；開啟後包含過去活動
+    if (!showPastActivities.value && !isUpcomingActivity(activity)) return false
     
     const matchSearch = search.value === '' || 
       activity.title.includes(search.value) || 
