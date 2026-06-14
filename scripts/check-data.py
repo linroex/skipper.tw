@@ -218,25 +218,46 @@ def check_activity_format(activities):
     
     issues = []
     valid_regions = ['北台灣', '中台灣', '南台灣', '東台灣']
-    valid_types = ['workshop', 'race', 'camp', 'seminar']
-    
+    valid_types = ['workshop', 'voyage', 'race', 'camp', 'social', 'seminar']
+    valid_audiences = ['public', 'members']
+    valid_schedule_types = ['fixed', 'recurring', 'flexible']
+    date_re = re.compile(r'^\d{4}-\d{2}-\d{2}$')
+
+    def check_date(value, label, aid):
+        if value and not date_re.match(value):
+            issues.append(f"活動 id={aid}: {label} 格式錯誤 ({value})")
+
     for activity in activities_list:
         if not isinstance(activity, dict):
             continue
-        # 檢查日期格式
-        if 'date' in activity and activity['date']:
-            if not re.match(r'^\d{4}-\d{2}-\d{2}$', activity['date']):
-                issues.append(f"活動 id={activity['id']}: date 格式錯誤")
-        
+        aid = activity.get('id')
+
         # 檢查地區
-        if 'region' in activity and activity['region']:
-            if activity['region'] not in valid_regions:
-                issues.append(f"活動 id={activity['id']}: 地區錯誤 ({activity['region']})")
-        
+        if activity.get('region') and activity['region'] not in valid_regions:
+            issues.append(f"活動 id={aid}: 地區錯誤 ({activity['region']})")
+
         # 檢查類型
-        if 'type' in activity and activity['type']:
-            if activity['type'] not in valid_types:
-                issues.append(f"活動 id={activity['id']}: 類型錯誤 ({activity['type']})")
+        if activity.get('type') and activity['type'] not in valid_types:
+            issues.append(f"活動 id={aid}: 類型錯誤 ({activity['type']})")
+
+        # 檢查參加對象
+        if activity.get('audience') and activity['audience'] not in valid_audiences:
+            issues.append(f"活動 id={aid}: 參加對象錯誤 ({activity['audience']})")
+
+        # 檢查排程結構與日期格式
+        schedule = activity.get('schedule')
+        if isinstance(schedule, dict):
+            stype = schedule.get('type', 'fixed')
+            if stype not in valid_schedule_types:
+                issues.append(f"活動 id={aid}: 排程型態錯誤 ({stype})")
+            check_date(schedule.get('startDate'), 'schedule.startDate', aid)
+            check_date(schedule.get('endDate'), 'schedule.endDate', aid)
+            check_date(schedule.get('windowStart'), 'schedule.windowStart', aid)
+            check_date(schedule.get('windowEnd'), 'schedule.windowEnd', aid)
+            for session in schedule.get('sessions', []):
+                check_date(session, 'schedule.sessions', aid)
+        elif 'date' in activity and activity['date']:
+            check_date(activity['date'], 'date', aid)
     
     if issues:
         print(f"❌ 發現 {len(issues)} 個格式問題:")

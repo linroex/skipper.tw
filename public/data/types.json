@@ -1,8 +1,10 @@
 {
   "types": [
     {"id": "workshop", "name": "體驗課程"},
+    {"id": "voyage", "name": "航行"},
     {"id": "race", "name": "帆船賽事"},
     {"id": "camp", "name": "夏令營"},
+    {"id": "social", "name": "聯誼"},
     {"id": "seminar", "name": "講座"}
   ]
 }

@@ -8,6 +8,9 @@
           <span v-if="school.shortName" class="text-sm text-gray-500 bg-gray-100 px-2 py-1 rounded">
             {{ school.shortName }}
           </span>
+          <span v-if="organizerTypeLabel" class="text-sm text-white bg-secondary px-2 py-1 rounded">
+            {{ organizerTypeLabel }}
+          </span>
         </div>
         <div class="flex flex-wrap gap-3 mb-4">
           <span class="bg-primary text-white text-sm px-3 py-1 rounded-full">
@@ -167,22 +170,13 @@
       <!-- 活動列表 -->
       <div v-if="school.activities.length > 0">
         <h2 class="text-2xl font-bold text-gray-800 mb-4">相關活動</h2>
-        <ResponsiveTable
-          :items="school.activities"
-          :headers="[ '日期', '活動名稱', '地點', '主辦', '聯絡' ]"
-          :title-key="'title'"
-          :header-extra="{
-            render: (activity) => formatItemDate(activity),
-            tagRender: (activity) => getType(activity.type),
-            tagClass: 'bg-primary text-white text-xs px-2 py-1 rounded'
-          }"
-          :columns="[
-            { key: 'location', label: '地點' },
-            { key: 'unit', label: '主辦' },
-            { key: 'contact', label: '聯絡' }
-          ]"
-          empty-message="暫無相關活動"
-        />
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <ActivityCard
+            v-for="activity in school.activities"
+            :key="activity.id"
+            :activity="activity"
+          />
+        </div>
       </div>
 
       <!-- 沒有資料 -->
@@ -216,8 +210,10 @@ import { useHead } from '@unhead/vue'
 import { getActivities, getCourses, getSchools } from '../utils/data.js'
 import { getLocationOrder, getRegionOrder } from '../utils/location.js'
 import { formatItemDate, parseLocalDate } from '../utils/format.js'
+import { getOrganizerTypeLabel, isUpcomingActivity, getActivityStartDate } from '../utils/activity.js'
 import ResponsiveTable from '../components/ResponsiveTable.vue'
 import CourseCalendar from '../components/CourseCalendar.vue'
+import ActivityCard from '../components/ActivityCard.vue'
 
 
 const route = useRoute()
@@ -274,17 +270,13 @@ const schoolData = computed(() => {
   // 過濾並排序活動（只顯示尚未結束的，按地區→地點→日期排序）
   const schoolActivities = activities.value
     .filter(a => a.unit === schoolName) // 只篩選該學校
-    .filter(a => {
-      const endDate = parseDate(a.endDate)
-      endDate.setHours(0, 0, 0, 0)
-      return endDate >= today // 只顯示尚未結束的活動
-    })
+    .filter(isUpcomingActivity) // 只顯示尚未結束的活動（含揪團區間內）
     .sort((a, b) => {
       const regionDiff = getRegionOrder(a.region) - getRegionOrder(b.region)
       if (regionDiff !== 0) return regionDiff
       const locationDiff = getLocationOrder(a.location) - getLocationOrder(b.location)
       if (locationDiff !== 0) return locationDiff
-      return parseDate(a.startDate) - parseDate(b.startDate)
+      return (getActivityStartDate(a) ?? 0) - (getActivityStartDate(b) ?? 0)
     })
 
   const certs = schoolInfo.certs || [...new Set(schoolCourses.map(c => c.organization).filter(Boolean))]
@@ -294,6 +286,7 @@ const schoolData = computed(() => {
     id: schoolId,
     name: schoolName,
     shortName: schoolInfo.shortName,
+    type: schoolInfo.type,
     courses: schoolCourses,
     activities: schoolActivities,
     totalCourses: schoolCourses.length,
@@ -402,15 +395,7 @@ const filteredCalendarCourses = computed(() => {
   return applyCourseFilters(allSchoolCourses.value)
 })
 
-const getType = (typeId) => {
-  const typeMap = {
-    workshop: '體驗',
-    race: '競賽',
-    camp: '營隊',
-    seminar: '講座'
-  }
-  return typeMap[typeId] || typeId
-}
+const organizerTypeLabel = computed(() => getOrganizerTypeLabel(school.value?.type))
 
 // 清除篩選的輔助函式
 const clearCertFilter = () => { selectedCert.value = ''; selectedLevel.value = '' }

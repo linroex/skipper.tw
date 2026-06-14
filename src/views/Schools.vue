@@ -16,6 +16,9 @@
               {{ school.primaryLocation }}
             </span>
           </div>
+          <div v-if="school.typeLabel" class="mb-2">
+            <span class="text-xs text-white bg-secondary px-2 py-1 rounded">{{ school.typeLabel }}</span>
+          </div>
           <div class="flex items-center text-sm text-gray-600 mb-2">
             <span class="bg-primary text-white text-xs px-2 py-1 rounded mr-2">
               {{ school.totalCourses }} 課程
@@ -61,6 +64,7 @@ import { useHead } from '@unhead/vue'
 import { getActivities, getCourses, getSchools } from '../utils/data.js'
 import { getLocationOrder, getRegionOrder } from '../utils/location.js'
 import { parseLocalDate } from '../utils/format.js'
+import { getOrganizerTypeLabel, isUpcomingActivity } from '../utils/activity.js'
 
 useHead({
   title: '台灣帆船學校列表 - skipper.tw',
@@ -109,15 +113,12 @@ const schoolsWithStats = computed(() => {
     schoolMap.get(unit).courses.push(course)
   })
 
-  // 從活動中提取學校（只包含尚未結束的活動）
+  // 從活動中提取學校（只包含尚未結束的活動，含揪團區間內）
   activities.value.forEach(activity => {
     const unit = activity.unit
     if (!unit) return
-    
-    const endDate = parseDate(activity.endDate)
-    endDate.setHours(0, 0, 0, 0)
-    // 如果結束日期在過去，不顯示
-    if (endDate < today) return
+
+    if (!isUpcomingActivity(activity)) return
 
     if (!schoolMap.has(unit)) {
       schoolMap.set(unit, {
@@ -145,6 +146,8 @@ const schoolsWithStats = computed(() => {
       id: schoolInfo?.id || unitName,
       name: displayName,
       shortName: schoolInfo?.shortName || displayName.substring(0, 4) || '',
+      type: schoolInfo?.type,
+      typeLabel: getOrganizerTypeLabel(schoolInfo?.type),
       courses: schoolData.courses,
       activities: schoolData.activities,
       totalCourses: schoolData.courses.length,

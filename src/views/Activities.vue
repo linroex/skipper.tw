@@ -2,199 +2,214 @@
   <div>
     <h1 class="text-3xl font-bold text-gray-800 mb-6">帆船活動列表</h1>
 
-    <!-- 篩選區 - 多列按鈕 -->
-    <div class="mb-4 space-y-2">
-      <!-- 第一列：縣市篩選 -->
+    <!-- 篩選區 -->
+    <div class="mb-6 space-y-2">
+      <!-- 地區 -->
       <div class="overflow-x-auto whitespace-nowrap -mx-4 px-4 pb-1">
         <div class="flex gap-2 inline-flex">
           <button
-            @click="clearLocationFilter"
-            :class="[
-              'px-3 py-1.5 rounded-lg text-sm font-medium transition-colors',
-              !selectedLocation ? 'bg-secondary text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-            ]"
-          >
-            全部縣市
-          </button>
+            @click="selectedRegion = ''"
+            :class="pillClass(!selectedRegion, 'secondary')"
+          >全部地區</button>
           <button
-            v-for="location in locations"
-            :key="location"
-            @click="selectedLocation = location"
-            :class="[
-              'px-3 py-1.5 rounded-lg text-sm font-medium transition-colors',
-              selectedLocation === location ? 'bg-secondary text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-            ]"
-          >
-            {{ location }}
-          </button>
-          <button
-            @click="showPastActivities = !showPastActivities"
-            :class="[
-              'px-3 py-1.5 rounded-lg text-sm font-medium transition-colors',
-              showPastActivities ? 'bg-gray-700 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-            ]"
-          >
-            {{ showPastActivities ? '含過去活動' : '顯示過去' }}
-          </button>
+            v-for="region in regions"
+            :key="region"
+            @click="selectedRegion = region"
+            :class="pillClass(selectedRegion === region, 'secondary')"
+          >{{ region }}</button>
         </div>
       </div>
 
-      <!-- 第二列：活動類型篩選 -->
+      <!-- 類型 -->
       <div class="overflow-x-auto whitespace-nowrap -mx-4 px-4 pb-1">
         <div class="flex gap-2 inline-flex">
           <button
-            @click="clearTypeFilter"
-            :class="[
-              'px-3 py-1.5 rounded-lg text-sm font-medium transition-colors',
-              !selectedType ? 'bg-primary text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-            ]"
-          >
-            全部類型
-          </button>
+            @click="selectedType = ''"
+            :class="pillClass(!selectedType, 'primary')"
+          >全部類型</button>
           <button
             v-for="type in types"
             :key="type.id"
             @click="selectedType = type.id"
-            :class="[
-              'px-3 py-1.5 rounded-lg text-sm font-medium transition-colors',
-              selectedType === type.id ? 'bg-primary text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-            ]"
-          >
-            {{ type.name }}
-          </button>
+            :class="pillClass(selectedType === type.id, 'primary')"
+          >{{ type.name }}</button>
         </div>
       </div>
 
-      <!-- 搜尋框 -->
-      <div>
+      <!-- 參加對象 + 過去活動 -->
+      <div class="overflow-x-auto whitespace-nowrap -mx-4 px-4 pb-1">
+        <div class="flex gap-2 inline-flex">
+          <button
+            @click="selectedAudience = ''"
+            :class="pillClass(!selectedAudience, 'accent')"
+          >全部對象</button>
+          <button
+            @click="selectedAudience = 'public'"
+            :class="pillClass(selectedAudience === 'public', 'accent')"
+          >對外開放</button>
+          <button
+            @click="selectedAudience = 'members'"
+            :class="pillClass(selectedAudience === 'members', 'accent')"
+          >學員專屬</button>
+          <button
+            @click="showPast = !showPast"
+            :class="pillClass(showPast, 'gray')"
+          >{{ showPast ? '含過去活動' : '顯示過去' }}</button>
+        </div>
+      </div>
+
+      <!-- 主辦單位 + 搜尋 -->
+      <div class="flex flex-col sm:flex-row gap-2">
+        <select
+          v-model="selectedUnit"
+          class="sm:w-56 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary bg-white text-gray-700"
+        >
+          <option value="">全部主辦單位</option>
+          <option v-for="unit in units" :key="unit" :value="unit">{{ unit }}</option>
+        </select>
         <input
           v-model="search"
           type="text"
           placeholder="搜尋活動名稱或地點..."
-          class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary"
+          class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary"
         />
       </div>
     </div>
 
-    <!-- 簡單列表 -->
-    <ResponsiveTable
-      :items="filteredActivities"
-      :headers="[ '日期', '活動名稱', '地點', '主辦', '聯絡' ]"
-      :title-key="'title'"
-      :header-extra="{
-        render: (activity) => formatItemDate(activity),
-        tagRender: (activity) => getType(activity.type),
-        tagClass: 'bg-primary text-white text-xs px-2 py-1 rounded'
-      }"
-      :columns="[
-        { key: 'location', label: '地點' },
-        { key: 'unit', label: '主辦' },
-        { key: 'contact', label: '聯絡' }
-      ]"
-      empty-message="沒有符合條件的活動"
-      :row-class="getActivityRowClass"
-    />
+    <!-- 近期活動（固定日期 / 多梯次） -->
+    <section v-if="scheduledActivities.length" class="mb-10">
+      <h2 class="text-xl font-bold text-gray-800 mb-4">📅 近期活動</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <ActivityCard
+          v-for="activity in scheduledActivities"
+          :key="activity.id"
+          :activity="activity"
+          :school-route="getSchoolRoute(activity.unit)"
+          :class="{ 'opacity-60': isPastActivity(activity) }"
+        />
+      </div>
+    </section>
+
+    <!-- 隨時揪團成行（彈性日期） -->
+    <section v-if="flexibleActivities.length" class="mb-10">
+      <h2 class="text-xl font-bold text-gray-800 mb-1">⛵ 隨時揪團成行</h2>
+      <p class="text-sm text-gray-500 mb-4">沒有固定日期，揪到足夠人數即可出發，歡迎直接私訊主辦單位。</p>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <ActivityCard
+          v-for="activity in flexibleActivities"
+          :key="activity.id"
+          :activity="activity"
+          :school-route="getSchoolRoute(activity.unit)"
+        />
+      </div>
+    </section>
+
+    <div v-if="!scheduledActivities.length && !flexibleActivities.length" class="text-center py-12 text-gray-500">
+      沒有符合條件的活動
+    </div>
   </div>
 </template>
 
 <script setup>
 import { ref, computed } from 'vue'
 import { useHead } from '@unhead/vue'
+import { getActivities, getTypes, getSchools } from '../utils/data.js'
+import { getLocationOrder, getRegionOrder, regionOrder } from '../utils/location.js'
+import {
+  isFlexible,
+  isPastActivity,
+  isUpcomingActivity,
+  getActivityStartDate
+} from '../utils/activity.js'
+import ActivityCard from '../components/ActivityCard.vue'
 
-// SEO meta tags
 useHead({
   title: '帆船活動列表 - skipper.tw',
   meta: [
-    { name: 'description', content: '查找台灣各地帆船體驗課程、競賽、營隊、講座等活動資訊。可依照地區、類型篩選。' }
+    { name: 'description', content: '查找台灣各地帆船航行、體驗、競賽、揪團成行等活動。可依地區、類型、參加對象與主辦單位篩選。' }
   ]
 })
-import { getActivities, getTypes } from '../utils/data.js'
-import { getLocationOrder, getRegionOrder } from '../utils/location.js'
-import { formatItemDate, parseLocalDate } from '../utils/format.js'
-import ResponsiveTable from '../components/ResponsiveTable.vue'
 
 const activities = ref(getActivities())
 const types = ref(getTypes())
+const schools = ref(getSchools())
+
 const search = ref('')
-const selectedLocation = ref('')
+const selectedRegion = ref('')
 const selectedType = ref('')
-const showPastActivities = ref(false)
+const selectedAudience = ref('')
+const selectedUnit = ref('')
+const showPast = ref(false)
 
-const parseDate = parseLocalDate
-
-const getToday = () => {
-  const today = new Date()
-  today.setHours(0, 0, 0, 0)
-  return today
-}
-
-const getActivityEndDate = (activity) => {
-  const endDate = parseDate(activity.endDate || activity.date)
-  if (!endDate) return null
-  endDate.setHours(0, 0, 0, 0)
-  return endDate
-}
-
-const isUpcomingActivity = (activity) => {
-  const endDate = getActivityEndDate(activity)
-  if (!endDate) return false
-  return endDate >= getToday()
-}
-
-const isPastActivity = (activity) => {
-  const endDate = getActivityEndDate(activity)
-  if (!endDate) return false
-  return endDate < getToday()
-}
-
-const getActivityRowClass = (activity) => isPastActivity(activity) ? 'opacity-60' : ''
-
-const locations = computed(() => {
-  const locationSet = new Set()
-  activities.value.forEach(activity => {
-    if (activity.location) locationSet.add(activity.location)
-  })
-  return Array.from(locationSet).sort((a, b) => getLocationOrder(a) - getLocationOrder(b))
+const schoolByUnit = computed(() => {
+  const map = new Map()
+  schools.value.forEach(school => map.set(school.name, school))
+  return map
 })
 
-const filteredActivities = computed(() => {
-  return activities.value.filter(activity => {
-    // 預設只顯示尚未結束的活動；開啟後包含過去活動
-    if (!showPastActivities.value && !isUpcomingActivity(activity)) return false
-    
-    const matchSearch = search.value === '' || 
-      activity.title.includes(search.value) || 
-      activity.location.includes(search.value)
-    const matchLocation = selectedLocation.value === '' || activity.location === selectedLocation.value
-    const matchType = selectedType.value === '' || activity.type === selectedType.value
-    
-    return matchSearch && matchLocation && matchType
-  }).sort((a, b) => {
-    // 先按地區排序（北台灣 → 東台灣 → 中台灣 → 南台灣）
-    const regionDiff = getRegionOrder(a.region) - getRegionOrder(b.region)
-    if (regionDiff !== 0) return regionDiff
-    
-    // 再按地點排序（由北到南）
-    const locationDiff = getLocationOrder(a.location) - getLocationOrder(b.location)
-    if (locationDiff !== 0) return locationDiff
-    
-    // 最後按日期排序
-    return parseDate(a.startDate) - parseDate(b.startDate)
-  })
+const getSchoolRoute = (unit) => {
+  const school = schoolByUnit.value.get(unit)
+  return school ? { name: 'School', params: { id: school.id } } : null
+}
+
+const regions = computed(() => {
+  const present = new Set(activities.value.map(a => a.region).filter(Boolean))
+  return regionOrder.filter(region => present.has(region))
 })
 
-const getType = (typeId) => {
-  const typeMap = {
-    workshop: '體驗',
-    race: '競賽',
-    camp: '營隊',
-    seminar: '講座'
+const units = computed(() => {
+  const set = new Set(activities.value.map(a => a.unit).filter(Boolean))
+  return Array.from(set)
+})
+
+const pillClass = (active, color) => {
+  const colorMap = {
+    primary: 'bg-primary text-white',
+    secondary: 'bg-secondary text-white',
+    accent: 'bg-accent text-white',
+    gray: 'bg-gray-700 text-white'
   }
-  return typeMap[typeId] || typeId
+  return [
+    'px-3 py-1.5 rounded-lg text-sm font-medium transition-colors',
+    active ? colorMap[color] : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+  ]
 }
 
-// 清除篩選的輔助函式
-const clearLocationFilter = () => { selectedLocation.value = '' }
-const clearTypeFilter = () => { selectedType.value = '' }
+const matchesFilters = (activity) => {
+  const matchSearch = search.value === '' ||
+    activity.title.includes(search.value) ||
+    (activity.location || '').includes(search.value)
+  const matchRegion = !selectedRegion.value || activity.region === selectedRegion.value
+  const matchType = !selectedType.value || activity.type === selectedType.value
+  const matchAudience = !selectedAudience.value ||
+    (activity.audience || 'public') === selectedAudience.value
+  const matchUnit = !selectedUnit.value || activity.unit === selectedUnit.value
+  return matchSearch && matchRegion && matchType && matchAudience && matchUnit
+}
 
+const sortByRegionLocationDate = (a, b) => {
+  const regionDiff = getRegionOrder(a.region) - getRegionOrder(b.region)
+  if (regionDiff !== 0) return regionDiff
+  const locationDiff = getLocationOrder(a.location) - getLocationOrder(b.location)
+  if (locationDiff !== 0) return locationDiff
+  return (getActivityStartDate(a) ?? 0) - (getActivityStartDate(b) ?? 0)
+}
+
+const filtered = computed(() => activities.value.filter(matchesFilters))
+
+// 固定日期 / 多梯次活動：預設只顯示尚未結束
+const scheduledActivities = computed(() =>
+  filtered.value
+    .filter(a => !isFlexible(a))
+    .filter(a => showPast.value || isUpcomingActivity(a))
+    .sort(sortByRegionLocationDate)
+)
+
+// 揪團成行活動：只要在開放區間內就顯示
+const flexibleActivities = computed(() =>
+  filtered.value
+    .filter(a => isFlexible(a))
+    .filter(a => showPast.value || isUpcomingActivity(a))
+    .sort(sortByRegionLocationDate)
+)
 </script>

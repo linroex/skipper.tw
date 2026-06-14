@@ -25,8 +25,8 @@
           :headers="[ '日期', '活動名稱', '地點' ]"
           :title-key="'title'"
           :header-extra="{
-            render: (activity) => formatItemDate(activity),
-            tagRender: (activity) => getType(activity.type),
+            render: (activity) => formatSchedule(activity),
+            tagRender: (activity) => getTypeLabel(activity.type),
             tagClass: 'bg-primary text-white text-xs px-2 py-1 rounded'
           }"
           :columns="[
@@ -68,6 +68,7 @@ import { useHead } from '@unhead/vue'
 import { getActivities, getCourses, getSchools } from '../utils/data.js'
 import { getLocationOrder, getRegionOrder } from '../utils/location.js'
 import { formatItemDate, parseLocalDate } from '../utils/format.js'
+import { getTypeLabel, formatSchedule, getActivityStartDate, isUpcomingActivity } from '../utils/activity.js'
 import ResponsiveTable from '../components/ResponsiveTable.vue'
 
 // SEO meta tags
@@ -86,16 +87,6 @@ useHead({
 const activities = getActivities()
 const courses = getCourses()
 const schools = getSchools()
-
-const getType = (typeId) => {
-  const typeMap = {
-    workshop: '體驗',
-    race: '競賽',
-    camp: '營隊',
-    seminar: '講座'
-  }
-  return typeMap[typeId] || typeId
-}
 
 const parseDate = parseLocalDate
 
@@ -128,10 +119,18 @@ const sortByRegionLocationDate = (a, b) => {
   return parseDate(a.startDate) - parseDate(b.startDate)
 }
 
+const sortActivities = (a, b) => {
+  const regionDiff = getRegionOrder(a.region) - getRegionOrder(b.region)
+  if (regionDiff !== 0) return regionDiff
+  const locationDiff = getLocationOrder(a.location) - getLocationOrder(b.location)
+  if (locationDiff !== 0) return locationDiff
+  return (getActivityStartDate(a) ?? 0) - (getActivityStartDate(b) ?? 0)
+}
+
 const upcomingActivities = computed(() => {
   return activities
-    .filter(isUpcoming)
-    .sort(sortByRegionLocationDate)
+    .filter(isUpcomingActivity)
+    .sort(sortActivities)
     .slice(0, 3)
 })
 

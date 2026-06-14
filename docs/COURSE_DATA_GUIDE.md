@@ -47,23 +47,44 @@
 
 #### 活動資料 (`public/data/activities.json`)
 
+活動使用 `schedule` 物件描述日期，支援三種排程型態：
+
 ```json
 {
-  "id": 50,  // 使用下一個可用的唯一 ID
+  "id": 50,
   "title": "帆船體驗課程",
-  "type": "workshop",  // workshop/race/camp/seminar
-  "region": "北台灣",
-  "date": "2026-09-20",  // 單日活動用此欄位
-  "startDate": "2026-09-20",
-  "endDate": "2026-09-20",
+  "type": "workshop",       // workshop/voyage/race/camp/social/seminar
+  "unit": "學校或單位全名",   // 必須與 schools.json 的 name 完全匹配
+  "region": "北台灣",        // 北台灣/中台灣/南台灣/東台灣
   "location": "台北",
-  "unit": "學校全名",
-  "price": 1500,
+  "audience": "public",      // public（對外開放）/ members（學員專屬）
+  "prerequisites": ["ASA 103"], // 能力門檻，無則留空陣列 []
+  "schedule": { ... },       // 見下方三種型態
+  "duration": "3 天",        // 選填，活動時長
+  "price": 1500,             // 一般價格，需洽詢用 null
+  "memberPrice": 1200,       // 選填，學員優惠價
+  "priceText": "會員免費",    // 選填，會覆蓋上面的價格顯示
   "contact": "請洽詢學校",
   "description": "活動描述",
   "url": "https://example.com"
 }
 ```
+
+**排程型態（`schedule.type`）：**
+
+```json
+// 1. fixed：固定日期
+"schedule": { "type": "fixed", "startDate": "2026-09-20", "endDate": "2026-09-21", "note": "報名截止 9/1" }
+
+// 2. recurring：多梯次（同一活動多個場次）
+"schedule": { "type": "recurring", "sessions": ["2026-07-18", "2026-08-01"], "note": "每日傍晚出發" }
+
+// 3. flexible：揪團成行（沒有固定日期，滿人即出發）
+"schedule": { "type": "flexible", "windowStart": "2026-04-01", "windowEnd": "2026-10-31", "minParticipants": 6, "note": "日期可調整" }
+```
+
+- `fixed` / `recurring` 會出現在活動頁的「近期活動」區；`flexible` 會出現在「隨時揪團成行」區。
+- 所有日期欄位皆用 `YYYY-MM-DD` 格式。`note` 為選填的補充說明。
 
 ### 步驟 4：新增學校資料（如需要）
 
