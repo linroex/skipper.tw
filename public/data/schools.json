@@ -65,10 +65,10 @@
       "name": "海翼遊艇俱樂部",
       "shortName": "海翼",
       "type": "club",
-      "description": "基隆、桃園遊艇俱樂部，提供會員航訓、年度跨境航旅與帆船體驗",
+      "description": "八里（台北）遊艇俱樂部，提供會員航訓、年度跨境航旅與帆船體驗",
       "url": "https://www.hiwingmarine.com",
       "certs": ["ASA"],
-      "locations": ["基隆", "桃園"]
+      "locations": ["八里"]
     }
   ]
 }
