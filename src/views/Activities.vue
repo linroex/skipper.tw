@@ -28,7 +28,7 @@
             :class="pillClass(!selectedType, 'primary')"
           >全部類型</button>
           <button
-            v-for="type in types"
+            v-for="type in availableTypes"
             :key="type.id"
             @click="selectedType = type.id"
             :class="pillClass(selectedType === type.id, 'primary')"
@@ -177,6 +177,28 @@ const units = computed(() => {
   return Array.from(set)
 })
 
+// 排除 type 篩選，計算其他條件下有哪些類型存在
+const matchesFiltersExceptType = (activity) => {
+  const matchSearch = search.value === '' ||
+    activity.title.includes(search.value) ||
+    (activity.location || '').includes(search.value)
+  const matchRegion = !selectedRegion.value || activity.region === selectedRegion.value
+  const matchAudience = !selectedAudience.value ||
+    (activity.audience || 'public') === selectedAudience.value
+  const matchUnit = !selectedUnit.value || activity.unit === selectedUnit.value
+  const matchSchedule = !selectedSchedule.value ||
+    (selectedSchedule.value === 'flexible' ? isFlexible(activity) : !isFlexible(activity))
+  const matchPast = showPast.value || isUpcomingActivity(activity)
+  return matchSearch && matchRegion && matchAudience && matchUnit && matchSchedule && matchPast
+}
+
+const availableTypes = computed(() => {
+  const present = new Set(
+    activities.value.filter(matchesFiltersExceptType).map(a => a.type).filter(Boolean)
+  )
+  return types.value.filter(t => present.has(t.id))
+})
+
 const pillClass = (active, color) => {
   const colorMap = {
     primary: 'bg-primary text-white',
@@ -199,7 +221,9 @@ const matchesFilters = (activity) => {
   const matchAudience = !selectedAudience.value ||
     (activity.audience || 'public') === selectedAudience.value
   const matchUnit = !selectedUnit.value || activity.unit === selectedUnit.value
-  return matchSearch && matchRegion && matchType && matchAudience && matchUnit
+  const matchSchedule = !selectedSchedule.value ||
+    (selectedSchedule.value === 'flexible' ? isFlexible(activity) : !isFlexible(activity))
+  return matchSearch && matchRegion && matchType && matchAudience && matchUnit && matchSchedule
 }
 
 const sortByRegionLocationDate = (a, b) => {
