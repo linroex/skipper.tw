@@ -1,3 +1,64 @@
 {
-  "activities": []
+  "activities": [
+    {
+      "id": 1,
+      "title": "澎湖小島航行",
+      "type": "camp",
+      "unit": "TMS 台灣海洋帆船學校",
+      "region": "南台灣",
+      "startDate": "2026-07-02",
+      "endDate": "2026-07-05",
+      "dateText": "7/2(四)－7/5(日)｜報名截止 6/15",
+      "location": "澎湖",
+      "price": null,
+      "contact": "私訊 @筱芳Fong 或睿廷 Andy",
+      "description": "尚有2個名額，帶你穿梭澎湖各小島，體驗藍海帆行！",
+      "url": "https://www.facebook.com/TWKHYC/?locale=zh_TW"
+    },
+    {
+      "id": 2,
+      "title": "蚵仔寮親子帆船活動",
+      "type": "workshop",
+      "unit": "TMS 台灣海洋帆船學校",
+      "region": "南台灣",
+      "startDate": "2026-07-18",
+      "endDate": "2026-08-01",
+      "dateText": "7/18(六)、8/1(六)｜限學員，需六歲以上",
+      "location": "高雄蚵仔寮",
+      "price": 5000,
+      "contact": "私訊 @筱芳Fong 或睿廷 Andy",
+      "description": "親子同樂帆船體驗，六歲以上即可參加。學員優惠價 NT$4,500／人，原價 NT$5,000／人。",
+      "url": "https://www.facebook.com/TWKHYC/?locale=zh_TW"
+    },
+    {
+      "id": 3,
+      "title": "航向父愛｜小琉球父親節巡航",
+      "type": "camp",
+      "unit": "TMS 台灣海洋帆船學校",
+      "region": "南台灣",
+      "startDate": "2026-08-08",
+      "endDate": "2026-08-09",
+      "dateText": "8/8(六)－8/9(日)",
+      "location": "小琉球",
+      "price": 5500,
+      "contact": "私訊 @筱芳Fong 或睿廷 Andy",
+      "description": "帶爸爸出來放個假！父親節限定帆船巡航。學員優惠價 NT$4,800／人，原價 NT$5,500／人。",
+      "url": "https://www.facebook.com/TWKHYC/?locale=zh_TW"
+    },
+    {
+      "id": 4,
+      "title": "花蓮帆船月光海體驗",
+      "type": "workshop",
+      "unit": "花蓮帆船學校 永遠天晴",
+      "region": "東台灣",
+      "startDate": "2026-06-27",
+      "endDate": "2026-07-04",
+      "dateText": "6/27、6/28、6/29、6/30、7/1、7/2、7/3、7/4｜每日傍晚出發",
+      "location": "花蓮觀光遊憩碼頭",
+      "price": null,
+      "contact": "Line ID: 0953972451",
+      "description": "在星空與月光下航行太平洋，滿月限定，最浪漫的海上時刻。適合情侶、好友、親子同行。四人以上即可開船。",
+      "url": "https://www.facebook.com/sailwithalwayssunshine/?locale=zh_TW"
+    }
+  ]
 }
