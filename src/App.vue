@@ -5,6 +5,7 @@
         <div class="flex justify-between items-center h-16">
           <router-link to="/" class="text-2xl font-bold text-primary">skipper.tw</router-link>
           <div class="flex space-x-4">
+            <router-link to="/activities" class="text-gray-700 hover:text-primary">活動</router-link>
             <router-link to="/courses" class="text-gray-700 hover:text-primary">課程</router-link>
             <router-link to="/schools" class="text-gray-700 hover:text-primary">學校</router-link>
           </div>
