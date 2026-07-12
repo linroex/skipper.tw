@@ -58,32 +58,6 @@
         <div class="mb-4">
           <div class="flex items-center justify-between mb-4">
             <h2 class="text-xl font-bold text-ink">相關課程</h2>
-            <div class="flex items-center gap-1 bg-white border border-line rounded-lg p-1">
-              <button
-                @click="setViewMode('list')"
-                :class="[
-                  'px-3 py-1.5 rounded-md text-sm font-medium transition-colors',
-                  viewMode === 'list' ? 'bg-line text-ink' : 'text-ink-faint hover:text-ink'
-                ]"
-                title="列表模式"
-              >
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16" />
-                </svg>
-              </button>
-              <button
-                @click="setViewMode('calendar')"
-                :class="[
-                  'px-3 py-1.5 rounded-md text-sm font-medium transition-colors',
-                  viewMode === 'calendar' ? 'bg-line text-ink' : 'text-ink-faint hover:text-ink'
-                ]"
-                title="行事曆模式"
-              >
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                </svg>
-              </button>
-            </div>
           </div>
           
           <!-- 課程篩選器 -->
@@ -143,7 +117,6 @@
         </div>
 
         <ResponsiveTable
-          v-if="viewMode === 'list'"
           :items="filteredCourses"
           :headers="[ '日期', '課程名稱', '認證', '地點', '聯絡' ]"
           :title-key="'title'"
@@ -158,12 +131,6 @@
             { key: 'contact', label: '聯絡' }
           ]"
           empty-message="暫無相關課程"
-        />
-        <CourseCalendar
-          v-else
-          :items="filteredCalendarCourses"
-          :get-school-name="getSchoolName"
-          :get-school-route="getSchoolRoute"
         />
       </div>
 
@@ -204,7 +171,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { useHead } from '@unhead/vue'
 import { getActivities, getCourses, getSchools } from '../utils/data.js'
@@ -212,7 +179,6 @@ import { getLocationOrder, getRegionOrder } from '../utils/location.js'
 import { formatItemDate, parseLocalDate } from '../utils/format.js'
 import { getOrganizerTypeLabel, isUpcomingActivity, getActivityStartDate } from '../utils/activity.js'
 import ResponsiveTable from '../components/ResponsiveTable.vue'
-import CourseCalendar from '../components/CourseCalendar.vue'
 import ActivityRow from '../components/ActivityRow.vue'
 
 
@@ -223,7 +189,6 @@ const schools = ref(getSchools())
 const schoolDataMap = new Map(schools.value.map(schoolInfo => [schoolInfo.id, schoolInfo]))
 const selectedCert = ref('')
 const selectedLevel = ref('')
-const viewMode = ref('list')
 
 const parseDate = parseLocalDate
 
@@ -384,15 +349,10 @@ const currentCourseCodes = computed(() => {
   return getCourseCodesForCert(selectedCert.value)
 })
 
-// 篩選後的課程：列表維持只顯示未結束課程；行事曆顯示此學校所有課程（含過去）
+// 篩選後的課程：只顯示未結束課程
 const filteredCourses = computed(() => {
   if (!school.value) return []
   return applyCourseFilters(school.value.courses)
-})
-
-const filteredCalendarCourses = computed(() => {
-  if (!school.value) return []
-  return applyCourseFilters(allSchoolCourses.value)
 })
 
 const organizerTypeLabel = computed(() => getOrganizerTypeLabel(school.value?.type))
@@ -400,18 +360,4 @@ const organizerTypeLabel = computed(() => getOrganizerTypeLabel(school.value?.ty
 // 清除篩選的輔助函式
 const clearCertFilter = () => { selectedCert.value = ''; selectedLevel.value = '' }
 const clearLevelFilter = () => { selectedLevel.value = '' }
-
-const setViewMode = (mode) => {
-  viewMode.value = mode
-  if (typeof window !== 'undefined') {
-    window.localStorage.setItem('schoolCoursesViewMode', mode)
-  }
-}
-
-onMounted(() => {
-  const savedViewMode = window.localStorage.getItem('schoolCoursesViewMode')
-  if (savedViewMode === 'calendar') {
-    viewMode.value = 'calendar'
-  }
-})
 </script>

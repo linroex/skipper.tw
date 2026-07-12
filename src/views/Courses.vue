@@ -2,33 +2,7 @@
   <div>
     <div class="flex items-center justify-between mb-6">
       <h1 class="text-2xl font-bold tracking-tight text-ink">帆船課程列表</h1>
-      <!-- 視圖模式切換 -->
-      <div class="flex items-center gap-1 bg-white border border-line rounded-lg p-1">
-        <button
-          @click="setViewMode('list')"
-          :class="[
-            'px-3 py-1.5 rounded-md text-sm font-medium transition-colors',
-            viewMode === 'list' ? 'bg-line text-ink' : 'text-ink-faint hover:text-ink'
-          ]"
-          title="列表模式"
-        >
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16" />
-          </svg>
-        </button>
-        <button
-          @click="setViewMode('calendar')"
-          :class="[
-            'px-3 py-1.5 rounded-md text-sm font-medium transition-colors',
-            viewMode === 'calendar' ? 'bg-line text-ink' : 'text-ink-faint hover:text-ink'
-          ]"
-          title="行事曆模式"
-        >
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-          </svg>
-        </button>
-      </div>
+      <router-link to="/calendar" class="text-sm text-primary hover:underline">行事曆檢視 →</router-link>
     </div>
 
     <!-- 篩選區 - 多列按鈕 -->
@@ -60,7 +34,7 @@
       </div>
 
       <!-- 第二列：月份篩選 / 顯示過去 -->
-      <div v-if="viewMode !== 'calendar'" class="overflow-x-auto whitespace-nowrap -mx-4 px-4 pb-1">
+      <div class="overflow-x-auto whitespace-nowrap -mx-4 px-4 pb-1">
         <div class="flex gap-2 inline-flex">
           <button
             @click="clearMonthFilter"
@@ -122,9 +96,7 @@
 
     </div>
 
-    <!-- 列表 / 行事曆 視圖 -->
     <ResponsiveTable
-      v-if="viewMode === 'list'"
       :items="filteredCourses"
       :headers="[ '日期', '課程名稱', '學校', '地點', '聯絡' ]"
       :title-key="'title'"
@@ -150,19 +122,12 @@
       empty-message="沒有符合條件的課程"
       :row-class="getCourseRowClass"
     />
-    <CourseCalendar
-      v-else
-      :items="filteredCourses"
-      :get-school-name="getSchoolName"
-      :get-school-route="getSchoolRoute"
-    />
   </div>
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed } from 'vue'
 import { useHead } from '@unhead/vue'
-import CourseCalendar from '../components/CourseCalendar.vue'
 
 // SEO meta tags
 useHead({
@@ -183,7 +148,6 @@ const selectedLocation = ref('')
 const selectedMonth = ref('')
 const selectedLevel = ref('')
 const showPastCourses = ref(false)
-const viewMode = ref('list')
 
 const parseDate = parseLocalDate
 
@@ -319,15 +283,6 @@ const filteredCourses = computed(() => {
   })
 })
 
-const setViewMode = (mode) => {
-  viewMode.value = mode
-  selectedMonth.value = ''
-  showPastCourses.value = mode === 'calendar'
-  if (typeof window !== 'undefined') {
-    window.localStorage.setItem('coursesViewMode', mode)
-  }
-}
-
 const toggleShowPastCourses = () => {
   showPastCourses.value = !showPastCourses.value
   selectedMonth.value = ''
@@ -337,13 +292,4 @@ const toggleShowPastCourses = () => {
 const clearLocationFilter = () => { selectedLocation.value = '' }
 const clearMonthFilter = () => { selectedMonth.value = '' }
 const clearLevelFilter = () => { selectedLevel.value = '' }
-
-onMounted(() => {
-  const savedViewMode = window.localStorage.getItem('coursesViewMode')
-  if (savedViewMode === 'calendar') {
-    viewMode.value = 'calendar'
-    showPastCourses.value = true
-  }
-})
-
 </script>

@@ -123,7 +123,7 @@
               <span class="text-gray-700">{{ formatItemDate(selectedCourse) }}</span>
             </div>
             <div class="flex gap-3">
-              <span class="text-gray-400 w-12 shrink-0">學校</span>
+              <span class="text-gray-400 w-12 shrink-0">{{ selectedCourse.isActivity ? '主辦' : '學校' }}</span>
               <span class="text-gray-700">{{ getSchoolName(selectedCourse.unit) }}</span>
             </div>
             <div class="flex gap-3">
@@ -131,8 +131,18 @@
               <span class="text-gray-700">{{ selectedCourse.location }}</span>
             </div>
           </div>
-          <div class="mt-4 pt-4 border-t">
+          <div class="mt-4 pt-4 border-t border-line">
+            <a
+              v-if="selectedCourse.isActivity && selectedCourse.url"
+              :href="selectedCourse.url"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-block bg-primary text-white px-4 py-2 rounded-lg text-sm hover:bg-secondary transition"
+            >
+              前往活動頁面
+            </a>
             <router-link
+              v-else
               :to="getSchoolRoute(selectedCourse.unit)"
               class="inline-block bg-primary text-white px-4 py-2 rounded-lg text-sm hover:bg-secondary transition"
               @click="selectedCourse = null"
@@ -294,7 +304,8 @@ const courseColors = [
 
 const courseColorIndexCache = new Map()
 
-const getCourseColorKey = (course) => `${course.unit}|${course.title}|${course.startDate}|${course.endDate}`
+// 同一單位的同名項目（例如多梯次活動）共用同一顏色
+const getCourseColorKey = (course) => `${course.unit}|${course.title}`
 
 const getCourseColorIndex = (course) => {
   const courseKey = getCourseColorKey(course)

@@ -2,6 +2,7 @@ import { createRouter, createMemoryHistory, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
 import Activities from '../views/Activities.vue'
 import Courses from '../views/Courses.vue'
+import Calendar from '../views/Calendar.vue'
 import Schools from '../views/Schools.vue'
 import School from '../views/School.vue'
 
@@ -20,6 +21,11 @@ export const routes = [
     path: '/courses',
     name: 'Courses',
     component: Courses
+  },
+  {
+    path: '/calendar',
+    name: 'Calendar',
+    component: Calendar
   },
   {
     path: '/schools',

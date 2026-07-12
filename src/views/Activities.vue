@@ -1,5 +1,5 @@
 <template>
-  <div class="max-w-2xl">
+  <div class="max-w-2xl mx-auto">
     <header class="mb-2">
       <h1 class="text-2xl font-bold tracking-tight">帆船活動</h1>
       <p class="mt-1.5 text-sm text-ink-soft">台灣各地的出航機會。點進去看詳情、直接私訊主辦。</p>

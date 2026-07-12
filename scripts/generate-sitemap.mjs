@@ -10,6 +10,7 @@ const urls = [
   { path: '/courses/', changefreq: 'daily', priority: '0.9' },
   { path: '/schools/', changefreq: 'weekly', priority: '0.8' },
   { path: '/activities/', changefreq: 'daily', priority: '0.7' },
+  { path: '/calendar/', changefreq: 'daily', priority: '0.7' },
   ...schoolsData.schools.map(school => ({
     path: `/schools/${school.id}/`,
     changefreq: 'weekly',
