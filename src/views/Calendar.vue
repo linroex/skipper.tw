@@ -65,7 +65,7 @@ import { getLocationOrder } from '../utils/location.js'
 import CourseCalendar from '../components/CourseCalendar.vue'
 
 useHead({
-  title: '帆船行事曆 - skipper.tw',
+  title: '帆船行事曆',
   meta: [
     { name: 'description', content: '台灣帆船課程與活動行事曆，依月份查看各地開課與出航日期。' }
   ]

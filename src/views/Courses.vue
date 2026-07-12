@@ -131,7 +131,7 @@ import { useHead } from '@unhead/vue'
 
 // SEO meta tags
 useHead({
-  title: '帆船課程列表 - skipper.tw',
+  title: '帆船課程',
   meta: [
     { name: 'description', content: '查找台灣各地帆船課程，包括 ASA、IYT、TSA 等認證課程。提供初級、中級、高級帆船課程資訊。' }
   ]

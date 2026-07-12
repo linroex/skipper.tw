@@ -268,8 +268,8 @@ const school = computed(() => schoolData.value)
 useHead(computed(() => {
   const currentSchool = schoolData.value
   const title = currentSchool
-    ? `${currentSchool.name} 帆船課程與活動 - skipper.tw`
-    : '帆船學校資料 - skipper.tw'
+    ? `${currentSchool.name} 帆船課程與活動`
+    : '帆船學校資料'
   const description = currentSchool
     ? `${currentSchool.name} 提供 ${currentSchool.certs.join('、')} 等帆船課程與活動，服務地區包含 ${currentSchool.locations.join('、')}。`
     : '查看台灣帆船學校的課程、活動、認證與服務地區資訊。'

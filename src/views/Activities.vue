@@ -45,7 +45,7 @@ import {
 import ActivityRow from '../components/ActivityRow.vue'
 
 useHead({
-  title: '帆船活動列表 - skipper.tw',
+  title: '帆船活動',
   meta: [
     { name: 'description', content: '台灣各地帆船活動：近期出航與揪團成行的航行、體驗、競賽資訊，直接聯絡主辦單位報名。' }
   ]

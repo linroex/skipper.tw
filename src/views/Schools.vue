@@ -67,7 +67,7 @@ import { parseLocalDate } from '../utils/format.js'
 import { getOrganizerTypeLabel, isUpcomingActivity } from '../utils/activity.js'
 
 useHead({
-  title: '台灣帆船學校列表 - skipper.tw',
+  title: '台灣帆船學校',
   meta: [
     { name: 'description', content: '整理台灣帆船學校與訓練中心，提供 ASA、IYT、TSA 等認證課程、服務地區與官方網站資訊。' }
   ]
