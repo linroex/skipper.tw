@@ -2,25 +2,25 @@
   <div>
     <div v-if="school" class="space-y-6">
       <!-- 學校資訊 -->
-      <div class="bg-white rounded-lg border border-line p-6">
+      <div class="bg-surface rounded-lg border border-line p-6">
         <div class="flex items-center gap-3 mb-4">
           <h1 class="text-2xl font-bold tracking-tight text-ink">{{ school.name }}</h1>
           <span v-if="school.shortName" class="text-sm text-ink-soft bg-paper border border-line px-2 py-1 rounded">
             {{ school.shortName }}
           </span>
-          <span v-if="organizerTypeLabel" class="text-sm text-white bg-primary px-2 py-1 rounded">
+          <span v-if="organizerTypeLabel" class="text-sm text-paper bg-primary px-2 py-1 rounded">
             {{ organizerTypeLabel }}
           </span>
         </div>
         <div class="flex flex-wrap gap-3 mb-4">
-          <span class="bg-primary text-white text-sm px-3 py-1 rounded-full">
+          <span class="bg-primary text-paper text-sm px-3 py-1 rounded-full">
             {{ school.totalCourses }} 課程
           </span>
-          <span class="bg-secondary text-white text-sm px-3 py-1 rounded-full">
+          <span class="bg-secondary text-paper text-sm px-3 py-1 rounded-full">
             {{ school.totalActivities }} 活動
           </span>
         </div>
-        <p class="text-gray-600 mb-4">{{ school.description }}</p>
+        <p class="text-ink-soft mb-4">{{ school.description }}</p>
         <a
           v-if="school.url"
           :href="school.url"
@@ -40,7 +40,7 @@
           </span>
         </div>
         <div class="mt-4">
-          <h3 class="text-sm font-semibold text-gray-700 mb-2">服務地區:</h3>
+          <h3 class="text-sm font-semibold text-ink-soft mb-2">服務地區:</h3>
           <div class="flex flex-wrap gap-2">
             <span
               v-for="loc in school.locations"
@@ -69,7 +69,7 @@
                   @click="clearCertFilter"
                   :class="[
                     'px-4 py-2 rounded-lg text-sm font-medium transition-colors',
-                    !selectedCert ? 'bg-primary text-white border border-transparent' : 'bg-white border border-line text-ink-soft hover:border-ink-faint'
+                    !selectedCert ? 'bg-primary text-paper border border-transparent' : 'bg-surface border border-line text-ink-soft hover:border-ink-faint'
                   ]"
                 >
                   全部認證
@@ -80,7 +80,7 @@
                   @click="selectedCert = cert"
                   :class="[
                     'px-4 py-2 rounded-lg text-sm font-medium transition-colors',
-                    selectedCert === cert ? 'bg-primary text-white border border-transparent' : 'bg-white border border-line text-ink-soft hover:border-ink-faint'
+                    selectedCert === cert ? 'bg-primary text-paper border border-transparent' : 'bg-surface border border-line text-ink-soft hover:border-ink-faint'
                   ]"
                 >
                   {{ cert }}
@@ -95,7 +95,7 @@
                   @click="clearLevelFilter"
                   :class="[
                     'px-4 py-2 rounded-lg text-sm font-medium transition-colors',
-                    !selectedLevel ? 'bg-accent text-white border border-transparent' : 'bg-white border border-line text-ink-soft hover:border-ink-faint'
+                    !selectedLevel ? 'bg-accent text-paper border border-transparent' : 'bg-surface border border-line text-ink-soft hover:border-ink-faint'
                   ]"
                 >
                   全部課程
@@ -106,7 +106,7 @@
                   @click="selectedLevel = courseCode"
                   :class="[
                     'px-4 py-2 rounded-lg text-sm font-medium transition-colors',
-                    selectedLevel === courseCode ? 'bg-accent text-white border border-transparent' : 'bg-white border border-line text-ink-soft hover:border-ink-faint'
+                    selectedLevel === courseCode ? 'bg-accent text-paper border border-transparent' : 'bg-surface border border-line text-ink-soft hover:border-ink-faint'
                   ]"
                 >
                   {{ courseCode }}
@@ -123,7 +123,7 @@
           :header-extra="{
             render: (course) => formatItemDate(course),
             tagRender: (course) => course.organization,
-            tagClass: 'bg-secondary text-white text-xs px-2 py-1 rounded'
+            tagClass: 'bg-secondary text-paper text-xs px-2 py-1 rounded'
           }"
           :columns="[
             { key: 'organization', label: '認證', render: (course) => course.organization || '-' },
@@ -147,7 +147,7 @@
       </div>
 
       <!-- 沒有資料 -->
-      <div v-if="school.courses.length === 0 && allSchoolCourses.length === 0 && school.activities.length === 0" class="text-center py-12 text-gray-500">
+      <div v-if="school.courses.length === 0 && allSchoolCourses.length === 0 && school.activities.length === 0" class="text-center py-12 text-ink-faint">
         暫無相關課程或活動
       </div>
 
@@ -159,12 +159,12 @@
       </div>
 
       <!-- URL 顯示（開發用） -->
-      <div v-if="school?.id" class="mt-4 text-sm text-gray-500">
+      <div v-if="school?.id" class="mt-4 text-sm text-ink-faint">
         學校網址：/schools/{{ school.id }}
       </div>
     </div>
 
-    <div v-else class="text-center py-12 text-gray-500">
+    <div v-else class="text-center py-12 text-ink-faint">
       學校資料不存在
     </div>
   </div>

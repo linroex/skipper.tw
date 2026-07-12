@@ -1,20 +1,20 @@
 <template>
-  <div class="bg-white rounded-lg border border-line overflow-hidden">
+  <div class="bg-surface rounded-lg border border-line overflow-hidden">
     <!-- Header with week navigation -->
     <div class="flex items-center justify-between px-4 py-3 border-b border-line">
       <button
         @click="prevWeek"
-        class="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-gray-200 transition text-gray-600 text-xl font-light"
+        class="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-line transition text-ink-soft text-xl font-light"
         title="上一個月"
       >
         ‹
       </button>
-      <h2 class="text-base font-bold text-gray-800">
+      <h2 class="text-base font-bold text-ink">
         {{ dateRangeText }}
       </h2>
       <button
         @click="nextWeek"
-        class="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-gray-200 transition text-gray-600 text-xl font-light"
+        class="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-line transition text-ink-soft text-xl font-light"
         title="下一個月"
       >
         ›
@@ -28,7 +28,7 @@
         :key="day"
         :class="[
           'py-2 text-center text-xs font-medium',
-          i === 6 ? 'text-red-400' : i === 5 ? 'text-blue-400' : 'text-gray-500'
+          i === 6 ? 'text-red-400' : i === 5 ? 'text-blue-400' : 'text-ink-faint'
         ]"
       >
         {{ day }}
@@ -42,14 +42,14 @@
         :key="weekIndex"
         class="relative grid grid-cols-7"
         :style="getWeekStyle(week)"
-        :class="week.isOutsideMainView ? 'bg-gray-50/50' : ''"
+        :class="week.isOutsideMainView ? 'bg-paper/60' : ''"
       >
         <div
           v-for="cell in week.cells"
           :key="`${weekIndex}-${cell.dateKey}`"
           :class="[
             'border-r border-b p-1 relative z-10',
-            cell.isCurrentMonth ? '' : 'bg-gray-50/70',
+            cell.isCurrentMonth ? '' : 'bg-paper/70',
             cell.isMonthBoundary ? 'border-l-4 border-l-gray-400' : ''
           ]"
         >
@@ -58,10 +58,10 @@
               :class="[
                 'min-w-6 h-6 px-1 flex items-center justify-center text-xs font-medium rounded-full',
                 isToday(cell.date)
-                  ? 'bg-primary text-white'
+                  ? 'bg-primary text-paper'
                   : cell.isCurrentMonth
-                  ? 'text-gray-600'
-                  : 'text-gray-400'
+                  ? 'text-ink-soft'
+                  : 'text-ink-faint'
               ]"
             >
               {{ getCellDateLabel(cell) }}
@@ -91,7 +91,7 @@
     </div>
 
     <!-- Empty state -->
-    <div v-if="hasNoCoursesInView" class="py-8 text-center text-sm text-gray-400">
+    <div v-if="hasNoCoursesInView" class="py-8 text-center text-sm text-ink-faint">
       此範圍內沒有符合條件的課程
     </div>
 
@@ -102,33 +102,33 @@
         class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
         @click.self="selectedCourse = null"
       >
-        <div class="bg-white rounded-xl shadow-xl max-w-sm w-full p-5">
+        <div class="bg-surface rounded-xl shadow-xl max-w-sm w-full p-5">
           <div class="flex items-start justify-between mb-3">
             <span :class="['px-2 py-0.5 text-xs rounded font-medium', getCourseColor(selectedCourse)]">
               {{ selectedCourse.title }}
             </span>
             <button
               @click="selectedCourse = null"
-              class="text-gray-400 hover:text-gray-600 leading-none text-lg"
+              class="text-ink-faint hover:text-ink-soft leading-none text-lg"
             >
               ✕
             </button>
           </div>
-          <h3 class="text-base font-bold text-gray-900 mb-3 leading-snug">
+          <h3 class="text-base font-bold text-ink mb-3 leading-snug">
             {{ selectedCourse.title }}
           </h3>
           <div class="space-y-2 text-sm">
             <div class="flex gap-3">
-              <span class="text-gray-400 w-12 shrink-0">日期</span>
-              <span class="text-gray-700">{{ formatItemDate(selectedCourse) }}</span>
+              <span class="text-ink-faint w-12 shrink-0">日期</span>
+              <span class="text-ink-soft">{{ formatItemDate(selectedCourse) }}</span>
             </div>
             <div class="flex gap-3">
-              <span class="text-gray-400 w-12 shrink-0">{{ selectedCourse.isActivity ? '主辦' : '學校' }}</span>
-              <span class="text-gray-700">{{ getSchoolName(selectedCourse.unit) }}</span>
+              <span class="text-ink-faint w-12 shrink-0">{{ selectedCourse.isActivity ? '主辦' : '學校' }}</span>
+              <span class="text-ink-soft">{{ getSchoolName(selectedCourse.unit) }}</span>
             </div>
             <div class="flex gap-3">
-              <span class="text-gray-400 w-12 shrink-0">地點</span>
-              <span class="text-gray-700">{{ selectedCourse.location }}</span>
+              <span class="text-ink-faint w-12 shrink-0">地點</span>
+              <span class="text-ink-soft">{{ selectedCourse.location }}</span>
             </div>
           </div>
           <div class="mt-4 pt-4 border-t border-line">
@@ -137,14 +137,14 @@
               :href="selectedCourse.url"
               target="_blank"
               rel="noopener noreferrer"
-              class="inline-block bg-primary text-white px-4 py-2 rounded-lg text-sm hover:bg-secondary transition"
+              class="inline-block bg-primary text-paper px-4 py-2 rounded-lg text-sm hover:bg-secondary transition"
             >
               前往活動頁面
             </a>
             <router-link
               v-else
               :to="getSchoolRoute(selectedCourse.unit)"
-              class="inline-block bg-primary text-white px-4 py-2 rounded-lg text-sm hover:bg-secondary transition"
+              class="inline-block bg-primary text-paper px-4 py-2 rounded-lg text-sm hover:bg-secondary transition"
               @click="selectedCourse = null"
             >
               前往學校
@@ -283,23 +283,23 @@ const isPastCourse = (course) => {
 
 // 高對比度配色，順序刻意錯開色相，避免相鄰課程看起來太像
 const courseColors = [
-  'bg-red-500 text-white hover:bg-red-600',
-  'bg-blue-500 text-white hover:bg-blue-600',
-  'bg-green-500 text-white hover:bg-green-600',
-  'bg-purple-500 text-white hover:bg-purple-600',
-  'bg-orange-500 text-white hover:bg-orange-600',
-  'bg-teal-500 text-white hover:bg-teal-600',
-  'bg-pink-500 text-white hover:bg-pink-600',
-  'bg-indigo-500 text-white hover:bg-indigo-600',
+  'bg-red-500 text-paper hover:bg-red-600',
+  'bg-blue-500 text-paper hover:bg-blue-600',
+  'bg-green-500 text-paper hover:bg-green-600',
+  'bg-purple-500 text-paper hover:bg-purple-600',
+  'bg-orange-500 text-paper hover:bg-orange-600',
+  'bg-teal-500 text-paper hover:bg-teal-600',
+  'bg-pink-500 text-paper hover:bg-pink-600',
+  'bg-indigo-500 text-paper hover:bg-indigo-600',
   'bg-yellow-400 text-yellow-900 hover:bg-yellow-500',
-  'bg-cyan-500 text-white hover:bg-cyan-600',
-  'bg-rose-500 text-white hover:bg-rose-600',
-  'bg-lime-500 text-white hover:bg-lime-600',
-  'bg-violet-500 text-white hover:bg-violet-600',
-  'bg-amber-500 text-white hover:bg-amber-600',
-  'bg-sky-500 text-white hover:bg-sky-600',
-  'bg-fuchsia-500 text-white hover:bg-fuchsia-600',
-  'bg-gray-500 text-white hover:bg-gray-600',
+  'bg-cyan-500 text-paper hover:bg-cyan-600',
+  'bg-rose-500 text-paper hover:bg-rose-600',
+  'bg-lime-500 text-paper hover:bg-lime-600',
+  'bg-violet-500 text-paper hover:bg-violet-600',
+  'bg-amber-500 text-paper hover:bg-amber-600',
+  'bg-sky-500 text-paper hover:bg-sky-600',
+  'bg-fuchsia-500 text-paper hover:bg-fuchsia-600',
+  'bg-gray-500 text-paper hover:bg-gray-600',
 ]
 
 const courseColorIndexCache = new Map()

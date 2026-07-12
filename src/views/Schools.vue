@@ -7,7 +7,7 @@
         v-for="school in schoolsWithStats"
         :key="school.id"
         @click="goToSchool(school.id)"
-        class="bg-white rounded-lg border border-line hover:border-primary transition-colors cursor-pointer overflow-hidden"
+        class="bg-surface rounded-lg border border-line hover:border-primary transition-colors cursor-pointer overflow-hidden"
       >
         <div class="p-6">
           <div class="flex items-center justify-between mb-2">
@@ -17,7 +17,7 @@
             </span>
           </div>
           <div v-if="school.typeLabel" class="mb-2">
-            <span class="text-xs text-white bg-primary px-2 py-1 rounded">{{ school.typeLabel }}</span>
+            <span class="text-xs text-paper bg-primary px-2 py-1 rounded">{{ school.typeLabel }}</span>
           </div>
           <div class="flex items-center text-sm text-ink-soft mb-2">
             <span class="text-xs text-ink-soft mr-3">
@@ -51,7 +51,7 @@
       </div>
     </div>
 
-    <div v-if="schoolsWithStats.length === 0" class="text-center py-12 text-gray-500">
+    <div v-if="schoolsWithStats.length === 0" class="text-center py-12 text-ink-faint">
       暫無學校資料
     </div>
   </div>

@@ -14,7 +14,7 @@
             @click="clearLocationFilter"
             :class="[
               'px-3 py-1.5 rounded-lg text-sm font-medium transition-colors',
-              !selectedLocation ? 'bg-primary text-white border border-transparent' : 'bg-white border border-line text-ink-soft hover:border-ink-faint'
+              !selectedLocation ? 'bg-primary text-paper border border-transparent' : 'bg-surface border border-line text-ink-soft hover:border-ink-faint'
             ]"
           >
             全部縣市
@@ -25,7 +25,7 @@
             @click="selectedLocation = location"
             :class="[
               'px-3 py-1.5 rounded-lg text-sm font-medium transition-colors',
-              selectedLocation === location ? 'bg-primary text-white border border-transparent' : 'bg-white border border-line text-ink-soft hover:border-ink-faint'
+              selectedLocation === location ? 'bg-primary text-paper border border-transparent' : 'bg-surface border border-line text-ink-soft hover:border-ink-faint'
             ]"
           >
             {{ location }}
@@ -40,7 +40,7 @@
             @click="clearMonthFilter"
             :class="[
               'px-3 py-1.5 rounded-lg text-sm font-medium transition-colors',
-              !selectedMonth ? 'bg-primary text-white border border-transparent' : 'bg-white border border-line text-ink-soft hover:border-ink-faint'
+              !selectedMonth ? 'bg-primary text-paper border border-transparent' : 'bg-surface border border-line text-ink-soft hover:border-ink-faint'
             ]"
           >
             全部月份
@@ -51,7 +51,7 @@
             @click="selectedMonth = month"
             :class="[
               'px-3 py-1.5 rounded-lg text-sm font-medium transition-colors',
-              selectedMonth === month ? 'bg-primary text-white border border-transparent' : 'bg-white border border-line text-ink-soft hover:border-ink-faint'
+              selectedMonth === month ? 'bg-primary text-paper border border-transparent' : 'bg-surface border border-line text-ink-soft hover:border-ink-faint'
             ]"
           >
             {{ formatMonthLabel(month) }}
@@ -60,7 +60,7 @@
             @click="toggleShowPastCourses"
             :class="[
               'px-3 py-1.5 rounded-lg text-sm font-medium transition-colors',
-              showPastCourses ? 'bg-ink text-white border border-transparent' : 'bg-white border border-line text-ink-soft hover:border-ink-faint'
+              showPastCourses ? 'bg-ink text-paper border border-transparent' : 'bg-surface border border-line text-ink-soft hover:border-ink-faint'
             ]"
           >
             {{ showPastCourses ? '含過去一年' : '顯示過去一年' }}
@@ -75,7 +75,7 @@
             @click="clearLevelFilter"
             :class="[
               'px-3 py-1.5 rounded-lg text-sm font-medium transition-colors',
-              !selectedLevel ? 'bg-accent text-white border border-transparent' : 'bg-white border border-line text-ink-soft hover:border-ink-faint'
+              !selectedLevel ? 'bg-accent text-paper border border-transparent' : 'bg-surface border border-line text-ink-soft hover:border-ink-faint'
             ]"
           >
             全部等級
@@ -86,7 +86,7 @@
             @click="selectedLevel = courseCode"
             :class="[
               'px-3 py-1.5 rounded-lg text-sm font-medium transition-colors',
-              selectedLevel === courseCode ? 'bg-accent text-white border border-transparent' : 'bg-white border border-line text-ink-soft hover:border-ink-faint'
+              selectedLevel === courseCode ? 'bg-accent text-paper border border-transparent' : 'bg-surface border border-line text-ink-soft hover:border-ink-faint'
             ]"
           >
             {{ courseCode }}
@@ -114,7 +114,7 @@
           component: 'router-link',
           props: (course) => ({
             to: getSchoolRoute(course.unit),
-            class: 'inline-block bg-primary text-white px-3 py-1 rounded-lg text-sm hover:bg-secondary transition'
+            class: 'inline-block bg-primary text-paper px-3 py-1 rounded-lg text-sm hover:bg-secondary transition'
           }),
           render: () => '前往學校'
         }

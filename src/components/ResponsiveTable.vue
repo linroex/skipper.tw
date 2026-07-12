@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-white rounded-lg border border-line overflow-hidden">
+  <div class="bg-surface rounded-lg border border-line overflow-hidden">
     <!-- 桌面版表格 (隱藏在小螢幕) -->
     <div class="hidden md:block">
       <table class="w-full">
@@ -74,7 +74,7 @@
     </div>
     
     <!-- 空狀態 -->
-    <div v-if="items.length === 0" class="text-center py-12 text-gray-500">
+    <div v-if="items.length === 0" class="text-center py-12 text-ink-faint">
       {{ emptyMessage || '暫無資料' }}
     </div>
   </div>

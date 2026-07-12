@@ -86,11 +86,11 @@ const selectedLevel = ref('')
 
 const pillClass = (active, color = 'primary') => {
   const activeClass = color === 'accent'
-    ? 'bg-accent text-white border border-transparent'
-    : 'bg-primary text-white border border-transparent'
+    ? 'bg-accent text-paper border border-transparent'
+    : 'bg-primary text-paper border border-transparent'
   return [
     'px-3 py-1.5 rounded-lg text-sm font-medium transition-colors',
-    active ? activeClass : 'bg-white border border-line text-ink-soft hover:border-ink-faint'
+    active ? activeClass : 'bg-surface border border-line text-ink-soft hover:border-ink-faint'
   ]
 }
 

@@ -5,7 +5,7 @@
       <h1 class="text-3xl font-bold tracking-tight text-ink mb-3">skipper.tw</h1>
       <p class="text-base text-ink-soft mb-6">台灣帆船活動與課程資訊公告平台</p>
       <div class="flex justify-center space-x-3">
-        <router-link to="/activities" class="bg-primary text-white text-sm font-medium px-6 py-2.5 rounded-lg hover:bg-secondary transition">
+        <router-link to="/activities" class="bg-primary text-paper text-sm font-medium px-6 py-2.5 rounded-lg hover:bg-secondary transition">
           查看所有活動
         </router-link>
         <router-link to="/courses" class="border border-line text-ink text-sm font-medium px-6 py-2.5 rounded-lg hover:border-primary hover:text-primary transition">
@@ -27,7 +27,7 @@
           :header-extra="{
             render: (activity) => formatSchedule(activity),
             tagRender: (activity) => getTypeLabel(activity.type),
-            tagClass: 'bg-primary text-white text-xs px-2 py-1 rounded'
+            tagClass: 'bg-primary text-paper text-xs px-2 py-1 rounded'
           }"
           :columns="[
             { key: 'location', label: '地點', render: (activity) => `${activity.location} (${activity.region})` }
