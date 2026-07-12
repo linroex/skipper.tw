@@ -2,21 +2,21 @@
   <div>
     <!-- 首頁標題 -->
     <section class="mb-12 text-center">
-      <h1 class="text-4xl font-bold text-gray-800 mb-4">🚤 skipper.tw</h1>
-      <p class="text-xl text-gray-600 mb-6">台灣帆船活動與課程資訊公告平台</p>
-      <div class="flex justify-center space-x-4">
-        <router-link to="/activities" class="bg-primary text-white px-6 py-3 rounded-lg hover:bg-secondary transition">
-          🏄 查看所有活動
+      <h1 class="text-3xl font-bold tracking-tight text-ink mb-3">skipper.tw</h1>
+      <p class="text-base text-ink-soft mb-6">台灣帆船活動與課程資訊公告平台</p>
+      <div class="flex justify-center space-x-3">
+        <router-link to="/activities" class="bg-primary text-white text-sm font-medium px-6 py-2.5 rounded-lg hover:bg-secondary transition">
+          查看所有活動
         </router-link>
-        <router-link to="/courses" class="bg-secondary text-white px-6 py-3 rounded-lg hover:bg-primary transition">
-          🎓 查看所有課程
+        <router-link to="/courses" class="border border-line text-ink text-sm font-medium px-6 py-2.5 rounded-lg hover:border-primary hover:text-primary transition">
+          查看所有課程
         </router-link>
       </div>
     </section>
 
     <!-- 即將開始的活動 -->
     <section class="mb-12">
-      <h2 class="text-2xl font-bold text-gray-800 mb-4">📅 即將開始的活動</h2>
+      <h2 class="text-xl font-bold text-ink mb-2">即將開始的活動</h2>
       <router-link to="/activities" class="text-primary hover:underline">查看全部活動 →</router-link>
       
       <div class="mt-4">
@@ -39,7 +39,7 @@
 
     <!-- 熱門課程 -->
     <section>
-      <h2 class="text-2xl font-bold text-gray-800 mb-4">🎓 熱門課程</h2>
+      <h2 class="text-xl font-bold text-ink mb-2">熱門課程</h2>
       <router-link to="/courses" class="text-primary hover:underline">查看全部課程 →</router-link>
       
       <div class="mt-4">

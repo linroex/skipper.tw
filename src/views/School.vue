@@ -2,13 +2,13 @@
   <div>
     <div v-if="school" class="space-y-6">
       <!-- 學校資訊 -->
-      <div class="bg-white rounded-lg shadow-md p-6">
+      <div class="bg-white rounded-lg border border-line p-6">
         <div class="flex items-center gap-3 mb-4">
-          <h1 class="text-3xl font-bold text-gray-900">{{ school.name }}</h1>
-          <span v-if="school.shortName" class="text-sm text-gray-500 bg-gray-100 px-2 py-1 rounded">
+          <h1 class="text-2xl font-bold tracking-tight text-ink">{{ school.name }}</h1>
+          <span v-if="school.shortName" class="text-sm text-ink-soft bg-paper border border-line px-2 py-1 rounded">
             {{ school.shortName }}
           </span>
-          <span v-if="organizerTypeLabel" class="text-sm text-white bg-secondary px-2 py-1 rounded">
+          <span v-if="organizerTypeLabel" class="text-sm text-white bg-primary px-2 py-1 rounded">
             {{ organizerTypeLabel }}
           </span>
         </div>
@@ -34,7 +34,7 @@
           <span
             v-for="cert in school.certs"
             :key="cert"
-            class="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded"
+            class="text-xs bg-paper border border-line text-ink-soft px-2 py-1 rounded"
           >
             {{ cert }} 認證
           </span>
@@ -45,7 +45,7 @@
             <span
               v-for="loc in school.locations"
               :key="loc"
-              class="text-xs bg-blue-50 text-blue-700 px-2 py-1 rounded"
+              class="text-xs bg-paper border border-line text-primary px-2 py-1 rounded"
             >
               {{ loc }}
             </span>
@@ -57,13 +57,13 @@
       <div v-if="school.courses.length > 0 || allSchoolCourses.length > 0">
         <div class="mb-4">
           <div class="flex items-center justify-between mb-4">
-            <h2 class="text-2xl font-bold text-gray-800">相關課程</h2>
-            <div class="flex items-center gap-1 bg-gray-100 rounded-lg p-1">
+            <h2 class="text-xl font-bold text-ink">相關課程</h2>
+            <div class="flex items-center gap-1 bg-white border border-line rounded-lg p-1">
               <button
                 @click="setViewMode('list')"
                 :class="[
                   'px-3 py-1.5 rounded-md text-sm font-medium transition-colors',
-                  viewMode === 'list' ? 'bg-white text-gray-800 shadow-sm' : 'text-gray-500 hover:text-gray-700'
+                  viewMode === 'list' ? 'bg-line text-ink' : 'text-ink-faint hover:text-ink'
                 ]"
                 title="列表模式"
               >
@@ -75,7 +75,7 @@
                 @click="setViewMode('calendar')"
                 :class="[
                   'px-3 py-1.5 rounded-md text-sm font-medium transition-colors',
-                  viewMode === 'calendar' ? 'bg-white text-gray-800 shadow-sm' : 'text-gray-500 hover:text-gray-700'
+                  viewMode === 'calendar' ? 'bg-line text-ink' : 'text-ink-faint hover:text-ink'
                 ]"
                 title="行事曆模式"
               >
@@ -95,7 +95,7 @@
                   @click="clearCertFilter"
                   :class="[
                     'px-4 py-2 rounded-lg text-sm font-medium transition-colors',
-                    !selectedCert ? 'bg-secondary text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    !selectedCert ? 'bg-primary text-white border border-transparent' : 'bg-white border border-line text-ink-soft hover:border-ink-faint'
                   ]"
                 >
                   全部認證
@@ -106,7 +106,7 @@
                   @click="selectedCert = cert"
                   :class="[
                     'px-4 py-2 rounded-lg text-sm font-medium transition-colors',
-                    selectedCert === cert ? 'bg-secondary text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    selectedCert === cert ? 'bg-primary text-white border border-transparent' : 'bg-white border border-line text-ink-soft hover:border-ink-faint'
                   ]"
                 >
                   {{ cert }}
@@ -121,7 +121,7 @@
                   @click="clearLevelFilter"
                   :class="[
                     'px-4 py-2 rounded-lg text-sm font-medium transition-colors',
-                    !selectedLevel ? 'bg-accent text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    !selectedLevel ? 'bg-accent text-white border border-transparent' : 'bg-white border border-line text-ink-soft hover:border-ink-faint'
                   ]"
                 >
                   全部課程
@@ -132,7 +132,7 @@
                   @click="selectedLevel = courseCode"
                   :class="[
                     'px-4 py-2 rounded-lg text-sm font-medium transition-colors',
-                    selectedLevel === courseCode ? 'bg-accent text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    selectedLevel === courseCode ? 'bg-accent text-white border border-transparent' : 'bg-white border border-line text-ink-soft hover:border-ink-faint'
                   ]"
                 >
                   {{ courseCode }}
@@ -169,14 +169,14 @@
 
       <!-- 活動列表 -->
       <div v-if="school.activities.length > 0">
-        <h2 class="text-2xl font-bold text-gray-800 mb-4">相關活動</h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <ActivityCard
+        <h2 class="text-xl font-bold text-ink mb-2">相關活動</h2>
+        <ul class="list-none m-0 p-0 max-w-2xl">
+          <ActivityRow
             v-for="activity in school.activities"
             :key="activity.id"
             :activity="activity"
           />
-        </div>
+        </ul>
       </div>
 
       <!-- 沒有資料 -->
@@ -213,7 +213,7 @@ import { formatItemDate, parseLocalDate } from '../utils/format.js'
 import { getOrganizerTypeLabel, isUpcomingActivity, getActivityStartDate } from '../utils/activity.js'
 import ResponsiveTable from '../components/ResponsiveTable.vue'
 import CourseCalendar from '../components/CourseCalendar.vue'
-import ActivityCard from '../components/ActivityCard.vue'
+import ActivityRow from '../components/ActivityRow.vue'
 
 
 const route = useRoute()

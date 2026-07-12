@@ -1,7 +1,7 @@
 <template>
-  <div class="bg-white rounded-lg shadow overflow-hidden">
+  <div class="bg-white rounded-lg border border-line overflow-hidden">
     <!-- Header with week navigation -->
-    <div class="flex items-center justify-between px-4 py-3 border-b bg-gray-50">
+    <div class="flex items-center justify-between px-4 py-3 border-b border-line">
       <button
         @click="prevWeek"
         class="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-gray-200 transition text-gray-600 text-xl font-light"
@@ -22,7 +22,7 @@
     </div>
 
     <!-- Day of week headers -->
-    <div class="grid grid-cols-7 bg-gray-50 border-b">
+    <div class="grid grid-cols-7 border-b border-line">
       <div
         v-for="(day, i) in ['一', '二', '三', '四', '五', '六', '日']"
         :key="day"

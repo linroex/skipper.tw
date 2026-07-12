@@ -1,14 +1,14 @@
 <template>
   <div>
     <div class="flex items-center justify-between mb-6">
-      <h1 class="text-3xl font-bold text-gray-800">帆船課程列表</h1>
+      <h1 class="text-2xl font-bold tracking-tight text-ink">帆船課程列表</h1>
       <!-- 視圖模式切換 -->
-      <div class="flex items-center gap-1 bg-gray-100 rounded-lg p-1">
+      <div class="flex items-center gap-1 bg-white border border-line rounded-lg p-1">
         <button
           @click="setViewMode('list')"
           :class="[
             'px-3 py-1.5 rounded-md text-sm font-medium transition-colors',
-            viewMode === 'list' ? 'bg-white text-gray-800 shadow-sm' : 'text-gray-500 hover:text-gray-700'
+            viewMode === 'list' ? 'bg-line text-ink' : 'text-ink-faint hover:text-ink'
           ]"
           title="列表模式"
         >
@@ -20,7 +20,7 @@
           @click="setViewMode('calendar')"
           :class="[
             'px-3 py-1.5 rounded-md text-sm font-medium transition-colors',
-            viewMode === 'calendar' ? 'bg-white text-gray-800 shadow-sm' : 'text-gray-500 hover:text-gray-700'
+            viewMode === 'calendar' ? 'bg-line text-ink' : 'text-ink-faint hover:text-ink'
           ]"
           title="行事曆模式"
         >
@@ -40,7 +40,7 @@
             @click="clearLocationFilter"
             :class="[
               'px-3 py-1.5 rounded-lg text-sm font-medium transition-colors',
-              !selectedLocation ? 'bg-secondary text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+              !selectedLocation ? 'bg-primary text-white border border-transparent' : 'bg-white border border-line text-ink-soft hover:border-ink-faint'
             ]"
           >
             全部縣市
@@ -51,7 +51,7 @@
             @click="selectedLocation = location"
             :class="[
               'px-3 py-1.5 rounded-lg text-sm font-medium transition-colors',
-              selectedLocation === location ? 'bg-secondary text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+              selectedLocation === location ? 'bg-primary text-white border border-transparent' : 'bg-white border border-line text-ink-soft hover:border-ink-faint'
             ]"
           >
             {{ location }}
@@ -66,7 +66,7 @@
             @click="clearMonthFilter"
             :class="[
               'px-3 py-1.5 rounded-lg text-sm font-medium transition-colors',
-              !selectedMonth ? 'bg-primary text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+              !selectedMonth ? 'bg-primary text-white border border-transparent' : 'bg-white border border-line text-ink-soft hover:border-ink-faint'
             ]"
           >
             全部月份
@@ -77,7 +77,7 @@
             @click="selectedMonth = month"
             :class="[
               'px-3 py-1.5 rounded-lg text-sm font-medium transition-colors',
-              selectedMonth === month ? 'bg-primary text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+              selectedMonth === month ? 'bg-primary text-white border border-transparent' : 'bg-white border border-line text-ink-soft hover:border-ink-faint'
             ]"
           >
             {{ formatMonthLabel(month) }}
@@ -86,7 +86,7 @@
             @click="toggleShowPastCourses"
             :class="[
               'px-3 py-1.5 rounded-lg text-sm font-medium transition-colors',
-              showPastCourses ? 'bg-gray-700 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+              showPastCourses ? 'bg-ink text-white border border-transparent' : 'bg-white border border-line text-ink-soft hover:border-ink-faint'
             ]"
           >
             {{ showPastCourses ? '含過去一年' : '顯示過去一年' }}
@@ -101,7 +101,7 @@
             @click="clearLevelFilter"
             :class="[
               'px-3 py-1.5 rounded-lg text-sm font-medium transition-colors',
-              !selectedLevel ? 'bg-accent text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+              !selectedLevel ? 'bg-accent text-white border border-transparent' : 'bg-white border border-line text-ink-soft hover:border-ink-faint'
             ]"
           >
             全部等級
@@ -112,7 +112,7 @@
             @click="selectedLevel = courseCode"
             :class="[
               'px-3 py-1.5 rounded-lg text-sm font-medium transition-colors',
-              selectedLevel === courseCode ? 'bg-accent text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+              selectedLevel === courseCode ? 'bg-accent text-white border border-transparent' : 'bg-white border border-line text-ink-soft hover:border-ink-faint'
             ]"
           >
             {{ courseCode }}

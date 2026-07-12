@@ -1,27 +1,27 @@
 <template>
-  <div class="bg-white rounded-lg shadow overflow-hidden">
+  <div class="bg-white rounded-lg border border-line overflow-hidden">
     <!-- 桌面版表格 (隱藏在小螢幕) -->
     <div class="hidden md:block">
       <table class="w-full">
-        <thead class="bg-gray-50 border-b">
+        <thead class="border-b border-line">
           <tr>
-            <th v-for="header in headers" :key="header" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+            <th v-for="header in headers" :key="header" class="px-6 py-3 text-left text-xs font-medium text-ink-faint uppercase tracking-wide">
               {{ header }}
             </th>
           </tr>
         </thead>
-        <tbody class="divide-y divide-gray-200">
+        <tbody class="divide-y divide-line">
           <tr
             v-for="item in items"
             :key="item.id"
-            :class="['hover:bg-gray-50', getRowClass(item)]"
+            :class="['hover:bg-paper', getRowClass(item)]"
           >
-            <td v-if="headerExtra?.render" class="px-6 py-4 whitespace-nowrap text-sm font-bold text-sky-500">
+            <td v-if="headerExtra?.render" class="px-6 py-4 whitespace-nowrap text-sm font-bold text-primary tabular-nums">
               {{ headerExtra.render(item) }}
             </td>
             <td v-if="titleKey" class="px-6 py-4">
               <div class="flex items-center gap-2">
-                <span class="font-medium text-gray-900">{{ item[titleKey] }}</span>
+                <span class="font-medium text-ink">{{ item[titleKey] }}</span>
                 <span v-if="headerExtra?.tagRender" :class="headerExtra.tagClass">
                   {{ typeof headerExtra.tagRender === 'function' ? headerExtra.tagRender(item) : headerExtra.tagRender }}
                 </span>
@@ -42,23 +42,23 @@
       <div
         v-for="item in items"
         :key="item.id"
-        :class="['bg-gray-50 rounded-lg p-4 border border-gray-200', getRowClass(item)]"
+        :class="['bg-paper rounded-lg p-4 border border-line', getRowClass(item)]"
       >
         <!-- 頂部資訊（日期和標籤） -->
         <div v-if="headerExtra" class="flex justify-between items-start mb-2">
-          <span class="text-sm font-bold text-sky-500">{{ headerExtra.render(item) }}</span>
+          <span class="text-sm font-bold text-primary tabular-nums">{{ headerExtra.render(item) }}</span>
           <span v-if="headerExtra.tagRender" :class="headerExtra.tagClass">
             {{ typeof headerExtra.tagRender === 'function' ? headerExtra.tagRender(item) : headerExtra.tagRender }}
           </span>
         </div>
         
         <!-- 主標題 -->
-        <h3 v-if="titleKey" class="font-medium text-gray-900 text-lg mb-2">
+        <h3 v-if="titleKey" class="font-medium text-ink text-lg mb-2">
           {{ item[titleKey] }}
         </h3>
         
         <!-- 詳細資訊 -->
-        <div v-if="columns.length > 0" class="space-y-1 text-sm text-gray-600">
+        <div v-if="columns.length > 0" class="space-y-1 text-sm text-ink-soft">
           <div v-for="col in columns" :key="col.key" class="flex justify-between gap-3">
             <span>{{ col.label }}</span>
             <component

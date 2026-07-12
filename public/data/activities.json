@@ -7,8 +7,7 @@
       "unit": "TMS 台灣海洋帆船學校",
       "region": "南台灣",
       "location": "澎湖",
-      "audience": "public",
-      "prerequisites": [],
+      "conditions": [],
       "schedule": {
         "type": "fixed",
         "startDate": "2026-07-02",
@@ -28,11 +27,16 @@
       "unit": "TMS 台灣海洋帆船學校",
       "region": "南台灣",
       "location": "高雄蚵仔寮",
-      "audience": "members",
-      "prerequisites": ["6 歲以上"],
+      "conditions": [
+        "6 歲以上",
+        "非學員需 ASA 101"
+      ],
       "schedule": {
         "type": "recurring",
-        "sessions": ["2026-07-18", "2026-08-01"]
+        "sessions": [
+          "2026-07-18",
+          "2026-08-01"
+        ]
       },
       "price": 5000,
       "memberPrice": 4500,
@@ -47,8 +51,7 @@
       "unit": "TMS 台灣海洋帆船學校",
       "region": "南台灣",
       "location": "小琉球",
-      "audience": "public",
-      "prerequisites": [],
+      "conditions": [],
       "schedule": {
         "type": "fixed",
         "startDate": "2026-08-08",
@@ -68,11 +71,19 @@
       "unit": "花蓮帆船學校 永遠天晴",
       "region": "東台灣",
       "location": "花蓮觀光遊憩碼頭",
-      "audience": "public",
-      "prerequisites": [],
+      "conditions": [],
       "schedule": {
         "type": "recurring",
-        "sessions": ["2026-06-27", "2026-06-28", "2026-06-29", "2026-06-30", "2026-07-01", "2026-07-02", "2026-07-03", "2026-07-04"],
+        "sessions": [
+          "2026-06-27",
+          "2026-06-28",
+          "2026-06-29",
+          "2026-06-30",
+          "2026-07-01",
+          "2026-07-02",
+          "2026-07-03",
+          "2026-07-04"
+        ],
         "note": "每日傍晚出發・四人以上成行"
       },
       "duration": "約 2 小時",
@@ -88,8 +99,7 @@
       "unit": "樂活海洋",
       "region": "南台灣",
       "location": "澎湖",
-      "audience": "public",
-      "prerequisites": [],
+      "conditions": [],
       "schedule": {
         "type": "fixed",
         "startDate": "2026-06-27",
@@ -108,15 +118,30 @@
       "unit": "黑嚕嚕",
       "region": "東台灣",
       "location": "宜蘭",
-      "audience": "public",
-      "prerequisites": [],
+      "conditions": [],
       "schedule": {
         "type": "flexible",
         "windowStart": "2026-04-01",
         "windowEnd": "2026-10-31",
         "minParticipants": 6,
         "note": "日期可調整",
-        "sessions": ["2026-04-20", "2026-05-01", "2026-05-15", "2026-05-26", "2026-06-09", "2026-06-19", "2026-07-02", "2026-07-13", "2026-07-23", "2026-08-06", "2026-08-17", "2026-08-27", "2026-09-07", "2026-09-17", "2026-10-05"]
+        "sessions": [
+          "2026-04-20",
+          "2026-05-01",
+          "2026-05-15",
+          "2026-05-26",
+          "2026-06-09",
+          "2026-06-19",
+          "2026-07-02",
+          "2026-07-13",
+          "2026-07-23",
+          "2026-08-06",
+          "2026-08-17",
+          "2026-08-27",
+          "2026-09-07",
+          "2026-09-17",
+          "2026-10-05"
+        ]
       },
       "duration": "6 天",
       "price": null,
@@ -131,8 +156,7 @@
       "unit": "黑嚕嚕",
       "region": "東台灣",
       "location": "宜蘭",
-      "audience": "public",
-      "prerequisites": [],
+      "conditions": [],
       "schedule": {
         "type": "flexible",
         "windowStart": "2026-01-01",
@@ -152,8 +176,7 @@
       "unit": "黑嚕嚕",
       "region": "東台灣",
       "location": "宜蘭沿岸",
-      "audience": "public",
-      "prerequisites": [],
+      "conditions": [],
       "schedule": {
         "type": "flexible",
         "windowStart": "2026-11-01",
@@ -173,8 +196,9 @@
       "unit": "黑嚕嚕",
       "region": "東台灣",
       "location": "宜蘭沿岸",
-      "audience": "public",
-      "prerequisites": ["ASA 101"],
+      "conditions": [
+        "需 ASA 101"
+      ],
       "schedule": {
         "type": "flexible",
         "windowStart": "2026-01-01",
@@ -195,8 +219,7 @@
       "unit": "黑嚕嚕",
       "region": "東台灣",
       "location": "宜蘭龜山島",
-      "audience": "public",
-      "prerequisites": [],
+      "conditions": [],
       "schedule": {
         "type": "flexible",
         "windowStart": "2026-05-01",
@@ -217,8 +240,7 @@
       "unit": "海翼遊艇俱樂部",
       "region": "北台灣",
       "location": "基隆碧砂遊艇碼頭",
-      "audience": "public",
-      "prerequisites": [],
+      "conditions": [],
       "schedule": {
         "type": "fixed",
         "startDate": "2026-06-22",
@@ -238,8 +260,9 @@
       "unit": "海翼遊艇俱樂部",
       "region": "北台灣",
       "location": "八里大橋碼頭（下游航段）",
-      "audience": "members",
-      "prerequisites": [],
+      "conditions": [
+        "會員限定"
+      ],
       "schedule": {
         "type": "fixed",
         "startDate": "2026-06-27",
@@ -258,8 +281,9 @@
       "unit": "海翼遊艇俱樂部",
       "region": "北台灣",
       "location": "基隆碧砂遊艇港（外木山水域）",
-      "audience": "members",
-      "prerequisites": [],
+      "conditions": [
+        "會員限定"
+      ],
       "schedule": {
         "type": "fixed",
         "startDate": "2026-06-27",
@@ -278,8 +302,9 @@
       "unit": "海翼遊艇俱樂部",
       "region": "北台灣",
       "location": "八里大橋碼頭（河口水域）",
-      "audience": "members",
-      "prerequisites": [],
+      "conditions": [
+        "會員限定"
+      ],
       "schedule": {
         "type": "fixed",
         "startDate": "2026-07-03",
@@ -299,8 +324,7 @@
       "unit": "海翼遊艇俱樂部",
       "region": "北台灣",
       "location": "基隆出發",
-      "audience": "public",
-      "prerequisites": [],
+      "conditions": [],
       "schedule": {
         "type": "fixed",
         "startDate": "2026-09-18",

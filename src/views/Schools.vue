@@ -1,33 +1,33 @@
 <template>
   <div>
-    <h1 class="text-3xl font-bold text-gray-800 mb-6">帆船學校列表</h1>
+    <h1 class="text-2xl font-bold tracking-tight text-ink mb-6">帆船學校列表</h1>
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       <div
         v-for="school in schoolsWithStats"
         :key="school.id"
         @click="goToSchool(school.id)"
-        class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow cursor-pointer overflow-hidden"
+        class="bg-white rounded-lg border border-line hover:border-primary transition-colors cursor-pointer overflow-hidden"
       >
         <div class="p-6">
           <div class="flex items-center justify-between mb-2">
-            <h2 class="text-xl font-bold text-gray-900">{{ school.name }}</h2>
-            <span v-if="school.primaryLocation" class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded">
+            <h2 class="text-lg font-bold text-ink">{{ school.name }}</h2>
+            <span v-if="school.primaryLocation" class="text-xs bg-paper border border-line text-ink-soft px-2 py-1 rounded">
               {{ school.primaryLocation }}
             </span>
           </div>
           <div v-if="school.typeLabel" class="mb-2">
-            <span class="text-xs text-white bg-secondary px-2 py-1 rounded">{{ school.typeLabel }}</span>
+            <span class="text-xs text-white bg-primary px-2 py-1 rounded">{{ school.typeLabel }}</span>
           </div>
-          <div class="flex items-center text-sm text-gray-600 mb-2">
-            <span class="bg-primary text-white text-xs px-2 py-1 rounded mr-2">
+          <div class="flex items-center text-sm text-ink-soft mb-2">
+            <span class="text-xs text-ink-soft mr-3">
               {{ school.totalCourses }} 課程
             </span>
-            <span class="bg-secondary text-white text-xs px-2 py-1 rounded">
+            <span class="text-xs text-ink-soft">
               {{ school.totalActivities }} 活動
             </span>
           </div>
-          <p class="text-gray-600 text-sm">{{ school.description }}</p>
+          <p class="text-ink-soft text-sm">{{ school.description }}</p>
           <a
             v-if="school.url"
             :href="school.url"
@@ -42,7 +42,7 @@
             <span
               v-for="cert in school.certs"
               :key="cert"
-              class="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded"
+              class="text-xs bg-paper border border-line text-ink-soft px-2 py-1 rounded"
             >
               {{ cert }}
             </span>
