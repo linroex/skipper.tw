@@ -793,6 +793,25 @@
       "contact": "私訊亞趣粉專",
       "description": "Salona 44 冬季移航訓練，開放名額。36 小時長程航程含夜航，夜裡輪流守夜。集合地點：基隆市中正區北寧路 244 號（亞果基隆遊艇碼頭）。",
       "url": "https://www.facebook.com/permalink.php?story_fbid=pfbid0DhquzburNiKf6cdbVWtXgVK8Ha3QaARshUGHBMJCNGxcDQyfBXek2VcbFxszqWsJl&id=100083542533590"
+    },
+    {
+      "id": 39,
+      "title": "週五會員日｜課後練習",
+      "type": "workshop",
+      "unit": "樂活海洋",
+      "region": "南台灣",
+      "location": "台南安平",
+      "conditions": ["預約制"],
+      "schedule": {
+        "type": "flexible",
+        "windowStart": "2025-10-29",
+        "windowEnd": "2030-10-31",
+        "note": "每週五 14:00–17:00"
+      },
+      "priceText": "會員免費／一般 $3,000",
+      "contact": "(06) 299-8099",
+      "description": "常態練習，在教練指導下反覆練習：調帆、碼頭停靠、人員救生、前／主帆裝卸、球帆施作、錨泊海錨。",
+      "url": "https://lohasocean.com/news/2/17"
     }
   ]
 }

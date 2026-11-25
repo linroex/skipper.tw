@@ -147,7 +147,9 @@ export const getSubExtras = (activity) => {
     if (start && end) {
       const fullYear = start.getMonth() === 0 && end.getMonth() === 11 &&
         start.getFullYear() === end.getFullYear()
-      if (!fullYear) extras.push(`${start.getMonth() + 1}–${end.getMonth() + 1} 月`)
+      // 區間超過一年（長期常態開放）時，「幾月到幾月」沒有意義，不顯示
+      const overAYear = (end - start) / 86400000 > 366
+      if (!fullYear && !overAYear) extras.push(`${start.getMonth() + 1}–${end.getMonth() + 1} 月`)
     }
   }
 
