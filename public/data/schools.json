@@ -111,6 +111,17 @@
       },
       "certs": [],
       "locations": ["高雄旗津"]
+    },
+    {
+      "id": "sailingforward",
+      "name": "帆游安平",
+      "shortName": "帆游安平",
+      "description": "台南安平的 J/80 帆船體驗、教學與競賽，賽船隊員招募中",
+      "links": {
+        "facebook": "https://www.facebook.com/sailingforward"
+      },
+      "certs": [],
+      "locations": ["台南"]
     }
   ]
 }

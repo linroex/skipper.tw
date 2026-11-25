@@ -172,29 +172,6 @@
     },
     {
       "id": 8,
-      "title": "帆船 ASA 103～105 教學考證班",
-      "type": "workshop",
-      "unit": "黑嚕嚕",
-      "region": "東台灣",
-      "location": "宜蘭沿岸",
-      "conditions": [
-        "需 ASA 101"
-      ],
-      "schedule": {
-        "type": "flexible",
-        "windowStart": "2026-01-01",
-        "windowEnd": "2026-12-31",
-        "minParticipants": 4,
-        "note": "雙語、雙數線"
-      },
-      "duration": "3 天",
-      "price": null,
-      "contact": "IG: @hllclub / @sailalphalpha",
-      "description": "一起來成為航海王！ASA 103~105 帆船考證課程，宜蘭沿岸航行。",
-      "url": "https://www.instagram.com/hllclub/"
-    },
-    {
-      "id": 9,
       "title": "宜蘭龜山島包船水上活動",
       "type": "workshop",
       "unit": "黑嚕嚕",
@@ -215,7 +192,7 @@
       "url": "https://www.instagram.com/hllclub/"
     },
     {
-      "id": 10,
+      "id": 9,
       "title": "年度航訓｜基隆－石垣島－與那國島跨境航旅",
       "type": "voyage",
       "unit": "海翼遊艇俱樂部",
@@ -235,7 +212,7 @@
       "url": "https://www.hiwingmarine.com/general-5"
     },
     {
-      "id": 11,
+      "id": 10,
       "title": "基礎航訓｜有限水域控制與離靠岸",
       "type": "workshop",
       "unit": "海翼遊艇俱樂部",
@@ -256,7 +233,7 @@
       "url": "https://www.hiwingmarine.com/general-5"
     },
     {
-      "id": 12,
+      "id": 11,
       "title": "海翼會員聯誼日",
       "type": "social",
       "unit": "海翼遊艇俱樂部",
@@ -277,7 +254,7 @@
       "url": "https://www.hiwingmarine.com/general-5"
     },
     {
-      "id": 13,
+      "id": 12,
       "title": "基礎航訓｜遇浪駕駛技巧",
       "type": "workshop",
       "unit": "海翼遊艇俱樂部",
@@ -299,7 +276,7 @@
       "url": "https://www.hiwingmarine.com/general-5"
     },
     {
-      "id": 14,
+      "id": 13,
       "title": "年度航訓｜基隆→花蓮→綠島→高雄",
       "type": "voyage",
       "unit": "海翼遊艇俱樂部",
@@ -318,7 +295,7 @@
       "url": "https://www.hiwingmarine.com/general-5"
     },
     {
-      "id": 15,
+      "id": 14,
       "title": "Rogers 46 冬季移泊｜高雄 → 台南",
       "type": "voyage",
       "unit": "亞趣遊艇海洋生活",
@@ -338,7 +315,7 @@
       "url": "https://www.facebook.com/permalink.php?story_fbid=1126629830131758&id=100083542533590"
     },
     {
-      "id": 16,
+      "id": 15,
       "title": "繞旗津島帆船體驗",
       "type": "voyage",
       "unit": "後野海洋",
@@ -357,7 +334,7 @@
       "url": "https://www.facebook.com/permalink.php?story_fbid=122184237824819559&id=61574586779948"
     },
     {
-      "id": 17,
+      "id": 16,
       "title": "2026 冬季台灣東部海域實務航行",
       "type": "voyage",
       "unit": "晨光海洋 ASA 帆船學校",
@@ -378,7 +355,7 @@
       "url": "https://dawnlightocean.com.tw/news_detail.php?n_id=97"
     },
     {
-      "id": 18,
+      "id": 17,
       "title": "長航訓練｜高雄 → 台南",
       "type": "voyage",
       "unit": "樂活海洋",
@@ -398,7 +375,7 @@
       "url": "https://www.facebook.com/LOHASOCEAN/posts/pfbid02ZNm5FR67nAiGV3dbujreRyHbq4hPhDntU25BogKvvR88K6EPaMH6tTrNxpU9EMBSl"
     },
     {
-      "id": 19,
+      "id": 18,
       "title": "蚵仔寮漁港帆船體驗",
       "type": "voyage",
       "unit": "後野海洋",
@@ -417,7 +394,7 @@
       "url": "https://www.facebook.com/permalink.php?story_fbid=pfbid0egqu3bjbz54ss2LrHVgBuqquTbJctTxY9CMCZAYJa2XvLjR8hDpfr7Lkhmm9CNjhl&id=61574586779948"
     },
     {
-      "id": 20,
+      "id": 19,
       "title": "彌陀漁港帆船體驗",
       "type": "voyage",
       "unit": "後野海洋",
@@ -437,7 +414,7 @@
       "url": "https://www.facebook.com/permalink.php?story_fbid=pfbid02Yu8XQ998uNK6sYFJrpG87S82MzWvzsCZvu9LbgiRSRz99Bxzk6F6xQ1aCJHw2ktHl&id=61574586779948"
     },
     {
-      "id": 21,
+      "id": 20,
       "title": "進階航訓｜外海航行實務",
       "type": "workshop",
       "unit": "海翼遊艇俱樂部",
@@ -457,7 +434,7 @@
       "url": "https://www.hiwingmarine.com/general-5"
     },
     {
-      "id": 22,
+      "id": 21,
       "title": "Salona 44 冬季移航｜高雄 → 台南",
       "type": "voyage",
       "unit": "亞趣遊艇海洋生活",
@@ -477,7 +454,7 @@
       "url": "https://www.facebook.com/permalink.php?story_fbid=pfbid0kw6PorC3PPWDoBUihXgTYfLz4QjtN3Z1pmqaAmM2hdosXKQnJh8MtG914sZAqfBFl&id=100083542533590"
     },
     {
-      "id": 23,
+      "id": 22,
       "title": "基礎航訓｜有限水域控制與離靠岸",
       "type": "workshop",
       "unit": "海翼遊艇俱樂部",
@@ -496,7 +473,7 @@
       "url": "https://www.hiwingmarine.com/general-5"
     },
     {
-      "id": 24,
+      "id": 23,
       "title": "帆船航訓｜帆船巡航基礎實務",
       "type": "workshop",
       "unit": "海翼遊艇俱樂部",
@@ -516,7 +493,7 @@
       "url": "https://www.hiwingmarine.com/general-5"
     },
     {
-      "id": 25,
+      "id": 24,
       "title": "基礎航訓｜有限水域控制與離靠岸",
       "type": "workshop",
       "unit": "海翼遊艇俱樂部",
@@ -535,7 +512,7 @@
       "url": "https://www.hiwingmarine.com/general-5"
     },
     {
-      "id": 26,
+      "id": 25,
       "title": "進階航訓｜夜間巡航（大稻埕航段）",
       "type": "workshop",
       "unit": "海翼遊艇俱樂部",
@@ -555,7 +532,7 @@
       "url": "https://www.hiwingmarine.com/general-5"
     },
     {
-      "id": 27,
+      "id": 26,
       "title": "帆船航訓｜帆船巡航基礎實務",
       "type": "workshop",
       "unit": "海翼遊艇俱樂部",
@@ -575,7 +552,7 @@
       "url": "https://www.hiwingmarine.com/general-5"
     },
     {
-      "id": 28,
+      "id": 27,
       "title": "帆船航訓｜帆船巡航基礎實務",
       "type": "workshop",
       "unit": "海翼遊艇俱樂部",
@@ -595,7 +572,7 @@
       "url": "https://www.hiwingmarine.com/general-5"
     },
     {
-      "id": 29,
+      "id": 28,
       "title": "進階航訓｜有限水域控制與離靠岸",
       "type": "workshop",
       "unit": "海翼遊艇俱樂部",
@@ -614,7 +591,7 @@
       "url": "https://www.hiwingmarine.com/general-5"
     },
     {
-      "id": 30,
+      "id": 29,
       "title": "船展前試乘體驗｜Swan 54（台南亞果 → 高雄亞果）",
       "type": "voyage",
       "unit": "亞趣遊艇海洋生活",
@@ -635,7 +612,7 @@
       "url": "https://www.facebook.com/permalink.php?story_fbid=pfbid0wTo91w2ezD3YuuJbW8Daw7iqYySpFUdERsYRzoWr65sh97mLBrxSbgcPUDX3moDAl&id=100083542533590"
     },
     {
-      "id": 31,
+      "id": 30,
       "title": "船展前試乘體驗｜Rogers（興達港 → 高雄亞果）",
       "type": "voyage",
       "unit": "亞趣遊艇海洋生活",
@@ -656,7 +633,7 @@
       "url": "https://www.facebook.com/permalink.php?story_fbid=pfbid0wTo91w2ezD3YuuJbW8Daw7iqYySpFUdERsYRzoWr65sh97mLBrxSbgcPUDX3moDAl&id=100083542533590"
     },
     {
-      "id": 32,
+      "id": 31,
       "title": "船展前試乘體驗｜Rogers（高雄亞果 → 興達港）",
       "type": "voyage",
       "unit": "亞趣遊艇海洋生活",
@@ -677,7 +654,7 @@
       "url": "https://www.facebook.com/permalink.php?story_fbid=pfbid0wTo91w2ezD3YuuJbW8Daw7iqYySpFUdERsYRzoWr65sh97mLBrxSbgcPUDX3moDAl&id=100083542533590"
     },
     {
-      "id": 33,
+      "id": 32,
       "title": "船展前試乘體驗｜Swan 54（高雄亞果 → 台南亞果）",
       "type": "voyage",
       "unit": "亞趣遊艇海洋生活",
@@ -698,7 +675,7 @@
       "url": "https://www.facebook.com/permalink.php?story_fbid=pfbid0wTo91w2ezD3YuuJbW8Daw7iqYySpFUdERsYRzoWr65sh97mLBrxSbgcPUDX3moDAl&id=100083542533590"
     },
     {
-      "id": 34,
+      "id": 33,
       "title": "帆船入門｜週末沉浸",
       "type": "workshop",
       "unit": "亞趣遊艇海洋生活",
@@ -716,7 +693,7 @@
       "url": "https://www.facebook.com/permalink.php?story_fbid=pfbid0fp3QabK4DdvSshibZqDGYLh6fD1o87h23dwd7GiDvnW2vR9ST1JxpnM46EbYcexPl&id=100083542533590"
     },
     {
-      "id": 35,
+      "id": 34,
       "title": "冠軍賽船航行體驗｜北部限定",
       "type": "voyage",
       "unit": "亞趣遊艇海洋生活",
@@ -734,7 +711,7 @@
       "url": "https://www.facebook.com/permalink.php?story_fbid=pfbid0232Wge3unAD8kDrg71VnoXb5dT5oWy5dkXsEbd4pCJQUC6aibdNaNnfE84PQQwNm5l&id=100083542533590"
     },
     {
-      "id": 36,
+      "id": 35,
       "title": "帆船入門｜週末沉浸 8/15–16",
       "type": "workshop",
       "unit": "亞趣遊艇海洋生活",
@@ -754,7 +731,7 @@
       "url": "https://www.facebook.com/permalink.php?story_fbid=pfbid0QmnG7tF7L8f2CxzcFCTNzUGRqjhCPQgdPEQVRDPJS2edoTpPH3B96cH56sJRVDZwl&id=100083542533590"
     },
     {
-      "id": 37,
+      "id": 36,
       "title": "帆船入門｜週末沉浸（基隆出發）",
       "type": "workshop",
       "unit": "亞趣遊艇海洋生活",
@@ -774,7 +751,7 @@
       "url": "https://www.facebook.com/permalink.php?story_fbid=pfbid0Y3DtMymPuq8sojJLi4QxNJya35BngNumw6PSoHC69jj4fmZst32LswoMKdC7fJgbl&id=100083542533590"
     },
     {
-      "id": 38,
+      "id": 37,
       "title": "36 小時長程移泊｜基隆 → 高雄",
       "type": "voyage",
       "unit": "亞趣遊艇海洋生活",
@@ -795,7 +772,7 @@
       "url": "https://www.facebook.com/permalink.php?story_fbid=pfbid0DhquzburNiKf6cdbVWtXgVK8Ha3QaARshUGHBMJCNGxcDQyfBXek2VcbFxszqWsJl&id=100083542533590"
     },
     {
-      "id": 39,
+      "id": 38,
       "title": "週五會員日｜課後練習",
       "type": "workshop",
       "unit": "樂活海洋",
@@ -814,8 +791,8 @@
       "url": "https://lohasocean.com/news/2/17"
     },
     {
-      "id": 40,
-      "title": "帆船駕駛體驗",
+      "id": 39,
+      "title": "帆船駕駛體驗與練習",
       "type": "workshop",
       "unit": "海翼遊艇俱樂部",
       "region": "北台灣",
@@ -831,8 +808,48 @@
       "price": 10000,
       "priceText": "每船 $10,000（最多 4 人）",
       "contact": "LINE: @qgz5872i｜0983-286875（小飛教練）",
-      "description": "專為新手設計的 ASA 帆船操作體驗，專業教練指導，在淡水河實際操舵、調帆。一艘船最多 4 人，時間可任選，採預約制。",
+      "description": "新手想體驗、或想反覆練習的人都可以預約，專業教練指導，在淡水河實際操舵、調帆。一艘船最多 4 人，時間可任選，採預約制。",
       "url": "https://www.hiwingmarine.com/sailingtoexperience"
+    },
+    {
+      "id": 40,
+      "title": "J/80 帆船體驗與練習",
+      "type": "workshop",
+      "unit": "帆游安平",
+      "region": "南台灣",
+      "location": "台南安平（新港路二段 777 號）",
+      "conditions": [],
+      "schedule": {
+        "type": "flexible",
+        "windowStart": "2026-01-01",
+        "windowEnd": "2026-12-31",
+        "note": "金額與人數請洽粉專詢問"
+      },
+      "price": null,
+      "contact": "0966 899 730｜粉專私訊詢問",
+      "description": "J/80 帆船的體驗與練習，粉專另提供教學與競賽，賽船隊員招募中。費用、人數與時間請直接向粉專詢問。",
+      "url": "https://www.facebook.com/sailingforward"
+    },
+    {
+      "id": 41,
+      "title": "帆船練習與體驗（包船）",
+      "type": "workshop",
+      "unit": "海洋種子帆船學校",
+      "region": "北台灣",
+      "location": "基隆碧砂遊艇碼頭（北寧路 211 號）",
+      "conditions": [],
+      "schedule": {
+        "type": "flexible",
+        "windowStart": "2026-01-01",
+        "windowEnd": "2026-12-31",
+        "note": "預約制，時間可任選"
+      },
+      "duration": "約 3 小時",
+      "price": 10000,
+      "priceText": "每船 $10,000（最多 4 人）",
+      "contact": "02-2469-0662｜粉專私訊詢問",
+      "description": "一艘船 $10,000 的帆船練習與體驗方案，一艘船最多 4 人，約 3 小時，時間可任選，採預約制，詳情請直接洽詢。",
+      "url": "https://www.facebook.com/p/%E6%B5%B7%E6%B4%8B%E7%A8%AE%E5%AD%90%E9%81%8A%E8%89%87%E5%B8%86%E8%88%B9%E5%AD%B8%E6%A0%A1-Seedmarine-Sailing-School-100088947261596/"
     }
   ]
 }
