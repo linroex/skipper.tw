@@ -335,6 +335,66 @@
       "contact": "LINE: @qgz5872i｜0983-286875（小飛教練）",
       "description": "年度自駕探索航訓，從基隆沿東海岸南下，途經花蓮、綠島，終點高雄的環島帆船壯遊。",
       "url": "https://www.hiwingmarine.com/general-5"
+    },
+    {
+      "id": 16,
+      "title": "Rogers 46 冬季移泊｜高雄 → 台南",
+      "type": "voyage",
+      "unit": "亞趣遊艇海洋生活",
+      "region": "南台灣",
+      "location": "高雄 → 台南",
+      "conditions": [],
+      "schedule": {
+        "type": "fixed",
+        "startDate": "2026-12-09",
+        "endDate": "2026-12-09",
+        "note": "09:00 預計出發・限額 6 位，滿額收單"
+      },
+      "duration": "約 5 小時",
+      "price": 3500,
+      "contact": "私訊粉專或官方 LINE：https://lin.ee/S3MJ5c8",
+      "description": "全台灣僅一艘的 Rogers 46 競賽用船，冬季自高雄移泊台南，登船體驗賽船的速度與節奏。上船後請配合船長與工作人員指示；實際出發時間依海況，以官方最終公告為準。",
+      "url": "https://www.facebook.com/permalink.php?story_fbid=1126629830131758&id=100083542533590"
+    },
+    {
+      "id": 17,
+      "title": "2026 漢斯盃帆船公開賽｜Hanse Cup Regatta #5",
+      "type": "race",
+      "unit": "樂活海洋",
+      "region": "南台灣",
+      "location": "台南安平亞果遊艇碼頭",
+      "conditions": ["個人報名需 ASA 101 或具帆船賽事經驗"],
+      "schedule": {
+        "type": "fixed",
+        "startDate": "2026-12-12",
+        "endDate": "2026-12-12"
+      },
+      "price": 3000,
+      "memberPrice": 2000,
+      "priceText": "個人 會員 $2,000／非會員 $3,000；船艇 HanseYachts 免費、其他品牌 $3,600 起",
+      "contact": "LINE 報名：https://lin.ee/g9RlCRL",
+      "description": "結合「2026 台南亞果生活節暨遊艇展」，邀請全台帆船好手齊聚安平，挑戰安平外海競技航程，賽後有交流茶會。個人報名由教練分配船隻；加購 ASA 課程享 9 折。競賽公告（NOR）：https://reurl.cc/eQ2ONW",
+      "url": "https://www.facebook.com/permalink.php?story_fbid=1824084526389488&id=100063638754958"
+    },
+    {
+      "id": 18,
+      "title": "繞旗津島帆船體驗",
+      "type": "voyage",
+      "unit": "後野海洋",
+      "region": "南台灣",
+      "location": "高雄旗津（第三船渠出發）",
+      "conditions": [],
+      "schedule": {
+        "type": "recurring",
+        "sessions": ["2026-11-28", "2026-11-29"],
+        "note": "09:30 第三船渠出發，15:30 返航・兩天各開一團"
+      },
+      "duration": "約 6 小時",
+      "price": 3000,
+      "priceText": "NT$3,000／人（午餐與咖啡不含）",
+      "contact": "私訊粉專",
+      "description": "跟著伊娜揚帆繞行旗津島，體驗操帆、吹海風，還能自己開船。中午上岸到中洲漁港吃海鮮、喝海岸線咖啡，下午 15:00 登船回程。",
+      "url": "https://www.facebook.com/permalink.php?story_fbid=122184237824819559&id=61574586779948"
     }
   ]
 }

@@ -69,6 +69,26 @@
       "url": "https://www.hiwingmarine.com",
       "certs": ["ASA"],
       "locations": ["八里"]
+    },
+    {
+      "id": "yach",
+      "name": "亞趣遊艇海洋生活",
+      "shortName": "亞趣",
+      "type": "club",
+      "description": "高雄遊艇海洋生活品牌，營運 Rogers 46 競賽帆船並提供出航體驗",
+      "url": "https://www.facebook.com/profile.php?id=100083542533590",
+      "certs": [],
+      "locations": ["高雄"]
+    },
+    {
+      "id": "richmarine",
+      "name": "後野海洋",
+      "shortName": "後野海洋",
+      "type": "club",
+      "description": "高雄旗津帆船體驗，使用重型帆船出航，結合中洲漁港海鮮與海岸線咖啡",
+      "url": "https://www.facebook.com/profile.php?id=61574586779948",
+      "certs": [],
+      "locations": ["高雄旗津"]
     }
   ]
 }
