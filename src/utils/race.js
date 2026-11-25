@@ -58,45 +58,36 @@ export const DATE_STATUS_LABELS = { tentative: '預計', planned: '預定日期'
 // 該場次所有出現過的學校（去重）
 export const editionUnits = (edition) => [...new Set((edition?.entries || []).map(e => e.unit).filter(Boolean))]
 
-// 列表頁用的摘要：
-// group = upcoming（有未結束的場次）／thisYear（今年已辦完）／earlier（今年還沒有場次）
-export const summarizeRace = (race) => {
-  const editions = sortEditions(race)
-  const nowYear = today().getFullYear()
-  const upcoming = editions.filter(isUpcomingEdition)
-  const latest = editions[editions.length - 1] || null
-  const next = upcoming[0] || null
-
-  let group = 'earlier'
-  if (next) group = 'upcoming'
-  else if (latest && editionYear(latest) === nowYear) group = 'thisYear'
-
-  // 沒有未結束場次時，用最近一次的月份當作「預計時間」
-  const refEdition = next || latest
-  const refStart = editionStart(refEdition)
-  const sortMonth = refStart ? refStart.getMonth() * 100 + refStart.getDate() : 9999
-
-  // 「2026：2/28・5/2・12/12　2025：10/18」
-  const years = groupEditionsByYear(race)
-    .slice(0, 2)
-    .map(({ year, editions: list }) => `${year}：${list.map(e => formatEditionDate(e) + (e.dateStatus === 'tentative' ? '（預計）' : '')).join('・')}`)
-    .join('　')
-
-  const unitSource = next || latest
-  const unitCount = editionUnits(unitSource).length
-
-  let when = ''
-  if (next) when = formatEditionDate(next)
-  else if (refStart) when = `${refStart.getMonth() + 1} 月`
-
-  return {
-    race, group, next, latest, when, years, unitCount,
-    unitLabel: next ? '可報名' : '參加',
-    tentative: !!next && next.dateStatus === 'tentative',
-    sortMonth,
-    sortNext: editionStart(next) ?? 0
+// 所有有場次的年份（新到舊）
+export const getRaceYears = (races) => {
+  const years = new Set()
+  for (const race of races) for (const e of race.editions || []) {
+    const y = editionYear(e)
+    if (y) years.add(y)
   }
+  return [...years].sort((a, b) => b - a)
 }
+
+// 某一年的所有場次（攤平、依日期排序），每筆附上所屬月份
+export const getYearEvents = (races, year) =>
+  races
+    .flatMap(race =>
+      (race.editions || [])
+        .filter(e => editionYear(e) === year)
+        .map(edition => ({ race, edition, month: editionStart(edition).getMonth() + 1 }))
+    )
+    .sort((a, b) => editionStart(a.edition) - editionStart(b.edition))
+
+// 今年還沒有場次、但前一年有舉辦的比賽：回傳去年的場次，讓大家參考時間提早準備
+export const getMissingThisYear = (races, year) =>
+  races
+    .filter(race => !(race.editions || []).some(e => editionYear(e) === year))
+    .map(race => {
+      const last = sortEditions(race).filter(e => editionYear(e) === year - 1).pop()
+      return last ? { race, edition: last } : null
+    })
+    .filter(Boolean)
+    .sort((a, b) => editionStart(a.edition) - editionStart(b.edition))
 
 // 某學校參加過哪些比賽（有出現在 entries）
 export const getRaceParticipation = (races, unitName) =>
