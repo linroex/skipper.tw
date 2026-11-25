@@ -97,7 +97,12 @@
   "shortName": "簡短名稱",
   "type": "school",  // school / club / community
   "description": "學校描述",
-  "url": "官方網站或粉專連結",  // 粉專無自訂網址時用 https://www.facebook.com/profile.php?id=<ID>
+  "links": {  // 選填；有哪種放哪種，皆為完整網址，顯示順序固定為官網、Facebook、Instagram、LINE
+    "website": "https://example.com",
+    "facebook": "https://www.facebook.com/xxx/",  // 粉專無自訂網址時用 https://www.facebook.com/profile.php?id=<ID>
+    "instagram": "https://www.instagram.com/xxx/",
+    "line": "https://lin.ee/xxx"
+  },
   "certs": ["ASA"],  // 沒有認證課程可留空陣列 []
   "locations": ["地點"]
 }

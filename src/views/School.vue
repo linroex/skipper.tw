@@ -21,15 +21,18 @@
           </span>
         </div>
         <p class="text-ink-soft mb-4">{{ school.description }}</p>
-        <a
-          v-if="school.url"
-          :href="school.url"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="inline-block mb-4 text-primary hover:underline"
-        >
-          官方網站 →
-        </a>
+        <div v-if="school.links.length" class="mb-4 flex flex-wrap gap-x-4 gap-y-1">
+          <a
+            v-for="link in school.links"
+            :key="link.key"
+            :href="link.url"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-primary hover:underline"
+          >
+            {{ link.label }} →
+          </a>
+        </div>
         <div class="flex flex-wrap gap-2">
           <span
             v-for="cert in school.certs"
@@ -175,6 +178,7 @@ import { getActivities, getCourses, getSchools } from '../utils/data.js'
 import { getLocationOrder, getRegionOrder } from '../utils/location.js'
 import { formatItemDate, parseLocalDate } from '../utils/format.js'
 import { getOrganizerTypeLabel, isUpcomingActivity, getActivityStartDate, formatCoursePrice } from '../utils/activity.js'
+import { getSchoolLinks } from '../utils/schoolLinks.js'
 import ResponsiveTable from '../components/ResponsiveTable.vue'
 import ActivityRow from '../components/ActivityRow.vue'
 
@@ -255,7 +259,7 @@ const schoolData = computed(() => {
     totalActivities: schoolActivities.length,
     certs: certs,
     locations: locations,
-    url: schoolInfo.url || '',
+    links: getSchoolLinks(schoolInfo),
     description: schoolInfo.description || `${schoolName} - 提供多樣化的帆船課程與活動`
   }
 })

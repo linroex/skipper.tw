@@ -28,16 +28,19 @@
             </span>
           </div>
           <p class="text-ink-soft text-sm">{{ school.description }}</p>
-          <a
-            v-if="school.url"
-            :href="school.url"
-            target="_blank"
-            rel="noopener noreferrer"
-            @click.stop
-            class="inline-block mt-3 text-sm text-primary hover:underline"
-          >
-            官方網站 →
-          </a>
+          <div v-if="school.links.length" class="mt-3 flex flex-wrap gap-x-4 gap-y-1">
+            <a
+              v-for="link in school.links"
+              :key="link.key"
+              :href="link.url"
+              target="_blank"
+              rel="noopener noreferrer"
+              @click.stop
+              class="text-sm text-primary hover:underline"
+            >
+              {{ link.label }} →
+            </a>
+          </div>
           <div class="mt-4 flex flex-wrap gap-2">
             <span
               v-for="cert in school.certs"
@@ -65,6 +68,7 @@ import { getActivities, getCourses, getSchools } from '../utils/data.js'
 import { getLocationOrder, getRegionOrder } from '../utils/location.js'
 import { parseLocalDate } from '../utils/format.js'
 import { getOrganizerTypeLabel, isUpcomingActivity } from '../utils/activity.js'
+import { getSchoolLinks } from '../utils/schoolLinks.js'
 
 useHead({
   title: '台灣帆船學校',
@@ -154,7 +158,7 @@ const schoolsWithStats = computed(() => {
       totalActivities: schoolData.activities.length,
       certs: schoolInfo?.certs || [...new Set(schoolData.courses.map(c => c.organization).filter(Boolean))],
       description: schoolInfo?.description || `${displayName} - 提供多樣化的帆船課程與活動`,
-      url: schoolInfo?.url || '',
+      links: getSchoolLinks(schoolInfo),
       locations: locations,
       primaryLocation: primaryLocation // 用於排序的主要地點
     }

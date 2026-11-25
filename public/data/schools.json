@@ -6,7 +6,10 @@
       "shortName": "TMS",
       "type": "school",
       "description": "專業帆船學校，提供 ASA 全系列認證課程",
-      "url": "https://www.facebook.com/TWKHYC/?locale=zh_TW",
+      "links": {
+        "website": "http://www.twmarine.com.tw",
+        "facebook": "https://www.facebook.com/TWKHYC/"
+      },
       "certs": ["ASA"],
       "locations": ["高雄"]
     },
@@ -16,7 +19,9 @@
       "shortName": "晨光海洋",
       "type": "school",
       "description": "宜蘭地區專業帆船教練團隊",
-      "url": "https://dawnlightocean.com.tw",
+      "links": {
+        "website": "https://dawnlightocean.com.tw"
+      },
       "certs": ["ASA"],
       "locations": ["宜蘭"]
     },
@@ -26,7 +31,9 @@
       "shortName": "海洋種子",
       "type": "school",
       "description": "北台灣地區資深帆船教學團隊",
-      "url": "https://www.facebook.com/p/海洋種子遊艇帆船學校-Seedmarine-Sailing-School-100088947261596/",
+      "links": {
+        "facebook": "https://www.facebook.com/p/海洋種子遊艇帆船學校-Seedmarine-Sailing-School-100088947261596/"
+      },
       "certs": ["ASA"],
       "locations": ["基隆"]
     },
@@ -36,7 +43,10 @@
       "shortName": "樂活海洋",
       "type": "school",
       "description": "南台灣地區專業帆船教學團隊",
-      "url": "https://www.lohasocean.com",
+      "links": {
+        "website": "https://www.lohasocean.com",
+        "facebook": "https://www.facebook.com/LOHASOCEAN/"
+      },
       "certs": ["ASA"],
       "locations": ["台南"]
     },
@@ -46,7 +56,9 @@
       "shortName": "永遠天晴",
       "type": "school",
       "description": "花蓮地區帆船教學團隊",
-      "url": "https://www.facebook.com/sailwithalwayssunshine/?locale=zh_TW",
+      "links": {
+        "facebook": "https://www.facebook.com/sailwithalwayssunshine/"
+      },
       "certs": ["ASA"],
       "locations": ["花蓮"]
     },
@@ -56,7 +68,9 @@
       "shortName": "黑嚕嚕",
       "type": "community",
       "description": "宜蘭在地帆船揪團，提供東海岸航海、龜山島包船與 ASA 考證",
-      "url": "https://www.instagram.com/hllclub/",
+      "links": {
+        "instagram": "https://www.instagram.com/hllclub/"
+      },
       "certs": ["ASA"],
       "locations": ["宜蘭"]
     },
@@ -66,7 +80,9 @@
       "shortName": "海翼",
       "type": "club",
       "description": "八里（台北）遊艇俱樂部，提供會員航訓、年度跨境航旅與帆船體驗",
-      "url": "https://www.hiwingmarine.com",
+      "links": {
+        "website": "https://www.hiwingmarine.com"
+      },
       "certs": ["ASA"],
       "locations": ["八里"]
     },
@@ -76,7 +92,10 @@
       "shortName": "亞趣",
       "type": "club",
       "description": "高雄遊艇海洋生活品牌，營運 Rogers 46 競賽帆船並提供出航體驗",
-      "url": "https://www.facebook.com/profile.php?id=100083542533590",
+      "links": {
+        "facebook": "https://www.facebook.com/profile.php?id=100083542533590",
+        "line": "https://lin.ee/S3MJ5c8"
+      },
       "certs": [],
       "locations": ["高雄"]
     },
@@ -86,7 +105,9 @@
       "shortName": "後野海洋",
       "type": "club",
       "description": "高雄旗津帆船體驗，使用重型帆船出航，結合中洲漁港海鮮與海岸線咖啡",
-      "url": "https://www.facebook.com/profile.php?id=61574586779948",
+      "links": {
+        "facebook": "https://www.facebook.com/profile.php?id=61574586779948"
+      },
       "certs": [],
       "locations": ["高雄旗津"]
     }
