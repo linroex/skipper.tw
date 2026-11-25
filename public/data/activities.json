@@ -746,6 +746,187 @@
       "contact": "LINE：https://lin.ee/g9RlCRL",
       "description": "樂活海洋學院主辦、Hanse Yachts 冠名的漢斯盃帆船公開賽第四屆。個人報名費會員 $2,000、非會員 $3,000，由教練分配船隻；自備船艇報名，HanseYachts 品牌免費、其他品牌 $3,600 起；加購 ASA 課程享 9 折。",
       "url": "https://lohasocean.com/activity"
+    },
+    {
+      "id": 37,
+      "title": "船展前試乘體驗｜Swan 54（台南亞果 → 高雄亞果）",
+      "type": "voyage",
+      "unit": "亞趣遊艇海洋生活",
+      "region": "南台灣",
+      "location": "台南亞果 → 高雄亞果",
+      "conditions": [],
+      "schedule": {
+        "type": "fixed",
+        "startDate": "2026-03-11",
+        "endDate": "2026-03-11",
+        "note": "10:00–15:00・每趟限 3 位"
+      },
+      "duration": "約 4–5 小時",
+      "price": 7000,
+      "memberPrice": 5000,
+      "contact": "報名表：https://forms.gle/QAgm2iFJmt6BnXgA9",
+      "description": "船展前親自登船，實際感受航行時的穩定、操控與海上的真實表現。Swan 54｜經典旗艦巡航帆船，兼具遠洋性能與優雅質感。",
+      "url": "https://www.facebook.com/permalink.php?story_fbid=pfbid0wTo91w2ezD3YuuJbW8Daw7iqYySpFUdERsYRzoWr65sh97mLBrxSbgcPUDX3moDAl&id=100083542533590"
+    },
+    {
+      "id": 38,
+      "title": "船展前試乘體驗｜Rogers（興達港 → 高雄亞果）",
+      "type": "voyage",
+      "unit": "亞趣遊艇海洋生活",
+      "region": "南台灣",
+      "location": "興達港 → 高雄亞果",
+      "conditions": [],
+      "schedule": {
+        "type": "fixed",
+        "startDate": "2026-03-12",
+        "endDate": "2026-03-12",
+        "note": "10:00–15:00・每趟限 3 位"
+      },
+      "duration": "約 4–5 小時",
+      "price": 7000,
+      "memberPrice": 5000,
+      "contact": "報名表：https://forms.gle/QAgm2iFJmt6BnXgA9",
+      "description": "船展前親自登船，實際感受航行時的穩定、操控與海上的真實表現。Rogers｜性能取向操控帆船，講究速度與靈敏回饋。",
+      "url": "https://www.facebook.com/permalink.php?story_fbid=pfbid0wTo91w2ezD3YuuJbW8Daw7iqYySpFUdERsYRzoWr65sh97mLBrxSbgcPUDX3moDAl&id=100083542533590"
+    },
+    {
+      "id": 39,
+      "title": "船展前試乘體驗｜Rogers（高雄亞果 → 興達港）",
+      "type": "voyage",
+      "unit": "亞趣遊艇海洋生活",
+      "region": "南台灣",
+      "location": "高雄亞果 → 興達港",
+      "conditions": [],
+      "schedule": {
+        "type": "fixed",
+        "startDate": "2026-03-16",
+        "endDate": "2026-03-16",
+        "note": "10:00–15:00・每趟限 3 位"
+      },
+      "duration": "約 4–5 小時",
+      "price": 7000,
+      "memberPrice": 5000,
+      "contact": "報名表：https://forms.gle/QAgm2iFJmt6BnXgA9",
+      "description": "船展前親自登船，實際感受航行時的穩定、操控與海上的真實表現。Rogers｜性能取向操控帆船，講究速度與靈敏回饋。",
+      "url": "https://www.facebook.com/permalink.php?story_fbid=pfbid0wTo91w2ezD3YuuJbW8Daw7iqYySpFUdERsYRzoWr65sh97mLBrxSbgcPUDX3moDAl&id=100083542533590"
+    },
+    {
+      "id": 40,
+      "title": "船展前試乘體驗｜Swan 54（高雄亞果 → 台南亞果）",
+      "type": "voyage",
+      "unit": "亞趣遊艇海洋生活",
+      "region": "南台灣",
+      "location": "高雄亞果 → 台南亞果",
+      "conditions": [],
+      "schedule": {
+        "type": "fixed",
+        "startDate": "2026-03-17",
+        "endDate": "2026-03-17",
+        "note": "10:00–15:00・每趟限 3 位"
+      },
+      "duration": "約 4–5 小時",
+      "price": 7000,
+      "memberPrice": 5000,
+      "contact": "報名表：https://forms.gle/QAgm2iFJmt6BnXgA9",
+      "description": "船展前親自登船，實際感受航行時的穩定、操控與海上的真實表現。Swan 54｜經典旗艦巡航帆船，兼具遠洋性能與優雅質感。",
+      "url": "https://www.facebook.com/permalink.php?story_fbid=pfbid0wTo91w2ezD3YuuJbW8Daw7iqYySpFUdERsYRzoWr65sh97mLBrxSbgcPUDX3moDAl&id=100083542533590"
+    },
+    {
+      "id": 41,
+      "title": "帆船入門｜週末沉浸",
+      "type": "workshop",
+      "unit": "亞趣遊艇海洋生活",
+      "region": "南台灣",
+      "location": "地點請洽官方 LINE",
+      "conditions": [],
+      "schedule": {
+        "type": "recurring",
+        "sessions": ["2026-04-25", "2026-04-26"],
+        "note": "兩天皆可預約・名額有限"
+      },
+      "price": null,
+      "contact": "官方 LINE：https://lin.ee/zjoFymy",
+      "description": "第一次接觸帆船也能參加，一日海上沉浸，由專業船長帶領認識帆船、親手操帆。",
+      "url": "https://www.facebook.com/permalink.php?story_fbid=pfbid0fp3QabK4DdvSshibZqDGYLh6fD1o87h23dwd7GiDvnW2vR9ST1JxpnM46EbYcexPl&id=100083542533590"
+    },
+    {
+      "id": 42,
+      "title": "冠軍賽船航行體驗｜北部限定",
+      "type": "voyage",
+      "unit": "亞趣遊艇海洋生活",
+      "region": "北台灣",
+      "location": "北部",
+      "conditions": [],
+      "schedule": {
+        "type": "recurring",
+        "sessions": ["2026-07-25", "2026-07-26"],
+        "note": "名額有限"
+      },
+      "price": null,
+      "contact": "亞趣官方 LINE：https://lin.ee/60kPCf2",
+      "description": "登上真正的賽船 Rogers 46，親自拉繩索，感受賽船在浪裡的動態。",
+      "url": "https://www.facebook.com/permalink.php?story_fbid=pfbid0232Wge3unAD8kDrg71VnoXb5dT5oWy5dkXsEbd4pCJQUC6aibdNaNnfE84PQQwNm5l&id=100083542533590"
+    },
+    {
+      "id": 43,
+      "title": "帆船入門｜週末沉浸 8/15–16",
+      "type": "workshop",
+      "unit": "亞趣遊艇海洋生活",
+      "region": "南台灣",
+      "location": "地點請洽官方 LINE",
+      "conditions": [],
+      "schedule": {
+        "type": "recurring",
+        "sessions": ["2026-08-15", "2026-08-16"],
+        "note": "每梯次限 8 位"
+      },
+      "duration": "5–6 小時",
+      "price": 9000,
+      "memberPrice": 6000,
+      "contact": "私訊亞趣官方 LINE：https://lin.ee/60kPCf2",
+      "description": "第一次接觸帆船完全沒問題，從基礎操帆到親手感受風向控制，專業船長全程帶領。會員價需免費加入亞趣會員。",
+      "url": "https://www.facebook.com/permalink.php?story_fbid=pfbid0QmnG7tF7L8f2CxzcFCTNzUGRqjhCPQgdPEQVRDPJS2edoTpPH3B96cH56sJRVDZwl&id=100083542533590"
+    },
+    {
+      "id": 44,
+      "title": "帆船入門｜週末沉浸（基隆出發）",
+      "type": "workshop",
+      "unit": "亞趣遊艇海洋生活",
+      "region": "北台灣",
+      "location": "基隆出發",
+      "conditions": [],
+      "schedule": {
+        "type": "recurring",
+        "sessions": ["2026-09-12", "2026-09-13", "2026-09-19", "2026-09-20"],
+        "note": "每梯次限 8 位"
+      },
+      "duration": "5–6 小時",
+      "price": 9000,
+      "memberPrice": 6000,
+      "contact": "私訊粉專",
+      "description": "北部初學者的週末沉浸體驗，搭乘 Salona 44（Camarades）出港，由專業國手級船長全程帶領，真正上船面對風浪。會員價需免費加入亞趣會員。",
+      "url": "https://www.facebook.com/permalink.php?story_fbid=pfbid0Y3DtMymPuq8sojJLi4QxNJya35BngNumw6PSoHC69jj4fmZst32LswoMKdC7fJgbl&id=100083542533590"
+    },
+    {
+      "id": 45,
+      "title": "36 小時長程移泊｜基隆 → 高雄",
+      "type": "voyage",
+      "unit": "亞趣遊艇海洋生活",
+      "region": "北台灣",
+      "location": "基隆亞果遊艇碼頭 → 高雄",
+      "conditions": [],
+      "schedule": {
+        "type": "fixed",
+        "startDate": "2026-10-04",
+        "endDate": "2026-10-05",
+        "note": "10/4 基隆出發、10/5 抵達高雄"
+      },
+      "duration": "36 小時",
+      "price": 15000,
+      "memberPrice": 8000,
+      "contact": "私訊亞趣粉專",
+      "description": "Salona 44 冬季移航訓練，開放名額。36 小時長程航程含夜航，夜裡輪流守夜。集合地點：基隆市中正區北寧路 244 號（亞果基隆遊艇碼頭）。",
+      "url": "https://www.facebook.com/permalink.php?story_fbid=pfbid0DhquzburNiKf6cdbVWtXgVK8Ha3QaARshUGHBMJCNGxcDQyfBXek2VcbFxszqWsJl&id=100083542533590"
     }
   ]
 }
