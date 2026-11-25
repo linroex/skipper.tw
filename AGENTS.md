@@ -132,7 +132,8 @@ skipper.tw/
       "endDate": "YYYY-MM-DD",
       "location": "地點名稱",
       "unit": "主辦單位",
-      "price": 數字或 0,
+      "price": 數字或 null,
+      "memberPrice": "選填，校友／學員優惠價",
       "contact": "聯絡方式",
       "description": "課程描述",
       "url": "外部連結"

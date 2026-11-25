@@ -165,16 +165,25 @@ export const formatSchedule = (activity) => {
 const shortPrice = (value) => '$' + Number(value).toLocaleString('zh-TW')
 
 // 價格欄：主價格與附註（皆可能為 null，沒有就不顯示）
-export const getPriceParts = (activity) => {
+// memberLabel：優惠價的稱呼（活動用「學員」，課程用「校友」）
+export const getPriceParts = (activity, memberLabel = '學員') => {
   const { price, memberPrice, priceText } = activity || {}
   if (priceText) {
     return { main: priceText, note: null }
   }
-  if (price != null) {
-    return { main: shortPrice(price), note: memberPrice != null ? `學員 ${shortPrice(memberPrice)}` : null }
+  if (price != null && price !== 0) {
+    return { main: shortPrice(price), note: memberPrice != null ? `${memberLabel} ${shortPrice(memberPrice)}` : null }
   }
   if (memberPrice != null) {
-    return { main: `學員 ${shortPrice(memberPrice)}`, note: null }
+    return { main: `${memberLabel} ${shortPrice(memberPrice)}`, note: null }
   }
   return { main: null, note: null }
+}
+
+// 課程價格（單行文字）：「$28,000・校友 $25,000」；沒有價格顯示「需洽詢」
+export const formatCoursePrice = (course) => {
+  const { main, note } = getPriceParts(course, '校友')
+  if (!main) return '需洽詢'
+  // 用不斷行空白，避免「校友 $25,000」在表格裡被拆成兩行
+  return note ? `${main}・${note.replace(' ', '\u00a0')}` : main
 }

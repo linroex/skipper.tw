@@ -98,7 +98,7 @@
 
     <ResponsiveTable
       :items="filteredCourses"
-      :headers="[ '日期', '課程名稱', '學校', '地點', '聯絡' ]"
+      :headers="[ '日期', '課程名稱', '學校', '地點', '價格', '聯絡' ]"
       :title-key="'title'"
       :header-extra="{
         render: (course) => formatItemDate(course),
@@ -108,13 +108,14 @@
       :columns="[
         { key: 'unit', label: '學校', render: (course) => getSchoolName(course.unit) },
         { key: 'location', label: '地點' },
+        { key: 'price', label: '價格', render: (course) => formatCoursePrice(course) },
         {
           key: 'schoolLink',
           label: '聯絡',
           component: 'router-link',
           props: (course) => ({
             to: getSchoolRoute(course.unit),
-            class: 'inline-block bg-primary text-paper px-3 py-1 rounded-lg text-sm hover:bg-secondary transition max-md:ml-auto'
+            class: 'inline-block whitespace-nowrap bg-primary text-paper px-3 py-1 rounded-lg text-sm hover:bg-secondary transition max-md:ml-auto'
           }),
           render: () => '前往學校'
         }
@@ -139,6 +140,7 @@ useHead({
 import { getCourses, getSchools } from '../utils/data.js'
 import { getLocationOrder } from '../utils/location.js'
 import { formatItemDate, parseLocalDate } from '../utils/format.js'
+import { formatCoursePrice } from '../utils/activity.js'
 import ResponsiveTable from '../components/ResponsiveTable.vue'
 
 

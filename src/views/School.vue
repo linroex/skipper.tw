@@ -118,7 +118,7 @@
 
         <ResponsiveTable
           :items="filteredCourses"
-          :headers="[ '日期', '課程名稱', '認證', '地點', '聯絡' ]"
+          :headers="[ '日期', '課程名稱', '認證', '地點', '價格', '聯絡' ]"
           :title-key="'title'"
           :header-extra="{
             render: (course) => formatItemDate(course),
@@ -128,6 +128,7 @@
           :columns="[
             { key: 'organization', label: '認證', render: (course) => course.organization || '-' },
             { key: 'location', label: '地點' },
+            { key: 'price', label: '價格', render: (course) => formatCoursePrice(course) },
             { key: 'contact', label: '聯絡' }
           ]"
           empty-message="暫無相關課程"
@@ -173,7 +174,7 @@ import { useHead } from '@unhead/vue'
 import { getActivities, getCourses, getSchools } from '../utils/data.js'
 import { getLocationOrder, getRegionOrder } from '../utils/location.js'
 import { formatItemDate, parseLocalDate } from '../utils/format.js'
-import { getOrganizerTypeLabel, isUpcomingActivity, getActivityStartDate } from '../utils/activity.js'
+import { getOrganizerTypeLabel, isUpcomingActivity, getActivityStartDate, formatCoursePrice } from '../utils/activity.js'
 import ResponsiveTable from '../components/ResponsiveTable.vue'
 import ActivityRow from '../components/ActivityRow.vue'
 
