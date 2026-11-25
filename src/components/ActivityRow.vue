@@ -17,7 +17,7 @@
 
       <!-- 標題與副標 -->
       <span class="min-w-0 flex-1">
-        <span class="text-base max-sm:text-[15px] font-bold leading-snug group-hover:text-primary">
+        <span class="block text-balance text-base max-sm:text-[15px] font-bold leading-snug group-hover:text-primary">
           {{ activity.title }}<span
             v-for="cond in conditions"
             :key="cond"
@@ -28,8 +28,8 @@
       </span>
 
       <!-- 價格欄（沒有就不顯示） -->
-      <span v-if="price.main" class="flex-none self-center text-right whitespace-nowrap tabular-nums">
-        <span class="block text-[13.5px] max-sm:text-xs font-bold">{{ price.main }}</span>
+      <span v-if="price.main" class="flex-none self-center max-w-[8.5rem] max-sm:max-w-[6.5rem] text-right tabular-nums">
+        <span class="block text-[13.5px] max-sm:text-xs font-bold leading-snug break-words">{{ price.main }}</span>
         <span v-if="price.note" class="block text-[11px] font-medium text-ink-faint">{{ price.note }}</span>
       </span>
     </component>

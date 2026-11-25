@@ -38,37 +38,36 @@
     </div>
     
     <!-- 手機版卡片列表 (隱藏在桌面) -->
-    <div class="md:hidden space-y-4 p-4">
+    <div class="md:hidden divide-y divide-line">
       <div
         v-for="item in items"
         :key="item.id"
-        :class="['bg-paper rounded-lg p-4 border border-line', getRowClass(item)]"
+        :class="['px-4 py-3.5', getRowClass(item)]"
       >
         <!-- 頂部資訊（日期和標籤） -->
-        <div v-if="headerExtra" class="flex justify-between items-start mb-2">
+        <div v-if="headerExtra" class="flex justify-between items-start gap-2 mb-1">
           <span class="text-sm font-bold text-primary tabular-nums">{{ headerExtra.render(item) }}</span>
-          <span v-if="headerExtra.tagRender" :class="headerExtra.tagClass">
+          <span v-if="headerExtra.tagRender" :class="[headerExtra.tagClass, 'whitespace-nowrap']">
             {{ typeof headerExtra.tagRender === 'function' ? headerExtra.tagRender(item) : headerExtra.tagRender }}
           </span>
         </div>
-        
+
         <!-- 主標題 -->
-        <h3 v-if="titleKey" class="font-medium text-ink text-lg mb-2">
+        <h3 v-if="titleKey" class="font-bold text-ink text-base leading-snug text-balance">
           {{ item[titleKey] }}
         </h3>
-        
-        <!-- 詳細資訊 -->
-        <div v-if="columns.length > 0" class="space-y-1 text-sm text-ink-soft">
-          <div v-for="col in columns" :key="col.key" class="flex justify-between gap-3">
-            <span>{{ col.label }}</span>
-            <component
-              :is="col.component || 'span'"
-              v-bind="typeof col.props === 'function' ? col.props(item) : col.props"
-              class="font-medium text-right"
-            >
-              {{ typeof col.render === 'function' ? col.render(item) : (item[col.key] || '-') }}
-            </component>
-          </div>
+
+        <!-- 詳細資訊：精簡成一行，不再逐列顯示標籤 -->
+        <div v-if="columns.length > 0" class="mt-1.5 flex flex-wrap items-center gap-x-3 gap-y-1 text-[13px] text-ink-soft">
+          <component
+            v-for="col in columns"
+            :key="col.key"
+            :is="col.component || 'span'"
+            v-bind="typeof col.props === 'function' ? col.props(item) : col.props"
+            class="min-w-0 break-words"
+          >
+            {{ typeof col.render === 'function' ? col.render(item) : (item[col.key] || '-') }}
+          </component>
         </div>
       </div>
     </div>

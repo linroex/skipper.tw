@@ -3,20 +3,20 @@
     <div v-if="school" class="space-y-6">
       <!-- 學校資訊 -->
       <div class="bg-surface rounded-lg border border-line p-6">
-        <div class="flex items-center gap-3 mb-4">
+        <div class="flex flex-wrap items-center gap-x-3 gap-y-2 mb-4">
           <h1 class="text-2xl font-bold tracking-tight text-ink">{{ school.name }}</h1>
-          <span v-if="school.shortName" class="text-sm text-ink-soft bg-paper border border-line px-2 py-1 rounded">
+          <span v-if="school.shortName" class="whitespace-nowrap text-sm text-ink-soft bg-paper border border-line px-2 py-1 rounded">
             {{ school.shortName }}
           </span>
-          <span v-if="organizerTypeLabel" class="text-sm text-paper bg-primary px-2 py-1 rounded">
+          <span v-if="organizerTypeLabel" class="whitespace-nowrap text-sm text-paper bg-primary px-2 py-1 rounded">
             {{ organizerTypeLabel }}
           </span>
         </div>
-        <div class="flex flex-wrap gap-3 mb-4">
-          <span class="bg-primary text-paper text-sm px-3 py-1 rounded-full">
+        <div v-if="school.totalCourses > 0 || school.totalActivities > 0" class="flex flex-wrap gap-3 mb-4">
+          <span v-if="school.totalCourses > 0" class="bg-primary text-paper text-sm px-3 py-1 rounded-full">
             {{ school.totalCourses }} 課程
           </span>
-          <span class="bg-secondary text-paper text-sm px-3 py-1 rounded-full">
+          <span v-if="school.totalActivities > 0" class="bg-secondary text-paper text-sm px-3 py-1 rounded-full">
             {{ school.totalActivities }} 活動
           </span>
         </div>
@@ -158,10 +158,6 @@
         </router-link>
       </div>
 
-      <!-- URL 顯示（開發用） -->
-      <div v-if="school?.id" class="mt-4 text-sm text-ink-faint">
-        學校網址：/schools/{{ school.id }}
-      </div>
     </div>
 
     <div v-else class="text-center py-12 text-ink-faint">

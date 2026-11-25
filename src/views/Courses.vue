@@ -114,7 +114,7 @@
           component: 'router-link',
           props: (course) => ({
             to: getSchoolRoute(course.unit),
-            class: 'inline-block bg-primary text-paper px-3 py-1 rounded-lg text-sm hover:bg-secondary transition'
+            class: 'inline-block bg-primary text-paper px-3 py-1 rounded-lg text-sm hover:bg-secondary transition max-md:ml-auto'
           }),
           render: () => '前往學校'
         }
