@@ -5,7 +5,7 @@
       <div class="bg-surface rounded-lg border border-line p-6">
         <div class="flex flex-wrap items-center gap-x-3 gap-y-2 mb-4">
           <h1 class="text-2xl font-bold tracking-tight text-ink">{{ school.name }}</h1>
-          <span v-if="school.shortName" class="whitespace-nowrap text-sm text-ink-soft bg-paper border border-line px-2 py-1 rounded">
+          <span v-if="school.shortName && school.shortName !== school.name" class="whitespace-nowrap text-sm text-ink-soft bg-paper border border-line px-2 py-1 rounded">
             {{ school.shortName }}
           </span>
           <span v-if="organizerTypeLabel" class="whitespace-nowrap text-sm text-paper bg-primary px-2 py-1 rounded">
@@ -163,8 +163,21 @@
         <p v-else class="py-6 text-sm text-ink-faint">目前沒有進行中的活動</p>
       </div>
 
+      <!-- 參加的比賽 -->
+      <div v-if="raceParticipation.length > 0">
+        <h2 class="text-xl font-bold text-ink mb-2">參加的比賽</h2>
+        <ul class="list-none m-0 p-0 max-w-2xl">
+          <li v-for="item in raceParticipation" :key="item.race.id" class="border-b border-line">
+            <router-link :to="`/races/${item.race.id}`" class="group flex items-baseline justify-between gap-3 py-3.5 px-0.5">
+              <span class="min-w-0 text-base max-sm:text-[15px] font-bold leading-snug group-hover:text-primary">{{ item.race.name }}</span>
+              <span class="flex-none text-[13px] text-ink-faint tabular-nums">{{ item.text }}</span>
+            </router-link>
+          </li>
+        </ul>
+      </div>
+
       <!-- 沒有資料 -->
-      <div v-if="school.courses.length === 0 && allSchoolCourses.length === 0 && school.activities.length === 0 && school.pastActivities.length === 0" class="text-center py-12 text-ink-faint">
+      <div v-if="school.courses.length === 0 && allSchoolCourses.length === 0 && school.activities.length === 0 && school.pastActivities.length === 0 && raceParticipation.length === 0" class="text-center py-12 text-ink-faint">
         暫無相關課程或活動
       </div>
 
@@ -192,6 +205,8 @@ import { getLocationOrder, getRegionOrder } from '../utils/location.js'
 import { formatItemDate, parseLocalDate } from '../utils/format.js'
 import { getOrganizerTypeLabel, isUpcomingActivity, isPastActivity, getActivityStartDate, formatCoursePrice } from '../utils/activity.js'
 import { getSchoolLinks } from '../utils/schoolLinks.js'
+import { getRaces } from '../utils/data.js'
+import { getRaceParticipation, formatEditionDate, editionYear } from '../utils/race.js'
 import ResponsiveTable from '../components/ResponsiveTable.vue'
 import ActivityRow from '../components/ActivityRow.vue'
 
@@ -283,6 +298,21 @@ const schoolData = computed(() => {
 })
 
 const school = computed(() => schoolData.value)
+
+// 這個單位參加過的比賽（來自 races.json 的各校報名資訊）
+const raceParticipation = computed(() => {
+  if (!school.value) return []
+  return getRaceParticipation(getRaces(), school.value.name).map(({ race, editions }) => ({
+    race,
+    text: Object.entries(
+      editions.reduce((acc, e) => {
+        const y = editionYear(e)
+        ;(acc[y] = acc[y] || []).push(formatEditionDate(e))
+        return acc
+      }, {})
+    ).sort((a, b) => b[0] - a[0]).map(([y, dates]) => `${y} ${dates.join('、')}`).join('　')
+  }))
+})
 
 // 活動列表：預設只列進行中的；開啟「顯示過去活動」後，過去的接在後面
 const showPastActivities = ref(false)

@@ -31,6 +31,7 @@ skipper.tw/
 │   ├── data/                     # JSON 資料檔案
 │   │   ├── activities.json       # 活動資料
 │   │   ├── courses.json          # 課程資料
+│   │   ├── races.json            # 比賽（歷年場次與各校報名資訊）
 │   │   ├── regions.json          # 地區列表
 │   │   ├── schools.json          # 主辦單位（學校／俱樂部／社團）
 │   │   └── types.json            # 活動類型定義
@@ -105,7 +106,7 @@ skipper.tw/
 ```
 
 **字段說明**:
-- `type`: 活動類型（`workshop` 體驗課程／`voyage` 航行／`race` 帆船賽事／`camp` 夏令營／`social` 聯誼／`seminar` 講座）
+- `type`: 活動類型（`workshop` 體驗課程／`voyage` 航行／`camp` 夏令營／`social` 聯誼／`seminar` 講座）。**比賽不放在活動裡**，請放 `races.json`（見下）
 - `conditions`: 參加條件（顯示用文字），取代舊的 `audience`／`prerequisites`
 - `schedule.type`: 排程型態
   - `fixed`：固定日期（`startDate`/`endDate`，單日兩者相同）
@@ -120,6 +121,67 @@ skipper.tw/
 - 活動頁、首頁、單位列表頁只顯示「尚未結束」的活動（多梯次看最後一梯、揪團看開放區間結束日）
 - 已結束的活動不會刪除，保留在資料裡當歷史；使用者在單位頁（`/schools/<id>/`）的「相關活動」區按「顯示過去活動」才會看到（新到舊、變淡）
 - 課程則在課程頁用「顯示過去一年」開關查看過去的梯次
+
+### 1-1. 比賽資料 (`public/data/races.json`)
+
+比賽每年都會舉辦，而且同一場比賽常有多所學校組隊參加，所以獨立成「比賽」專區（`/races/`、`/races/<id>/`），不放在活動裡。主辦單位不必是學校。
+
+```json
+{
+  "races": [
+    {
+      "id": "kaohsiung-international",
+      "name": "高雄國際帆船賽",
+      "organizer": "高雄市政府海洋局",
+      "location": "高雄港外海至蚵仔寮海域",
+      "description": "簡介",
+      "editions": [
+        {
+          "label": "#3",
+          "startDate": "2026-11-13",
+          "endDate": "2026-11-13",
+          "dateStatus": "選填：planned（協會年初行事曆預定，實際可能略有不同）／tentative（尚無官方公告的預計日期）",
+          "location": "選填，與比賽預設地點不同時才寫",
+          "note": "選填，這一屆的補充說明",
+          "url": "選填，官方公告或回顧文章",
+          "links": [{ "label": "競賽公告（NOR）", "url": "https://..." }],
+          "registration": { "deadline": "2026-05-25", "feeText": "費用說明", "note": "補充", "url": "競賽規程連結" },
+          "entries": [
+            {
+              "unit": "樂活海洋",
+              "role": "組隊",
+              "price": 3000,
+              "memberPrice": 2000,
+              "priceText": "選填，會覆蓋價格顯示",
+              "deadline": "2026-10-15",
+              "capacity": "8 席",
+              "requirements": "參加條件",
+              "contact": "LINE：https://lin.ee/xxx",
+              "note": "補充",
+              "url": "報名貼文連結"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+```
+
+**欄位說明**:
+- `id`: 網址用，小寫英文與連字號（例如 `hanse-cup`）
+- `organizer`: 主辦單位，純文字、選填（不確定就不要寫）
+- `website`: 比賽官方網站，選填（詳情頁顯示「官方網站 →」）
+- `editions`: 各年度場次，不論過去或未來都放這裡，同一年可以有多場（例如漢斯盃一年多站）。`label` 選填，用來區分同年的不同場次
+- `registration`: 該屆的「官方報名資訊」（費用、截止日、規程連結），不屬於任何學校，選填
+- `dateStatus`: 日期狀態標記，詳情頁會顯示「預定日期」或「預計」
+- `entries`: 各學校的組隊／報名資訊，選填；`unit` 要與 `schools.json` 的 `name` 完全一致（單位頁才會出現「參加的比賽」）。只有沒有報名資訊的過去場次，`entries` 放 `[]`
+- `role`: 例如「主辦」「組隊」
+- 價格欄位規則同活動（`price`／`memberPrice`／`priceText`），會員優惠價顯示為「會員 $x」
+
+**收錄原則**: 有開放他人報名參加的比賽才收；只有教練團自己出賽、沒有開放報名的不收；小艇、風浪板、樂觀型等選手導向的賽事不收（本站以重型帆船與一般人能參加的比賽為主）。歷年場次盡量往前收五年，日期優先用實際舉辦日，其次才是協會年度行事曆的預定日期（標 `planned`）；查不到的年份不要猜。
+
+**列表分組**（`/races/`）: 有未結束場次 →「即將舉行」；今年已辦完 →「今年已舉辦・明年可以提前準備」；今年還沒有場次 →「今年尚未公布」。後兩組依最近一次的月份排序，方便提早規劃。
 
 ### 2. 課程資料 (`public/data/courses.json`)
 
@@ -192,6 +254,8 @@ skipper.tw/
 |------|------|------|
 | `/` | 首頁 | `Home.vue` |
 | `/activities` | 活動列表 | `Activities.vue` |
+| `/races` | 比賽列表 | `Races.vue` |
+| `/races/:id` | 比賽詳情（各年度與各校報名資訊） | `Race.vue` |
 | `/courses` | 課程列表 | `Courses.vue` |
 
 **路由模式**: `createWebHistory()` (HTML5 History 模式)

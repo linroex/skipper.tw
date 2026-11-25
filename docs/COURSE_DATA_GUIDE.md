@@ -54,7 +54,7 @@
 {
   "id": 50,
   "title": "帆船體驗課程",
-  "type": "workshop",       // workshop/voyage/race/camp/social/seminar
+  "type": "workshop",       // workshop/voyage/camp/social/seminar（比賽請放 races.json）
   "unit": "學校或單位全名",   // 必須與 schools.json 的 name 完全匹配
   "region": "北台灣",        // 北台灣/中台灣/南台灣/東台灣
   "location": "台北",
@@ -154,12 +154,22 @@
 
 - `workshop`: 體驗課程
 - `voyage`: 航行（跟船出海、巡航、移泊、跨境航旅）
-- `race`: 帆船賽事
 - `camp`: 夏令營
 - `social`: 聯誼
 - `seminar`: 講座
 
 單位的 `type`（`schools.json`）：`school`（帆船學校）、`club`（遊艇俱樂部／遊艇業者）、`community`（社團揪團）。
+
+### 比賽資料 (`public/data/races.json`)
+
+比賽（帆船賽事）不放在 `activities.json`，改放 `races.json`。結構與欄位說明見 `AGENTS.md` 的「1-1. 比賽資料」。新增時：
+
+1. 先看這個比賽是否已存在（同一個比賽的不同年度放在同一筆的 `editions`，不要新增第二筆）
+2. 只收有開放他人報名參加的比賽；教練團自己出賽、沒有開放報名的不收
+3. `entries[].unit` 必須與 `schools.json` 的 `name` 完全一致
+4. 去年的場次也要收，讓使用者能提早規劃；日期不確定的場次先不要寫，等有確切資料再補
+5. 歷年場次盡量往前收五年；日期優先用實際舉辦日，其次是協會年度行事曆預定（`dateStatus: "planned"`）；尚無官方公告的未來日期用 `tentative`；小艇、風浪板、樂觀型等選手導向賽事不收
+6. 可靠的來源：中華民國帆船協會官網的「國內/國外賽事」與年度行事曆（ct-sailing.org.tw）、各比賽的官方競賽規程（NOR）
 
 ### 價格欄位
 

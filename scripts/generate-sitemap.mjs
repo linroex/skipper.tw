@@ -1,6 +1,7 @@
 import { writeFileSync, mkdirSync } from 'node:fs'
 import { resolve } from 'node:path'
 import schoolsData from '../public/data/schools.json' with { type: 'json' }
+import racesData from '../public/data/races.json' with { type: 'json' }
 
 const siteUrl = 'https://skipper.tw'
 const today = new Date().toISOString().slice(0, 10)
@@ -10,9 +11,15 @@ const urls = [
   { path: '/courses/', changefreq: 'daily', priority: '0.9' },
   { path: '/schools/', changefreq: 'weekly', priority: '0.8' },
   { path: '/activities/', changefreq: 'daily', priority: '0.7' },
+  { path: '/races/', changefreq: 'weekly', priority: '0.8' },
   { path: '/calendar/', changefreq: 'daily', priority: '0.7' },
   ...schoolsData.schools.map(school => ({
     path: `/schools/${school.id}/`,
+    changefreq: 'weekly',
+    priority: '0.7'
+  })),
+  ...racesData.races.map(race => ({
+    path: `/races/${race.id}/`,
     changefreq: 'weekly',
     priority: '0.7'
   }))

@@ -9,6 +9,7 @@
           </router-link>
           <div class="flex space-x-5 text-sm font-medium">
             <router-link to="/activities" class="text-ink-soft hover:text-primary">活動</router-link>
+            <router-link to="/races" class="text-ink-soft hover:text-primary">比賽</router-link>
             <router-link to="/courses" class="text-ink-soft hover:text-primary">課程</router-link>
             <router-link to="/calendar" class="text-ink-soft hover:text-primary">行事曆</router-link>
             <router-link to="/schools" class="text-ink-soft hover:text-primary">學校</router-link>

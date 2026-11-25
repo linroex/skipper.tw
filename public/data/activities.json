@@ -94,25 +94,6 @@
     },
     {
       "id": 5,
-      "title": "2026 澎湖島帆週系列賽",
-      "type": "race",
-      "unit": "樂活海洋",
-      "region": "南台灣",
-      "location": "澎湖",
-      "conditions": [],
-      "schedule": {
-        "type": "fixed",
-        "startDate": "2026-06-27",
-        "endDate": "2026-06-30"
-      },
-      "duration": "4 天",
-      "price": null,
-      "contact": "請洽詢學校",
-      "description": "深度體驗帆船賽，挑戰自我！專業教練帶領參與帆船賽事、頒獎晚宴、澎湖花火節包船觀賞。揪團兩人同行現省 $6,000。",
-      "url": "https://lin.ee/RK39pvyZ"
-    },
-    {
-      "id": 6,
       "title": "宜蘭－石垣島來回帆船航海",
       "type": "voyage",
       "unit": "黑嚕嚕",
@@ -150,7 +131,7 @@
       "url": "https://www.instagram.com/hllclub/"
     },
     {
-      "id": 7,
+      "id": 6,
       "title": "宜蘭－花蓮來回帆船航海",
       "type": "voyage",
       "unit": "黑嚕嚕",
@@ -170,7 +151,7 @@
       "url": "https://www.instagram.com/hllclub/"
     },
     {
-      "id": 8,
+      "id": 7,
       "title": "宜蘭冬季帆船航海體驗",
       "type": "voyage",
       "unit": "黑嚕嚕",
@@ -190,7 +171,7 @@
       "url": "https://www.instagram.com/hllclub/"
     },
     {
-      "id": 9,
+      "id": 8,
       "title": "帆船 ASA 103～105 教學考證班",
       "type": "workshop",
       "unit": "黑嚕嚕",
@@ -213,7 +194,7 @@
       "url": "https://www.instagram.com/hllclub/"
     },
     {
-      "id": 10,
+      "id": 9,
       "title": "宜蘭龜山島包船水上活動",
       "type": "workshop",
       "unit": "黑嚕嚕",
@@ -234,7 +215,7 @@
       "url": "https://www.instagram.com/hllclub/"
     },
     {
-      "id": 11,
+      "id": 10,
       "title": "年度航訓｜基隆－石垣島－與那國島跨境航旅",
       "type": "voyage",
       "unit": "海翼遊艇俱樂部",
@@ -254,7 +235,7 @@
       "url": "https://www.hiwingmarine.com/general-5"
     },
     {
-      "id": 12,
+      "id": 11,
       "title": "基礎航訓｜有限水域控制與離靠岸",
       "type": "workshop",
       "unit": "海翼遊艇俱樂部",
@@ -275,7 +256,7 @@
       "url": "https://www.hiwingmarine.com/general-5"
     },
     {
-      "id": 13,
+      "id": 12,
       "title": "海翼會員聯誼日",
       "type": "social",
       "unit": "海翼遊艇俱樂部",
@@ -296,7 +277,7 @@
       "url": "https://www.hiwingmarine.com/general-5"
     },
     {
-      "id": 14,
+      "id": 13,
       "title": "基礎航訓｜遇浪駕駛技巧",
       "type": "workshop",
       "unit": "海翼遊艇俱樂部",
@@ -318,7 +299,7 @@
       "url": "https://www.hiwingmarine.com/general-5"
     },
     {
-      "id": 15,
+      "id": 14,
       "title": "年度航訓｜基隆→花蓮→綠島→高雄",
       "type": "voyage",
       "unit": "海翼遊艇俱樂部",
@@ -337,7 +318,7 @@
       "url": "https://www.hiwingmarine.com/general-5"
     },
     {
-      "id": 16,
+      "id": 15,
       "title": "Rogers 46 冬季移泊｜高雄 → 台南",
       "type": "voyage",
       "unit": "亞趣遊艇海洋生活",
@@ -357,26 +338,7 @@
       "url": "https://www.facebook.com/permalink.php?story_fbid=1126629830131758&id=100083542533590"
     },
     {
-      "id": 17,
-      "title": "2026 漢斯盃帆船公開賽｜Hanse Cup Regatta #5",
-      "type": "race",
-      "unit": "樂活海洋",
-      "region": "南台灣",
-      "location": "台南安平亞果遊艇碼頭",
-      "conditions": ["個人報名需 ASA 101 或具帆船賽事經驗"],
-      "schedule": {
-        "type": "fixed",
-        "startDate": "2026-12-12",
-        "endDate": "2026-12-12"
-      },
-      "price": 3000,
-      "memberPrice": 2000,
-      "contact": "LINE 報名：https://lin.ee/g9RlCRL",
-      "description": "結合「2026 台南亞果生活節暨遊艇展」，邀請全台帆船好手齊聚安平，挑戰安平外海競技航程，賽後有交流茶會。個人報名費會員 $2,000、非會員 $3,000，由教練分配船隻；自備船艇報名，HanseYachts 品牌免費、其他品牌 $3,600 起；加購 ASA 課程享 9 折。競賽公告（NOR）：https://reurl.cc/eQ2ONW",
-      "url": "https://www.facebook.com/permalink.php?story_fbid=1824084526389488&id=100063638754958"
-    },
-    {
-      "id": 18,
+      "id": 16,
       "title": "繞旗津島帆船體驗",
       "type": "voyage",
       "unit": "後野海洋",
@@ -395,7 +357,7 @@
       "url": "https://www.facebook.com/permalink.php?story_fbid=122184237824819559&id=61574586779948"
     },
     {
-      "id": 19,
+      "id": 17,
       "title": "2026 冬季台灣東部海域實務航行",
       "type": "voyage",
       "unit": "晨光海洋 ASA 帆船學校",
@@ -416,7 +378,7 @@
       "url": "https://dawnlightocean.com.tw/news_detail.php?n_id=97"
     },
     {
-      "id": 20,
+      "id": 18,
       "title": "長航訓練｜高雄 → 台南",
       "type": "voyage",
       "unit": "樂活海洋",
@@ -436,7 +398,7 @@
       "url": "https://www.facebook.com/LOHASOCEAN/posts/pfbid02ZNm5FR67nAiGV3dbujreRyHbq4hPhDntU25BogKvvR88K6EPaMH6tTrNxpU9EMBSl"
     },
     {
-      "id": 21,
+      "id": 19,
       "title": "蚵仔寮漁港帆船體驗",
       "type": "voyage",
       "unit": "後野海洋",
@@ -455,7 +417,7 @@
       "url": "https://www.facebook.com/permalink.php?story_fbid=pfbid0egqu3bjbz54ss2LrHVgBuqquTbJctTxY9CMCZAYJa2XvLjR8hDpfr7Lkhmm9CNjhl&id=61574586779948"
     },
     {
-      "id": 22,
+      "id": 20,
       "title": "彌陀漁港帆船體驗",
       "type": "voyage",
       "unit": "後野海洋",
@@ -475,7 +437,7 @@
       "url": "https://www.facebook.com/permalink.php?story_fbid=pfbid02Yu8XQ998uNK6sYFJrpG87S82MzWvzsCZvu9LbgiRSRz99Bxzk6F6xQ1aCJHw2ktHl&id=61574586779948"
     },
     {
-      "id": 23,
+      "id": 21,
       "title": "進階航訓｜外海航行實務",
       "type": "workshop",
       "unit": "海翼遊艇俱樂部",
@@ -495,7 +457,7 @@
       "url": "https://www.hiwingmarine.com/general-5"
     },
     {
-      "id": 24,
+      "id": 22,
       "title": "Salona 44 冬季移航｜高雄 → 台南",
       "type": "voyage",
       "unit": "亞趣遊艇海洋生活",
@@ -515,7 +477,7 @@
       "url": "https://www.facebook.com/permalink.php?story_fbid=pfbid0kw6PorC3PPWDoBUihXgTYfLz4QjtN3Z1pmqaAmM2hdosXKQnJh8MtG914sZAqfBFl&id=100083542533590"
     },
     {
-      "id": 25,
+      "id": 23,
       "title": "基礎航訓｜有限水域控制與離靠岸",
       "type": "workshop",
       "unit": "海翼遊艇俱樂部",
@@ -534,7 +496,7 @@
       "url": "https://www.hiwingmarine.com/general-5"
     },
     {
-      "id": 26,
+      "id": 24,
       "title": "帆船航訓｜帆船巡航基礎實務",
       "type": "workshop",
       "unit": "海翼遊艇俱樂部",
@@ -554,7 +516,7 @@
       "url": "https://www.hiwingmarine.com/general-5"
     },
     {
-      "id": 27,
+      "id": 25,
       "title": "基礎航訓｜有限水域控制與離靠岸",
       "type": "workshop",
       "unit": "海翼遊艇俱樂部",
@@ -573,7 +535,7 @@
       "url": "https://www.hiwingmarine.com/general-5"
     },
     {
-      "id": 28,
+      "id": 26,
       "title": "進階航訓｜夜間巡航（大稻埕航段）",
       "type": "workshop",
       "unit": "海翼遊艇俱樂部",
@@ -593,7 +555,7 @@
       "url": "https://www.hiwingmarine.com/general-5"
     },
     {
-      "id": 29,
+      "id": 27,
       "title": "帆船航訓｜帆船巡航基礎實務",
       "type": "workshop",
       "unit": "海翼遊艇俱樂部",
@@ -613,7 +575,7 @@
       "url": "https://www.hiwingmarine.com/general-5"
     },
     {
-      "id": 30,
+      "id": 28,
       "title": "帆船航訓｜帆船巡航基礎實務",
       "type": "workshop",
       "unit": "海翼遊艇俱樂部",
@@ -633,7 +595,7 @@
       "url": "https://www.hiwingmarine.com/general-5"
     },
     {
-      "id": 31,
+      "id": 29,
       "title": "進階航訓｜有限水域控制與離靠岸",
       "type": "workshop",
       "unit": "海翼遊艇俱樂部",
@@ -652,103 +614,7 @@
       "url": "https://www.hiwingmarine.com/general-5"
     },
     {
-      "id": 32,
-      "title": "2026 久米島帆船賽｜夥伴招募",
-      "type": "race",
-      "unit": "樂活海洋",
-      "region": "南台灣",
-      "location": "日本沖繩宜野灣港",
-      "conditions": [],
-      "schedule": {
-        "type": "fixed",
-        "startDate": "2026-11-13",
-        "endDate": "2026-11-14",
-        "note": "11/13 船長會議・歡迎晚宴，11/14 正式比賽・頒獎典禮"
-      },
-      "duration": "全程約 48 海里",
-      "price": 19800,
-      "priceText": "NT$19,800 起／人",
-      "contact": "LINE：https://lin.ee/UjpQYk5",
-      "description": "前進日本沖繩海域，登上 J/120 帆船挑戰久米島帆船賽：宜野灣港 → 慶良間群島周邊 → 久米島。報名截止 10/24。",
-      "url": "https://www.facebook.com/LOHASOCEAN/posts/pfbid0wCBMGx6tER1r2yoECxqPw6T3tpojH9LW4kqNcJxLGHU7bUrGJb2nm7LPMfj7DD6il"
-    },
-    {
-      "id": 33,
-      "title": "2026 高雄國際帆船賽｜樂活船隊",
-      "type": "race",
-      "unit": "樂活海洋",
-      "region": "南台灣",
-      "location": "高雄愛河灣亞果遊艇碼頭（高雄港外海至蚵子寮外海）",
-      "conditions": [],
-      "schedule": {
-        "type": "fixed",
-        "startDate": "2026-11-13",
-        "endDate": "2026-11-13"
-      },
-      "price": 3000,
-      "contact": "LINE：https://lin.ee/s239nhH",
-      "description": "跟著樂活船隊把平時所學運用在實際競賽。樂活會員免費、非會員 NT$3,000，報名截止 10/15。",
-      "url": "https://www.facebook.com/LOHASOCEAN/posts/pfbid0KxCihpUxsDR5kNPunsBgTGd3BzNZMJQDmWgmxUFriR2KWFTD4hJWKApXEzcxAfarl"
-    },
-    {
-      "id": 34,
-      "title": "2026 高雄國際帆船賽｜伊娜號徵水手",
-      "type": "race",
-      "unit": "後野海洋",
-      "region": "南台灣",
-      "location": "高雄港（第三船渠）",
-      "conditions": ["合格水手", "限 8 席"],
-      "schedule": {
-        "type": "fixed",
-        "startDate": "2026-11-13",
-        "endDate": "2026-11-13"
-      },
-      "priceText": "合格水手免費",
-      "contact": "私訊粉專",
-      "description": "與伊娜號一起參賽，合格水手免費，僅 8 個席位；獎金伊娜號留 40%，其餘平分。",
-      "url": "https://www.facebook.com/permalink.php?story_fbid=pfbid02e2qYMrBsUkxLgjcz2kJnoSiqVdx7QnSoR6UoXqhrvoQ3vL6QjpoRu3ev1fEQiX6Vl&id=61574586779948"
-    },
-    {
-      "id": 35,
-      "title": "2026 漢斯盃帆船公開賽｜Hanse Cup Regatta #3",
-      "type": "race",
-      "unit": "樂活海洋",
-      "region": "南台灣",
-      "location": "台南安平亞果遊艇碼頭",
-      "conditions": ["個人報名需 ASA 101 或具帆船賽事經驗"],
-      "schedule": {
-        "type": "fixed",
-        "startDate": "2026-02-28",
-        "endDate": "2026-02-28",
-        "note": "08:00 開跑"
-      },
-      "price": 3000,
-      "memberPrice": 2000,
-      "contact": "LINE：https://lin.ee/g9RlCRL",
-      "description": "由樂活海洋學院主辦、Hanse Yachts 冠名贊助，開放隊伍報名。個人報名費會員 $2,000、非會員 $3,000，由教練分配船隻；自備船艇報名，HanseYachts 品牌免費、其他品牌 $3,600 起；加購 ASA 課程享 9 折。當天集結 12 支隊伍、近 85 名選手在安平外海競速，現場同步安排帆船趣味互動，讓一般民眾也能親近帆船。",
-      "url": "https://lohasocean.com/activity/6/33"
-    },
-    {
-      "id": 36,
-      "title": "2026 漢斯盃帆船公開賽｜Hanse Cup Regatta #4",
-      "type": "race",
-      "unit": "樂活海洋",
-      "region": "南台灣",
-      "location": "台南安平亞果遊艇碼頭",
-      "conditions": ["個人報名需 ASA 101 或具帆船賽事經驗"],
-      "schedule": {
-        "type": "fixed",
-        "startDate": "2026-05-02",
-        "endDate": "2026-05-02"
-      },
-      "price": 3000,
-      "memberPrice": 2000,
-      "contact": "LINE：https://lin.ee/g9RlCRL",
-      "description": "樂活海洋學院主辦、Hanse Yachts 冠名的漢斯盃帆船公開賽第四屆。個人報名費會員 $2,000、非會員 $3,000，由教練分配船隻；自備船艇報名，HanseYachts 品牌免費、其他品牌 $3,600 起；加購 ASA 課程享 9 折。",
-      "url": "https://lohasocean.com/activity"
-    },
-    {
-      "id": 37,
+      "id": 30,
       "title": "船展前試乘體驗｜Swan 54（台南亞果 → 高雄亞果）",
       "type": "voyage",
       "unit": "亞趣遊艇海洋生活",
@@ -769,7 +635,7 @@
       "url": "https://www.facebook.com/permalink.php?story_fbid=pfbid0wTo91w2ezD3YuuJbW8Daw7iqYySpFUdERsYRzoWr65sh97mLBrxSbgcPUDX3moDAl&id=100083542533590"
     },
     {
-      "id": 38,
+      "id": 31,
       "title": "船展前試乘體驗｜Rogers（興達港 → 高雄亞果）",
       "type": "voyage",
       "unit": "亞趣遊艇海洋生活",
@@ -790,7 +656,7 @@
       "url": "https://www.facebook.com/permalink.php?story_fbid=pfbid0wTo91w2ezD3YuuJbW8Daw7iqYySpFUdERsYRzoWr65sh97mLBrxSbgcPUDX3moDAl&id=100083542533590"
     },
     {
-      "id": 39,
+      "id": 32,
       "title": "船展前試乘體驗｜Rogers（高雄亞果 → 興達港）",
       "type": "voyage",
       "unit": "亞趣遊艇海洋生活",
@@ -811,7 +677,7 @@
       "url": "https://www.facebook.com/permalink.php?story_fbid=pfbid0wTo91w2ezD3YuuJbW8Daw7iqYySpFUdERsYRzoWr65sh97mLBrxSbgcPUDX3moDAl&id=100083542533590"
     },
     {
-      "id": 40,
+      "id": 33,
       "title": "船展前試乘體驗｜Swan 54（高雄亞果 → 台南亞果）",
       "type": "voyage",
       "unit": "亞趣遊艇海洋生活",
@@ -832,7 +698,7 @@
       "url": "https://www.facebook.com/permalink.php?story_fbid=pfbid0wTo91w2ezD3YuuJbW8Daw7iqYySpFUdERsYRzoWr65sh97mLBrxSbgcPUDX3moDAl&id=100083542533590"
     },
     {
-      "id": 41,
+      "id": 34,
       "title": "帆船入門｜週末沉浸",
       "type": "workshop",
       "unit": "亞趣遊艇海洋生活",
@@ -850,7 +716,7 @@
       "url": "https://www.facebook.com/permalink.php?story_fbid=pfbid0fp3QabK4DdvSshibZqDGYLh6fD1o87h23dwd7GiDvnW2vR9ST1JxpnM46EbYcexPl&id=100083542533590"
     },
     {
-      "id": 42,
+      "id": 35,
       "title": "冠軍賽船航行體驗｜北部限定",
       "type": "voyage",
       "unit": "亞趣遊艇海洋生活",
@@ -868,7 +734,7 @@
       "url": "https://www.facebook.com/permalink.php?story_fbid=pfbid0232Wge3unAD8kDrg71VnoXb5dT5oWy5dkXsEbd4pCJQUC6aibdNaNnfE84PQQwNm5l&id=100083542533590"
     },
     {
-      "id": 43,
+      "id": 36,
       "title": "帆船入門｜週末沉浸 8/15–16",
       "type": "workshop",
       "unit": "亞趣遊艇海洋生活",
@@ -888,7 +754,7 @@
       "url": "https://www.facebook.com/permalink.php?story_fbid=pfbid0QmnG7tF7L8f2CxzcFCTNzUGRqjhCPQgdPEQVRDPJS2edoTpPH3B96cH56sJRVDZwl&id=100083542533590"
     },
     {
-      "id": 44,
+      "id": 37,
       "title": "帆船入門｜週末沉浸（基隆出發）",
       "type": "workshop",
       "unit": "亞趣遊艇海洋生活",
@@ -908,7 +774,7 @@
       "url": "https://www.facebook.com/permalink.php?story_fbid=pfbid0Y3DtMymPuq8sojJLi4QxNJya35BngNumw6PSoHC69jj4fmZst32LswoMKdC7fJgbl&id=100083542533590"
     },
     {
-      "id": 45,
+      "id": 38,
       "title": "36 小時長程移泊｜基隆 → 高雄",
       "type": "voyage",
       "unit": "亞趣遊艇海洋生活",

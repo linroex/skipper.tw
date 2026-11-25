@@ -1,7 +1,7 @@
 import { ViteSSG } from 'vite-ssg'
 import App from './App.vue'
 import { routes } from './router'
-import { getSchools } from './utils/data.js'
+import { getSchools, getRaces } from './utils/data.js'
 
 export const createApp = ViteSSG(
   App,
@@ -14,5 +14,6 @@ export const createApp = ViteSSG(
 export const includedRoutes = (paths) => {
   const staticPaths = paths.filter(path => !path.includes(':'))
   const schoolPaths = getSchools().map(school => `/schools/${school.id}`)
-  return [...new Set([...staticPaths, ...schoolPaths])]
+  const racePaths = getRaces().map(race => `/races/${race.id}`)
+  return [...new Set([...staticPaths, ...schoolPaths, ...racePaths])]
 }
