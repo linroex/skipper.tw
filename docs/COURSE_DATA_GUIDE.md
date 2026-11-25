@@ -57,8 +57,7 @@
   "unit": "學校或單位全名",   // 必須與 schools.json 的 name 完全匹配
   "region": "北台灣",        // 北台灣/中台灣/南台灣/東台灣
   "location": "台北",
-  "audience": "public",      // public（對外開放）/ members（學員專屬）
-  "prerequisites": ["ASA 103"], // 能力門檻，無則留空陣列 []
+  "conditions": ["需 ASA 101"], // 參加條件（顯示用文字），如「6 歲以上」「會員限定」；無則留空陣列 []
   "schedule": { ... },       // 見下方三種型態
   "duration": "3 天",        // 選填，活動時長
   "price": 1500,             // 一般價格，需洽詢用 null
@@ -95,8 +94,10 @@
   "id": "新學校識別碼",  // 小寫，無空格
   "name": "學校全名",  // 必須與課程中的 unit 完全匹配
   "shortName": "簡短名稱",
+  "type": "school",  // school / club / community
   "description": "學校描述",
-  "certs": ["ASA"],
+  "url": "官方網站或粉專連結",  // 粉專無自訂網址時用 https://www.facebook.com/profile.php?id=<ID>
+  "certs": ["ASA"],  // 沒有認證課程可留空陣列 []
   "locations": ["地點"]
 }
 ```
@@ -146,9 +147,13 @@
 ### 活動類型
 
 - `workshop`: 體驗課程
-- `race`: 競賽
-- `camp`: 營隊
+- `voyage`: 航行（跟船出海、巡航、移泊、跨境航旅）
+- `race`: 帆船賽事
+- `camp`: 夏令營
+- `social`: 聯誼
 - `seminar`: 講座
+
+單位的 `type`（`schools.json`）：`school`（帆船學校）、`club`（遊艇俱樂部／遊艇業者）、`community`（社團揪團）。
 
 ### 價格欄位
 

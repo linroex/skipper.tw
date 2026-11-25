@@ -24,6 +24,7 @@ skipper.tw/
 │               └── SEARCH_API.md # API 引用文件
 │
 ├── docs/                         # 專案文件
+│   ├── COURSE_DATA_GUIDE.md      # 新增課程／活動資料的完整規則（以此為準）
 │   └── PROJECT_PLAN.md           # 專案規劃文件
 │
 ├── public/                       # 靜態資源
@@ -31,6 +32,7 @@ skipper.tw/
 │   │   ├── activities.json       # 活動資料
 │   │   ├── courses.json          # 課程資料
 │   │   ├── regions.json          # 地區列表
+│   │   ├── schools.json          # 主辦單位（學校／俱樂部／社團）
 │   │   └── types.json            # 活動類型定義
 │   └── vite.svg                  # Vite 圖標
 │
@@ -82,16 +84,18 @@ skipper.tw/
 {
   "activities": [
     {
-      "id": 1,
+      "id": 16,
       "title": "活動名稱",
-      "type": "workshop/race/camp/seminar",
+      "type": "workshop/voyage/race/camp/social/seminar",
+      "unit": "主辦單位（須與 schools.json 的 name 完全一致）",
       "region": "北台灣/中台灣/南台灣/東台灣",
-      "date": "YYYY-MM-DD",
-      "startDate": "YYYY-MM-DD",
-      "endDate": "YYYY-MM-DD",
       "location": "地點名稱",
-      "unit": "主辦單位",
-      "price": 數字或 0,
+      "conditions": ["參加條件，如 6 歲以上、會員限定；無則 []"],
+      "schedule": { "type": "fixed", "startDate": "YYYY-MM-DD", "endDate": "YYYY-MM-DD", "note": "選填" },
+      "duration": "選填，如 4 天 3 夜",
+      "price": 數字或 null,
+      "memberPrice": "選填，會員價",
+      "priceText": "選填，覆蓋價格顯示",
       "contact": "聯絡方式",
       "description": "活動描述",
       "url": "外部連結"
@@ -101,22 +105,16 @@ skipper.tw/
 ```
 
 **字段說明**:
-- `id`: 唯一識別碼
-- `title`: 活動標題
-- `type`: 活動類型
-  - `workshop`: 體驗課程
-  - `race`: 競賽
-  - `camp`: 營隊
-  - `seminar`: 講座
-- `region`: 地區分類
-- `date`: 活動日期（單日）
-- `startDate/endDate`: 活動日期範圍
-- `location`: 詳細地點
-- `unit`: 主辦單位
-- `price`: 價格（NT$，0 表示需洽詢）
-- `contact`: 聯絡方式
-- `description`: 活動描述
-- `url`: 外部連結（選填）
+- `type`: 活動類型（`workshop` 體驗課程／`voyage` 航行／`race` 帆船賽事／`camp` 夏令營／`social` 聯誼／`seminar` 講座）
+- `conditions`: 參加條件（顯示用文字），取代舊的 `audience`／`prerequisites`
+- `schedule.type`: 排程型態
+  - `fixed`：固定日期（`startDate`/`endDate`，單日兩者相同）
+  - `recurring`：多梯次（`sessions` 日期陣列）
+  - `flexible`：揪團成行（`windowStart`/`windowEnd`/`minParticipants`，顯示在「隨時揪團成行」區）
+- `price`: 價格（NT$），需洽詢用 `null`
+- `url`: 外部連結；來源是 FB 貼文時放貼文永久連結
+
+完整規則與範例見 `docs/COURSE_DATA_GUIDE.md`。
 
 ### 2. 課程資料 (`public/data/courses.json`)
 
@@ -164,12 +162,20 @@ skipper.tw/
 {
   "types": [
     {"id": "workshop", "name": "體驗課程"},
-    {"id": "race", "name": "競賽"},
-    {"id": "camp", "name": "營隊"},
+    {"id": "voyage", "name": "航行"},
+    {"id": "race", "name": "帆船賽事"},
+    {"id": "camp", "name": "夏令營"},
+    {"id": "social", "name": "聯誼"},
     {"id": "seminar", "name": "講座"}
   ]
 }
 ```
+
+### 5. 主辦單位 (`public/data/schools.json`)
+
+- `type`: `school`（帆船學校）／`club`（遊艇俱樂部／遊艇業者）／`community`（社團揪團）
+- `certs`: 認證組織陣列，沒有認證課程可為 `[]`
+- 新增活動前，`unit` 必須先存在於此檔，否則單位頁不會出現
 
 ---
 
@@ -277,8 +283,22 @@ Vite 配置已開啟 `0.0.0.0`，可從網路其他裝置存取：
 - 日期格式：`YYYY-MM-DD`
 - 價格：數字類型，0 表示需洽詢
 - 地區：必須是預定義的區分之一（北台灣/中台灣/南台灣/東台灣）
-- 活動類型：必須是預定義的類型之一（workshop/race/camp/seminar）
+- 活動類型：必須是預定義的類型之一（workshop/voyage/race/camp/social/seminar）
 - 課程等級：必須是預定義的等級之一（beginner/intermediate/advanced）
+
+### 讀取 Facebook 貼文（headless browser）
+環境沒有內建瀏覽器工具，WebFetch 對 FB 通常只拿到登入頁。公開貼文可用 Playwright 讀取：
+
+```bash
+# 裝在 scratchpad 或專案外，不要污染專案依賴
+mkdir -p <tmp>/pw && cd <tmp>/pw && npm init -y && npm i playwright && npx playwright install chromium
+# 腳本：chromium.launch() → newContext({ locale: 'zh-TW' }) → goto(分享連結) → waitForTimeout(5000) → innerText('body')
+```
+
+- `facebook.com/share/p/...` 會轉址到 `story.php?story_fbid=...&id=<粉專ID>`，貼文內容在 body 文字裡
+- 貼文通常不含粉專連結，可從 `a[href]` 或 `link[rel=canonical]` 取得；粉專無自訂網址時用 `https://www.facebook.com/profile.php?id=<粉專ID>`
+- 貼文永久連結格式：`https://www.facebook.com/permalink.php?story_fbid=<ID>&id=<粉專ID>`
+- 私人或社團貼文仍會被登入牆擋住，改請站主貼文字或截圖
 
 ### 搜尋技能使用
 專案已整合 `search-xng` 技能，可用於：
