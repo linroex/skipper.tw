@@ -19,7 +19,7 @@
           <div v-if="school.typeLabel" class="mb-2">
             <span class="text-xs text-paper bg-primary px-2 py-1 rounded">{{ school.typeLabel }}</span>
           </div>
-          <div class="flex items-center text-sm text-ink-soft mb-2">
+          <div v-if="school.totalCourses > 0 || school.totalActivities > 0" class="flex items-center text-sm text-ink-soft mb-2">
             <span class="text-xs text-ink-soft mr-3">
               {{ school.totalCourses }} 課程
             </span>
@@ -27,6 +27,7 @@
               {{ school.totalActivities }} 活動
             </span>
           </div>
+          <p v-else class="text-xs text-ink-faint mb-2">目前沒有進行中的課程或活動</p>
           <p class="text-ink-soft text-sm">{{ school.description }}</p>
           <div v-if="school.links.length" class="mt-3 flex flex-wrap gap-x-4 gap-y-1">
             <a
@@ -133,12 +134,16 @@ const schoolsWithStats = computed(() => {
     schoolMap.get(unit).activities.push(activity)
   })
 
+  // schools.json 裡的每個單位都要列出，即使目前沒有進行中的課程或活動
+  schools.value.forEach(info => {
+    if (!schoolMap.has(info.name)) {
+      schoolMap.set(info.name, { courses: [], activities: [] })
+    }
+  })
+
   // 轉換為陣列並添加統計，使用學校資料檔案中的資訊
-  return Array.from(schoolMap.values()).map((schoolData, index) => {
-    // 從學校資料檔案中查找對應的學校資訊
-    // 使用學校資料中的 unit 來匹配學校名稱
-    const sampleCourse = schoolData.courses[0] || schoolData.activities[0]
-    const unitName = sampleCourse?.unit || schools.value[index]?.id
+  return Array.from(schoolMap.entries()).map(([unitName, schoolData]) => {
+    // 以單位名稱對應學校資料檔案中的資訊
     const schoolInfo = schoolDataByUnit.value.get(unitName)
     
     // 取得學校的主要地點（用於排序）
