@@ -393,6 +393,359 @@
       "contact": "私訊粉專",
       "description": "跟著伊娜揚帆繞行旗津島，體驗操帆、吹海風，還能自己開船。中午上岸到中洲漁港吃海鮮、喝海岸線咖啡，下午 15:00 登船回程。費用不含午餐與咖啡。",
       "url": "https://www.facebook.com/permalink.php?story_fbid=122184237824819559&id=61574586779948"
+    },
+    {
+      "id": 19,
+      "title": "2026 冬季台灣東部海域實務航行",
+      "type": "voyage",
+      "unit": "晨光海洋 ASA 帆船學校",
+      "region": "東台灣",
+      "location": "宜蘭烏石港出發",
+      "conditions": [],
+      "schedule": {
+        "type": "fixed",
+        "startDate": "2026-10-08",
+        "endDate": "2026-10-26",
+        "note": "分航段報名，可只參加一兩個航段"
+      },
+      "duration": "約 700 浬",
+      "price": 7000,
+      "priceText": "每航段 $7,000–15,000",
+      "contact": "Line: pattonkan / 0928-809-651",
+      "description": "像候鳥一樣冬天向南航行：南下 10/8–10/14（烏石－花蓮－新港－綠島－後壁湖－小琉球－安平），北上 10/17–10/26（安平－小琉球－後壁湖－綠島－新港－花蓮－烏石）。費用依航段：單日航段 $7,000，跨夜航段 $15,000。",
+      "url": "https://dawnlightocean.com.tw/news_detail.php?n_id=97"
+    },
+    {
+      "id": 20,
+      "title": "長航訓練｜高雄 → 台南",
+      "type": "voyage",
+      "unit": "樂活海洋",
+      "region": "南台灣",
+      "location": "高雄愛河灣亞果遊艇碼頭 → 台南",
+      "conditions": [],
+      "schedule": {
+        "type": "fixed",
+        "startDate": "2026-11-16",
+        "endDate": "2026-11-16",
+        "note": "10:00 集合"
+      },
+      "duration": "約 5 小時（20 海浬）",
+      "price": 3000,
+      "contact": "LINE：https://lin.ee/s239nhH",
+      "description": "從高雄航向台南的長航訓練，累積不同航程的實際經驗。會員免費、非會員 NT$3,000。",
+      "url": "https://www.facebook.com/LOHASOCEAN/posts/pfbid02ZNm5FR67nAiGV3dbujreRyHbq4hPhDntU25BogKvvR88K6EPaMH6tTrNxpU9EMBSl"
+    },
+    {
+      "id": 21,
+      "title": "蚵仔寮漁港帆船體驗",
+      "type": "voyage",
+      "unit": "後野海洋",
+      "region": "南台灣",
+      "location": "高雄蚵仔寮（第三船渠出發）",
+      "conditions": [],
+      "schedule": {
+        "type": "recurring",
+        "sessions": ["2026-10-28", "2026-10-29", "2026-10-30"],
+        "note": "09:30 第三船渠出發，16:00 返航"
+      },
+      "duration": "約 6.5 小時",
+      "price": 3000,
+      "contact": "私訊粉專",
+      "description": "跟著伊娜出海，操帆、吹海風、自己開船，中午上岸吃蚵仔寮海鮮。加好友再減 NT$500，午餐不含。",
+      "url": "https://www.facebook.com/permalink.php?story_fbid=pfbid0egqu3bjbz54ss2LrHVgBuqquTbJctTxY9CMCZAYJa2XvLjR8hDpfr7Lkhmm9CNjhl&id=61574586779948"
+    },
+    {
+      "id": 22,
+      "title": "彌陀漁港帆船體驗",
+      "type": "voyage",
+      "unit": "後野海洋",
+      "region": "南台灣",
+      "location": "高雄彌陀漁港（第三船渠出發）",
+      "conditions": [],
+      "schedule": {
+        "type": "fixed",
+        "startDate": "2026-11-04",
+        "endDate": "2026-11-04",
+        "note": "09:00 第三船渠出發，16:30 返航"
+      },
+      "duration": "約 7.5 小時",
+      "price": 3000,
+      "contact": "私訊粉專",
+      "description": "前往彌陀漁港找藍船長高雄熊，上岸拍照、吃漁港海鮮，回程如果不趕時間，拍完夕陽再進港。加好友再減 NT$500，午餐不含。",
+      "url": "https://www.facebook.com/permalink.php?story_fbid=pfbid02Yu8XQ998uNK6sYFJrpG87S82MzWvzsCZvu9LbgiRSRz99Bxzk6F6xQ1aCJHw2ktHl&id=61574586779948"
+    },
+    {
+      "id": 23,
+      "title": "進階航訓｜外海航行實務",
+      "type": "workshop",
+      "unit": "海翼遊艇俱樂部",
+      "region": "北台灣",
+      "location": "八里大橋碼頭（富貴角航段）",
+      "conditions": ["會員限定"],
+      "schedule": {
+        "type": "fixed",
+        "startDate": "2026-11-23",
+        "endDate": "2026-11-23",
+        "note": "13:00–17:00"
+      },
+      "price": 3000,
+      "priceText": "會員扣 2 點 / 儲值 NT$3,000",
+      "contact": "LINE: @qgz5872i｜0983-286875（小飛教練）",
+      "description": "會員限定的小班實操課程，從八里大橋碼頭出發，實際體驗外海航行。若遇天候不佳無條件取消。",
+      "url": "https://www.hiwingmarine.com/general-5"
+    },
+    {
+      "id": 24,
+      "title": "Salona 44 冬季移航｜高雄 → 台南",
+      "type": "voyage",
+      "unit": "亞趣遊艇海洋生活",
+      "region": "南台灣",
+      "location": "高雄 → 台南",
+      "conditions": [],
+      "schedule": {
+        "type": "fixed",
+        "startDate": "2026-12-08",
+        "endDate": "2026-12-08",
+        "note": "09:00 預計出發・限額 6 位，滿額收單"
+      },
+      "duration": "約 5 小時",
+      "price": 2500,
+      "contact": "私訊粉專或官方 LINE：https://lin.ee/S3MJ5c8",
+      "description": "搭乘休閒兼競賽的 Salona 44，從高雄一路航行到台南，待足 5 小時從「在看」變成「在航行」。實際出發時間依海況，以官方最終公告為準。",
+      "url": "https://www.facebook.com/permalink.php?story_fbid=pfbid0kw6PorC3PPWDoBUihXgTYfLz4QjtN3Z1pmqaAmM2hdosXKQnJh8MtG914sZAqfBFl&id=100083542533590"
+    },
+    {
+      "id": 25,
+      "title": "基礎航訓｜有限水域控制與離靠岸",
+      "type": "workshop",
+      "unit": "海翼遊艇俱樂部",
+      "region": "北台灣",
+      "location": "八里大橋碼頭",
+      "conditions": ["會員限定"],
+      "schedule": {
+        "type": "fixed",
+        "startDate": "2026-11-27",
+        "endDate": "2026-11-27",
+        "note": "14:00–16:00"
+      },
+      "priceText": "會員免費",
+      "contact": "LINE: @qgz5872i｜0983-286875（小飛教練）",
+      "description": "會員限定小班實操，練習有限水域控制與離靠岸。預約優先、額滿為止，天候不佳無條件取消。",
+      "url": "https://www.hiwingmarine.com/general-5"
+    },
+    {
+      "id": 26,
+      "title": "帆船航訓｜帆船巡航基礎實務",
+      "type": "workshop",
+      "unit": "海翼遊艇俱樂部",
+      "region": "北台灣",
+      "location": "八里大橋碼頭（下游航段）",
+      "conditions": ["會員限定"],
+      "schedule": {
+        "type": "fixed",
+        "startDate": "2026-12-04",
+        "endDate": "2026-12-04",
+        "note": "13:00–16:00"
+      },
+      "price": 2000,
+      "priceText": "會員扣 2 點 / 儲值 NT$2,000",
+      "contact": "LINE: @qgz5872i｜0983-286875（小飛教練）",
+      "description": "會員限定小班實操，帆船巡航基礎實務。預約優先、額滿為止，天候不佳無條件取消。",
+      "url": "https://www.hiwingmarine.com/general-5"
+    },
+    {
+      "id": 27,
+      "title": "基礎航訓｜有限水域控制與離靠岸",
+      "type": "workshop",
+      "unit": "海翼遊艇俱樂部",
+      "region": "北台灣",
+      "location": "八里大橋碼頭（下游航段）",
+      "conditions": ["會員限定"],
+      "schedule": {
+        "type": "fixed",
+        "startDate": "2026-12-09",
+        "endDate": "2026-12-09",
+        "note": "14:00–16:00"
+      },
+      "priceText": "會員免費",
+      "contact": "LINE: @qgz5872i｜0983-286875（小飛教練）",
+      "description": "會員限定小班實操，練習有限水域控制與離靠岸。預約優先、額滿為止，天候不佳無條件取消。",
+      "url": "https://www.hiwingmarine.com/general-5"
+    },
+    {
+      "id": 28,
+      "title": "進階航訓｜夜間巡航（大稻埕航段）",
+      "type": "workshop",
+      "unit": "海翼遊艇俱樂部",
+      "region": "北台灣",
+      "location": "八里大橋碼頭（大稻埕航段）",
+      "conditions": ["會員限定"],
+      "schedule": {
+        "type": "fixed",
+        "startDate": "2026-12-17",
+        "endDate": "2026-12-17",
+        "note": "17:00–20:00"
+      },
+      "price": 3000,
+      "priceText": "會員扣 2 點 / 儲值 NT$3,000",
+      "contact": "LINE: @qgz5872i｜0983-286875（小飛教練）",
+      "description": "會員限定進階課程，夜間巡航大稻埕航段。預約優先、額滿為止，天候不佳無條件取消。",
+      "url": "https://www.hiwingmarine.com/general-5"
+    },
+    {
+      "id": 29,
+      "title": "帆船航訓｜帆船巡航基礎實務",
+      "type": "workshop",
+      "unit": "海翼遊艇俱樂部",
+      "region": "北台灣",
+      "location": "八里大橋碼頭（下游航段）",
+      "conditions": ["會員限定"],
+      "schedule": {
+        "type": "fixed",
+        "startDate": "2026-12-20",
+        "endDate": "2026-12-20",
+        "note": "13:00–16:00"
+      },
+      "price": 2000,
+      "priceText": "會員扣 2 點 / 儲值 NT$2,000",
+      "contact": "LINE: @qgz5872i｜0983-286875（小飛教練）",
+      "description": "會員限定小班實操，帆船巡航基礎實務。預約優先、額滿為止，天候不佳無條件取消。",
+      "url": "https://www.hiwingmarine.com/general-5"
+    },
+    {
+      "id": 30,
+      "title": "帆船航訓｜帆船巡航基礎實務",
+      "type": "workshop",
+      "unit": "海翼遊艇俱樂部",
+      "region": "北台灣",
+      "location": "八里大橋碼頭（下游航段）",
+      "conditions": ["會員限定"],
+      "schedule": {
+        "type": "fixed",
+        "startDate": "2026-12-26",
+        "endDate": "2026-12-26",
+        "note": "13:00–16:00"
+      },
+      "price": 2000,
+      "priceText": "會員扣 2 點 / 儲值 NT$2,000",
+      "contact": "LINE: @qgz5872i｜0983-286875（小飛教練）",
+      "description": "會員限定小班實操，帆船巡航基礎實務。預約優先、額滿為止，天候不佳無條件取消。",
+      "url": "https://www.hiwingmarine.com/general-5"
+    },
+    {
+      "id": 31,
+      "title": "進階航訓｜有限水域控制與離靠岸",
+      "type": "workshop",
+      "unit": "海翼遊艇俱樂部",
+      "region": "北台灣",
+      "location": "八里大橋碼頭（下游航段）",
+      "conditions": ["會員限定"],
+      "schedule": {
+        "type": "fixed",
+        "startDate": "2026-12-27",
+        "endDate": "2026-12-27",
+        "note": "10:00–12:00"
+      },
+      "priceText": "會員免費",
+      "contact": "LINE: @qgz5872i｜0983-286875（小飛教練）",
+      "description": "會員限定進階課程，有限水域控制與離靠岸。預約優先、額滿為止，天候不佳無條件取消。",
+      "url": "https://www.hiwingmarine.com/general-5"
+    },
+    {
+      "id": 32,
+      "title": "2026 久米島帆船賽｜夥伴招募",
+      "type": "race",
+      "unit": "樂活海洋",
+      "region": "南台灣",
+      "location": "日本沖繩宜野灣港",
+      "conditions": [],
+      "schedule": {
+        "type": "fixed",
+        "startDate": "2026-11-13",
+        "endDate": "2026-11-14",
+        "note": "11/13 船長會議・歡迎晚宴，11/14 正式比賽・頒獎典禮"
+      },
+      "duration": "全程約 48 海里",
+      "price": 19800,
+      "priceText": "NT$19,800 起／人",
+      "contact": "LINE：https://lin.ee/UjpQYk5",
+      "description": "前進日本沖繩海域，登上 J/120 帆船挑戰久米島帆船賽：宜野灣港 → 慶良間群島周邊 → 久米島。報名截止 10/24。",
+      "url": "https://www.facebook.com/LOHASOCEAN/posts/pfbid0wCBMGx6tER1r2yoECxqPw6T3tpojH9LW4kqNcJxLGHU7bUrGJb2nm7LPMfj7DD6il"
+    },
+    {
+      "id": 33,
+      "title": "2026 高雄國際帆船賽｜樂活船隊",
+      "type": "race",
+      "unit": "樂活海洋",
+      "region": "南台灣",
+      "location": "高雄愛河灣亞果遊艇碼頭（高雄港外海至蚵子寮外海）",
+      "conditions": [],
+      "schedule": {
+        "type": "fixed",
+        "startDate": "2026-11-13",
+        "endDate": "2026-11-13"
+      },
+      "price": 3000,
+      "contact": "LINE：https://lin.ee/s239nhH",
+      "description": "跟著樂活船隊把平時所學運用在實際競賽。樂活會員免費、非會員 NT$3,000，報名截止 10/15。",
+      "url": "https://www.facebook.com/LOHASOCEAN/posts/pfbid0KxCihpUxsDR5kNPunsBgTGd3BzNZMJQDmWgmxUFriR2KWFTD4hJWKApXEzcxAfarl"
+    },
+    {
+      "id": 34,
+      "title": "2026 高雄國際帆船賽｜伊娜號徵水手",
+      "type": "race",
+      "unit": "後野海洋",
+      "region": "南台灣",
+      "location": "高雄港（第三船渠）",
+      "conditions": ["合格水手", "限 8 席"],
+      "schedule": {
+        "type": "fixed",
+        "startDate": "2026-11-13",
+        "endDate": "2026-11-13"
+      },
+      "priceText": "合格水手免費",
+      "contact": "私訊粉專",
+      "description": "與伊娜號一起參賽，合格水手免費，僅 8 個席位；獎金伊娜號留 40%，其餘平分。",
+      "url": "https://www.facebook.com/permalink.php?story_fbid=pfbid02e2qYMrBsUkxLgjcz2kJnoSiqVdx7QnSoR6UoXqhrvoQ3vL6QjpoRu3ev1fEQiX6Vl&id=61574586779948"
+    },
+    {
+      "id": 35,
+      "title": "2026 漢斯盃帆船公開賽｜Hanse Cup Regatta #3",
+      "type": "race",
+      "unit": "樂活海洋",
+      "region": "南台灣",
+      "location": "台南安平亞果遊艇碼頭",
+      "conditions": ["個人報名需 ASA 101 或具帆船賽事經驗"],
+      "schedule": {
+        "type": "fixed",
+        "startDate": "2026-02-28",
+        "endDate": "2026-02-28",
+        "note": "08:00 開跑"
+      },
+      "price": 3000,
+      "memberPrice": 2000,
+      "contact": "LINE：https://lin.ee/g9RlCRL",
+      "description": "由樂活海洋學院主辦、Hanse Yachts 冠名贊助，開放隊伍報名。個人報名費會員 $2,000、非會員 $3,000，由教練分配船隻；自備船艇報名，HanseYachts 品牌免費、其他品牌 $3,600 起；加購 ASA 課程享 9 折。當天集結 12 支隊伍、近 85 名選手在安平外海競速，現場同步安排帆船趣味互動，讓一般民眾也能親近帆船。",
+      "url": "https://lohasocean.com/activity/6/33"
+    },
+    {
+      "id": 36,
+      "title": "2026 漢斯盃帆船公開賽｜Hanse Cup Regatta #4",
+      "type": "race",
+      "unit": "樂活海洋",
+      "region": "南台灣",
+      "location": "台南安平亞果遊艇碼頭",
+      "conditions": ["個人報名需 ASA 101 或具帆船賽事經驗"],
+      "schedule": {
+        "type": "fixed",
+        "startDate": "2026-05-02",
+        "endDate": "2026-05-02"
+      },
+      "price": 3000,
+      "memberPrice": 2000,
+      "contact": "LINE：https://lin.ee/g9RlCRL",
+      "description": "樂活海洋學院主辦、Hanse Yachts 冠名的漢斯盃帆船公開賽第四屆。個人報名費會員 $2,000、非會員 $3,000，由教練分配船隻；自備船艇報名，HanseYachts 品牌免費、其他品牌 $3,600 起；加購 ASA 課程享 9 折。",
+      "url": "https://lohasocean.com/activity"
     }
   ]
 }
