@@ -812,6 +812,27 @@
       "contact": "(06) 299-8099",
       "description": "常態練習，在教練指導下反覆練習：調帆、碼頭停靠、人員救生、前／主帆裝卸、球帆施作、錨泊海錨。",
       "url": "https://lohasocean.com/news/2/17"
+    },
+    {
+      "id": 40,
+      "title": "帆船駕駛體驗",
+      "type": "workshop",
+      "unit": "海翼遊艇俱樂部",
+      "region": "北台灣",
+      "location": "海翼碼頭（八里・關渡橋旁，淡水河）",
+      "conditions": [],
+      "schedule": {
+        "type": "flexible",
+        "windowStart": "2026-01-01",
+        "windowEnd": "2026-12-31",
+        "note": "預約制，時間可任選"
+      },
+      "duration": "約 3 小時",
+      "price": 10000,
+      "priceText": "每船 $10,000（最多 4 人）",
+      "contact": "LINE: @qgz5872i｜0983-286875（小飛教練）",
+      "description": "專為新手設計的 ASA 帆船操作體驗，專業教練指導，在淡水河實際操舵、調帆。一艘船最多 4 人，時間可任選，採預約制。",
+      "url": "https://www.hiwingmarine.com/sailingtoexperience"
     }
   ]
 }
