@@ -19,12 +19,15 @@
           <div v-if="school.typeLabel" class="mb-2">
             <span class="text-xs text-paper bg-primary px-2 py-1 rounded">{{ school.typeLabel }}</span>
           </div>
-          <div v-if="school.totalCourses > 0 || school.totalActivities > 0" class="flex items-center text-sm text-ink-soft mb-2">
+          <div v-if="school.totalCourses > 0 || school.totalActivities > 0 || school.totalPractice > 0" class="flex items-center text-sm text-ink-soft mb-2">
             <span class="text-xs text-ink-soft mr-3">
               {{ school.totalCourses }} 課程
             </span>
             <span class="text-xs text-ink-soft">
               {{ school.totalActivities }} 活動
+            </span>
+            <span v-if="school.totalPractice > 0" class="text-xs text-ink-soft ml-3">
+              {{ school.totalPractice }} 練習方案
             </span>
           </div>
           <p v-else class="text-xs text-ink-faint mb-2">目前沒有進行中的課程或活動</p>
@@ -65,7 +68,7 @@
 import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { useHead } from '@unhead/vue'
-import { getActivities, getCourses, getSchools } from '../utils/data.js'
+import { getActivities, getCourses, getSchools, getPracticeOfferings } from '../utils/data.js'
 import { getLocationOrder, getRegionOrder } from '../utils/location.js'
 import { parseLocalDate } from '../utils/format.js'
 import { getOrganizerTypeLabel, isUpcomingActivity } from '../utils/activity.js'
@@ -161,6 +164,7 @@ const schoolsWithStats = computed(() => {
       activities: schoolData.activities,
       totalCourses: schoolData.courses.length,
       totalActivities: schoolData.activities.length,
+      totalPractice: getPracticeOfferings().filter(o => o.unit === unitName).length,
       certs: schoolInfo?.certs || [...new Set(schoolData.courses.map(c => c.organization).filter(Boolean))],
       description: schoolInfo?.description || `${displayName} - 提供多樣化的帆船課程與活動`,
       links: getSchoolLinks(schoolInfo),

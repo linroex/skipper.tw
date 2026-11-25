@@ -31,6 +31,7 @@ skipper.tw/
 │   ├── data/                     # JSON 資料檔案
 │   │   ├── activities.json       # 活動資料
 │   │   ├── courses.json          # 課程資料
+│   │   ├── practice.json         # 帆船練習（依碼頭整理的課後練習與包船方案）
 │   │   ├── races.json            # 比賽（歷年場次與各校報名資訊）
 │   │   ├── regions.json          # 地區列表
 │   │   ├── schools.json          # 主辦單位（學校／俱樂部／社團）
@@ -183,6 +184,43 @@ skipper.tw/
 
 **列表分組**（`/races/`）: 有未結束場次 →「即將舉行」；今年已辦完 →「今年已舉辦・明年可以提前準備」；今年還沒有場次 →「今年尚未公布」。後兩組依最近一次的月份排序，方便提早規劃。
 
+### 1-2. 練習資料 (`public/data/practice.json`)
+
+學員上完課之後最在意的是「去哪個碼頭練習」，所以獨立成「練習」專區（`/practice/`），以**碼頭**為單位，底下列出各家的練習與包船方案；學校名稱是次要資訊。常態、可預約的練習才放這裡，有固定日期的體驗與航行放活動，課程放課程。
+
+```json
+{
+  "places": [
+    { "id": "anping-agua", "name": "安平亞果遊艇碼頭", "city": "台南", "area": "安平", "address": "地址（選填）" }
+  ],
+  "offerings": [
+    {
+      "id": "lohas-friday-practice",
+      "placeId": "anping-agua",
+      "unit": "樂活海洋",
+      "kind": "課後練習",
+      "title": "週五會員日｜課後練習",
+      "boat": "選填，例如 J/80",
+      "schedule": "每週五 14:00–17:00，預約制",
+      "duration": "3 小時",
+      "price": 10000,
+      "priceUnit": "boat",
+      "capacity": 4,
+      "priceText": "選填，會覆蓋價格顯示，例如「會員免費／一般 $3,000」",
+      "topics": ["調帆練習", "碼頭停靠"],
+      "contact": "(06) 299-8099",
+      "note": "選填",
+      "url": "詳情或粉專連結"
+    }
+  ]
+}
+```
+
+- `places[].city`: 縣市（決定頁面分組與篩選，由北到南排序）；沒有任何方案的碼頭不會顯示
+- `offerings[].placeId`: 對應 `places[].id`；`unit` 要與 `schools.json` 的 `name` 完全一致（單位頁才會出現「練習方案」）
+- 包船方案用 `price`＋`priceUnit: "boat"`＋`capacity`，頁面會同時顯示「每船 $x（最多 N 人）」與「滿 N 人每人約 $y」，方便和課後練習比較
+- 只收帆船；動力遊艇的駕駛訓練不收
+
 ### 2. 課程資料 (`public/data/courses.json`)
 
 ```json
@@ -254,6 +292,7 @@ skipper.tw/
 |------|------|------|
 | `/` | 首頁 | `Home.vue` |
 | `/activities` | 活動列表 | `Activities.vue` |
+| `/practice` | 帆船練習（依碼頭） | `Practice.vue` |
 | `/races` | 比賽列表 | `Races.vue` |
 | `/races/:id` | 比賽詳情（各年度與各校報名資訊） | `Race.vue` |
 | `/courses` | 課程列表 | `Courses.vue` |

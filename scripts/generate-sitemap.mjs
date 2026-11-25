@@ -12,6 +12,7 @@ const urls = [
   { path: '/schools/', changefreq: 'weekly', priority: '0.8' },
   { path: '/activities/', changefreq: 'daily', priority: '0.7' },
   { path: '/races/', changefreq: 'weekly', priority: '0.8' },
+  { path: '/practice/', changefreq: 'weekly', priority: '0.8' },
   { path: '/calendar/', changefreq: 'daily', priority: '0.7' },
   ...schoolsData.schools.map(school => ({
     path: `/schools/${school.id}/`,

@@ -1,5 +1,6 @@
 import activitiesData from '../../public/data/activities.json'
 import coursesData from '../../public/data/courses.json'
+import practiceData from '../../public/data/practice.json'
 import racesData from '../../public/data/races.json'
 import regionsData from '../../public/data/regions.json'
 import schoolsData from '../../public/data/schools.json'
@@ -8,6 +9,10 @@ import typesData from '../../public/data/types.json'
 export const getActivities = () => activitiesData.activities || []
 
 export const getCourses = () => coursesData.courses || []
+
+export const getPracticePlaces = () => practiceData.places || []
+
+export const getPracticeOfferings = () => practiceData.offerings || []
 
 export const getRaces = () => racesData.races || []
 

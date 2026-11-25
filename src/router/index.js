@@ -2,6 +2,7 @@ import { createRouter, createMemoryHistory, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
 import Activities from '../views/Activities.vue'
 import Races from '../views/Races.vue'
+import Practice from '../views/Practice.vue'
 import Race from '../views/Race.vue'
 import Courses from '../views/Courses.vue'
 import Calendar from '../views/Calendar.vue'
@@ -18,6 +19,11 @@ export const routes = [
     path: '/activities',
     name: 'Activities',
     component: Activities
+  },
+  {
+    path: '/practice',
+    name: 'Practice',
+    component: Practice
   },
   {
     path: '/races',

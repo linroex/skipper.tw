@@ -163,6 +163,22 @@
         <p v-else class="py-6 text-sm text-ink-faint">目前沒有進行中的活動</p>
       </div>
 
+      <!-- 練習方案 -->
+      <div v-if="practiceOfUnit.length > 0">
+        <h2 class="text-xl font-bold text-ink mb-2">練習方案</h2>
+        <ul class="list-none m-0 p-0 max-w-2xl">
+          <li v-for="item in practiceOfUnit" :key="item.id" class="border-b border-line">
+            <router-link to="/practice" class="group flex items-baseline justify-between gap-3 py-3.5 px-0.5">
+              <span class="min-w-0">
+                <span class="block text-base max-sm:text-[15px] font-bold leading-snug group-hover:text-primary">{{ item.title }}</span>
+                <span class="block text-[13px] text-ink-faint mt-0.5">{{ item.placeName }}</span>
+              </span>
+              <span v-if="item.price" class="flex-none text-right text-[13px] font-bold">{{ item.price }}</span>
+            </router-link>
+          </li>
+        </ul>
+      </div>
+
       <!-- 參加的比賽 -->
       <div v-if="raceParticipation.length > 0">
         <h2 class="text-xl font-bold text-ink mb-2">參加的比賽</h2>
@@ -177,7 +193,7 @@
       </div>
 
       <!-- 沒有資料 -->
-      <div v-if="school.courses.length === 0 && allSchoolCourses.length === 0 && school.activities.length === 0 && school.pastActivities.length === 0 && raceParticipation.length === 0" class="text-center py-12 text-ink-faint">
+      <div v-if="school.courses.length === 0 && allSchoolCourses.length === 0 && school.activities.length === 0 && school.pastActivities.length === 0 && raceParticipation.length === 0 && practiceOfUnit.length === 0" class="text-center py-12 text-ink-faint">
         暫無相關課程或活動
       </div>
 
@@ -205,7 +221,8 @@ import { getLocationOrder, getRegionOrder } from '../utils/location.js'
 import { formatItemDate, parseLocalDate } from '../utils/format.js'
 import { getOrganizerTypeLabel, isUpcomingActivity, isPastActivity, getActivityStartDate, formatCoursePrice } from '../utils/activity.js'
 import { getSchoolLinks } from '../utils/schoolLinks.js'
-import { getRaces } from '../utils/data.js'
+import { getRaces, getPracticePlaces, getPracticeOfferings } from '../utils/data.js'
+import { formatPracticePrice } from '../utils/practice.js'
 import { getRaceParticipation, formatEditionDate, editionYear } from '../utils/race.js'
 import ResponsiveTable from '../components/ResponsiveTable.vue'
 import ActivityRow from '../components/ActivityRow.vue'
@@ -298,6 +315,15 @@ const schoolData = computed(() => {
 })
 
 const school = computed(() => schoolData.value)
+
+// 這個單位提供的練習方案（來自 practice.json）
+const practiceOfUnit = computed(() => {
+  if (!school.value) return []
+  const places = new Map(getPracticePlaces().map(p => [p.id, p]))
+  return getPracticeOfferings()
+    .filter(o => o.unit === school.value.name)
+    .map(o => ({ id: o.id, title: o.title, placeName: places.get(o.placeId)?.name || '', price: formatPracticePrice(o) }))
+})
 
 // 這個單位參加過的比賽（來自 races.json 的各校報名資訊）
 const raceParticipation = computed(() => {

@@ -1,0 +1,81 @@
+{
+  "places": [
+    {
+      "id": "keelung-bisha",
+      "name": "碧砂遊艇碼頭",
+      "city": "基隆",
+      "area": "中正區",
+      "address": "基隆市中正區北寧路 211 號"
+    },
+    {
+      "id": "bali-guandu",
+      "name": "八里・關渡橋旁（海翼碼頭）",
+      "city": "新北",
+      "area": "八里",
+      "address": "新北市八里區龍米路一段 170-1 號"
+    },
+    {
+      "id": "anping-agua",
+      "name": "安平亞果遊艇碼頭",
+      "city": "台南",
+      "area": "安平",
+      "address": "台南市安平區新港路二段（亞果遊艇碼頭內）"
+    }
+  ],
+  "offerings": [
+    {
+      "id": "lohas-friday-practice",
+      "placeId": "anping-agua",
+      "unit": "樂活海洋",
+      "kind": "課後練習",
+      "title": "週五會員日｜課後練習",
+      "schedule": "每週五 14:00–17:00，預約制",
+      "duration": "3 小時",
+      "priceText": "會員免費／一般 $3,000",
+      "topics": ["調帆練習", "碼頭停靠", "人員救生", "前／主帆裝卸", "球帆施作", "錨泊海錨"],
+      "contact": "(06) 299-8099",
+      "note": "常態練習，在教練指導下反覆練習，適合上完課後累積操船經驗",
+      "url": "https://lohasocean.com/news/2/17"
+    },
+    {
+      "id": "sailingforward-j80",
+      "placeId": "anping-agua",
+      "unit": "帆游安平",
+      "kind": "體驗與練習",
+      "title": "J/80 帆船體驗與練習",
+      "boat": "J/80",
+      "note": "費用、人數與時間請洽粉專詢問；粉專另有教學與競賽，賽船隊員招募中",
+      "contact": "0966 899 730｜粉專私訊詢問",
+      "url": "https://www.facebook.com/sailingforward"
+    },
+    {
+      "id": "seedmarine-charter",
+      "placeId": "keelung-bisha",
+      "unit": "海洋種子帆船學校",
+      "kind": "包船練習與體驗",
+      "title": "帆船練習與體驗（包船）",
+      "schedule": "預約制，時間可任選",
+      "duration": "約 3 小時",
+      "price": 10000,
+      "priceUnit": "boat",
+      "capacity": 4,
+      "contact": "02-2469-0662｜粉專私訊詢問",
+      "url": "https://www.facebook.com/p/%E6%B5%B7%E6%B4%8B%E7%A8%AE%E5%AD%90%E9%81%8A%E8%89%87%E5%B8%86%E8%88%B9%E5%AD%B8%E6%A0%A1-Seedmarine-Sailing-School-100088947261596/"
+    },
+    {
+      "id": "hiwing-charter",
+      "placeId": "bali-guandu",
+      "unit": "海翼遊艇俱樂部",
+      "kind": "包船練習與體驗",
+      "title": "帆船駕駛體驗與練習",
+      "schedule": "預約制，時間可任選",
+      "duration": "約 3 小時",
+      "price": 10000,
+      "priceUnit": "boat",
+      "capacity": 4,
+      "note": "專為新手設計，專業教練指導，在淡水河實際操舵、調帆；新手想體驗、或想反覆練習的人都可以預約",
+      "contact": "LINE: @qgz5872i｜0983-286875（小飛教練）",
+      "url": "https://www.hiwingmarine.com/sailingtoexperience"
+    }
+  ]
+}

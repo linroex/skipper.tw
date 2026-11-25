@@ -160,6 +160,10 @@
 
 單位的 `type`（`schools.json`）：`school`（帆船學校）、`club`（遊艇俱樂部／遊艇業者）、`community`（社團揪團）。
 
+### 練習資料 (`public/data/practice.json`)
+
+常態、可預約的帆船練習（課後練習、包船體驗與練習）不放在 `activities.json`，改放 `practice.json`，結構見 `AGENTS.md` 的「1-2. 練習資料」。新增時先確認碼頭是否已在 `places`（同一個碼頭的不同學校放同一張卡片，不要重複建立），`unit` 必須與 `schools.json` 的 `name` 完全一致。
+
 ### 比賽資料 (`public/data/races.json`)
 
 比賽（帆船賽事）不放在 `activities.json`，改放 `races.json`。結構與欄位說明見 `AGENTS.md` 的「1-1. 比賽資料」。新增時：
