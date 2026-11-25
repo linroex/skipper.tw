@@ -139,19 +139,32 @@
       </div>
 
       <!-- 活動列表 -->
-      <div v-if="school.activities.length > 0">
-        <h2 class="text-xl font-bold text-ink mb-2">相關活動</h2>
-        <ul class="list-none m-0 p-0 max-w-2xl">
+      <div v-if="school.activities.length > 0 || school.pastActivities.length > 0">
+        <div class="flex items-center justify-between gap-3 mb-2">
+          <h2 class="text-xl font-bold text-ink">相關活動</h2>
+          <button
+            v-if="school.pastActivities.length > 0"
+            @click="showPastActivities = !showPastActivities"
+            :class="[
+              'px-3 py-1.5 rounded-lg text-sm font-medium transition-colors whitespace-nowrap',
+              showPastActivities ? 'bg-ink text-paper border border-transparent' : 'bg-surface border border-line text-ink-soft hover:border-ink-faint'
+            ]"
+          >
+            {{ showPastActivities ? '含過去活動' : '顯示過去活動' }}（{{ school.pastActivities.length }}）
+          </button>
+        </div>
+        <ul v-if="visibleActivities.length > 0" class="list-none m-0 p-0 max-w-2xl">
           <ActivityRow
-            v-for="activity in school.activities"
+            v-for="activity in visibleActivities"
             :key="activity.id"
             :activity="activity"
           />
         </ul>
+        <p v-else class="py-6 text-sm text-ink-faint">目前沒有進行中的活動</p>
       </div>
 
       <!-- 沒有資料 -->
-      <div v-if="school.courses.length === 0 && allSchoolCourses.length === 0 && school.activities.length === 0" class="text-center py-12 text-ink-faint">
+      <div v-if="school.courses.length === 0 && allSchoolCourses.length === 0 && school.activities.length === 0 && school.pastActivities.length === 0" class="text-center py-12 text-ink-faint">
         暫無相關課程或活動
       </div>
 
@@ -177,7 +190,7 @@ import { useHead } from '@unhead/vue'
 import { getActivities, getCourses, getSchools } from '../utils/data.js'
 import { getLocationOrder, getRegionOrder } from '../utils/location.js'
 import { formatItemDate, parseLocalDate } from '../utils/format.js'
-import { getOrganizerTypeLabel, isUpcomingActivity, getActivityStartDate, formatCoursePrice } from '../utils/activity.js'
+import { getOrganizerTypeLabel, isUpcomingActivity, isPastActivity, getActivityStartDate, formatCoursePrice } from '../utils/activity.js'
 import { getSchoolLinks } from '../utils/schoolLinks.js'
 import ResponsiveTable from '../components/ResponsiveTable.vue'
 import ActivityRow from '../components/ActivityRow.vue'
@@ -233,10 +246,14 @@ const schoolData = computed(() => {
       return parseDate(a.startDate) - parseDate(b.startDate)
     })
   
-  // 過濾並排序活動（只顯示尚未結束的，按地區→地點→日期排序）
-  const schoolActivities = activities.value
-    .filter(a => a.unit === schoolName) // 只篩選該學校
-    .filter(isUpcomingActivity) // 只顯示尚未結束的活動（含揪團區間內）
+  // 該單位的所有活動；進行中的（含揪團區間內）按地區→地點→日期排序，
+  // 已結束的另外放在 pastActivities，由「顯示過去活動」開關決定是否列出（新到舊）
+  const unitActivities = activities.value.filter(a => a.unit === schoolName)
+  const pastActivities = unitActivities
+    .filter(isPastActivity)
+    .sort((a, b) => (getActivityStartDate(b) ?? 0) - (getActivityStartDate(a) ?? 0))
+  const schoolActivities = unitActivities
+    .filter(isUpcomingActivity)
     .sort((a, b) => {
       const regionDiff = getRegionOrder(a.region) - getRegionOrder(b.region)
       if (regionDiff !== 0) return regionDiff
@@ -255,6 +272,7 @@ const schoolData = computed(() => {
     type: schoolInfo.type,
     courses: schoolCourses,
     activities: schoolActivities,
+    pastActivities,
     totalCourses: schoolCourses.length,
     totalActivities: schoolActivities.length,
     certs: certs,
@@ -265,6 +283,15 @@ const schoolData = computed(() => {
 })
 
 const school = computed(() => schoolData.value)
+
+// 活動列表：預設只列進行中的；開啟「顯示過去活動」後，過去的接在後面
+const showPastActivities = ref(false)
+const visibleActivities = computed(() => {
+  if (!school.value) return []
+  return showPastActivities.value
+    ? [...school.value.activities, ...school.value.pastActivities]
+    : school.value.activities
+})
 
 useHead(computed(() => {
   const currentSchool = schoolData.value

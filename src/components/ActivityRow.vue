@@ -1,5 +1,5 @@
 <template>
-  <li class="border-b border-line">
+  <li :class="['border-b border-line', past ? 'opacity-60' : '']">
     <component
       :is="activity.url ? 'a' : 'div'"
       :href="activity.url || undefined"
@@ -40,6 +40,7 @@
 import { computed } from 'vue'
 import {
   isFlexible,
+  isPastActivity,
   getConditions,
   formatWhenShort,
   getSubExtras,
@@ -54,6 +55,7 @@ const props = defineProps({
 })
 
 const flexible = computed(() => isFlexible(props.activity))
+const past = computed(() => isPastActivity(props.activity))
 const conditions = computed(() => getConditions(props.activity))
 const whenText = computed(() => formatWhenShort(props.activity))
 const price = computed(() => getPriceParts(props.activity))

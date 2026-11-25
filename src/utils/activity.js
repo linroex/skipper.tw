@@ -95,6 +95,12 @@ export const getUpcomingSessions = (activity) => {
   return dates.filter(d => d >= today())
 }
 
+// 顯示用的梯次：有未過期的就只顯示未過期的；全部都過期（歷史活動）則顯示全部梯次
+const displaySessions = (activity) => {
+  const upcoming = getUpcomingSessions(activity)
+  return upcoming.length ? upcoming : sortedSessionDates(activity?.schedule?.sessions)
+}
+
 // 用於「近期出航」排序的下一個日期
 export const getNextDate = (activity) => {
   if (getScheduleType(activity) === 'recurring') {
@@ -110,7 +116,7 @@ export const formatWhenShort = (activity) => {
     case 'flexible':
       return '揪團'
     case 'recurring': {
-      const next = getUpcomingSessions(activity)[0]
+      const next = displaySessions(activity)[0]
       return next ? MD(next) : '多梯次'
     }
     default: {
@@ -130,7 +136,7 @@ export const getSubExtras = (activity) => {
   const extras = []
 
   if (getScheduleType(activity) === 'recurring') {
-    const rest = getUpcomingSessions(activity).slice(1)
+    const rest = displaySessions(activity).slice(1)
     if (rest.length) extras.push(`另有 ${rest.map(MD).join('、')} 梯次`)
   }
 
