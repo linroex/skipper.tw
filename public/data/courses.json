@@ -1449,6 +1449,32 @@
       "priceText": "NT$45,000 起",
       "contact": "請洽詢學校",
       "url": "https://www.lohasocean.com"
+    },
+    {
+      "id": 107,
+      "title": "ASA 101 基礎重型帆船課程",
+      "organization": "ASA",
+      "unit": "樂活海洋",
+      "region": "南台灣",
+      "startDate": "2026-12-19",
+      "endDate": "2026-12-20",
+      "location": "台南",
+      "price": null,
+      "contact": "請洽詢學校",
+      "url": "https://www.lohasocean.com"
+    },
+    {
+      "id": 108,
+      "title": "ASA 101 基礎重型帆船課程",
+      "organization": "ASA",
+      "unit": "樂活海洋",
+      "region": "南台灣",
+      "startDate": "2026-12-26",
+      "endDate": "2026-12-27",
+      "location": "台南",
+      "price": null,
+      "contact": "請洽詢學校",
+      "url": "https://www.lohasocean.com"
     }
   ]
 }
